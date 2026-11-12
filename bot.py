@@ -33,10 +33,10 @@ async def me():
         print("getMe:", e); return ""
 
 async def setup():
-    """Bot menyusidagi 'SPICH GAME' tugmasini Mini App ga ulaydi."""
+    """Bot menyusidagi 'STARUM' tugmasini Mini App ga ulaydi."""
     if URL.startswith("https://"):
         try:
-            await call("setChatMenuButton", menu_button={"type": "web_app", "text": "SPICH GAME", "web_app": {"url": URL}})
+            await call("setChatMenuButton", menu_button={"type": "web_app", "text": "STARUM", "web_app": {"url": URL}})
         except Exception as e:
             print("menu:", e)
     else:
