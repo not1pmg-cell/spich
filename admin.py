@@ -23,7 +23,7 @@ SETTABLE = {"fee": (float, 0, .5), "ref": (float, 0, .5), "test": (int, 0, 1), "
             "welcome": (float, 0, 1e6), "star_usd": (float, .0001, 1), "rate_manual": (float, 0, 1e6), "rate_fallback": (float, 1, 1e6),
             "jp_min": (float, 1, 1e6), "jp_time": (int, 5, 600), "jp_max": (int, 2, 100), "min_dep_star": (float, 1, 1e6), "min_dep_ton": (float, .01, 1e4),
             "arena_time": (int, 5, 600), "arena_max": (int, 2, 60), "lb_auto": (int, 0, 1), "feed_min": (float, 0, 1e7),
-            "wd_star": (int, 0, 1), "min_wd_star": (float, 1, 1e7)}
+            "wd_star": (int, 0, 1), "min_wd_star": (float, 1, 1e7), "dep_on": (int, 0, 1), "wd_on": (int, 0, 1), "wd_fee_star": (float, 0, .9)}
 
 def setup(app, S):
     db = S.db
@@ -276,6 +276,9 @@ def setup(app, S):
                         if not lst: return J({"error": "Нужен хотя бы один уровень арены"}, status=400)
                     S.setcfg(k, lst[:20])
                     if k == "arena_tiers": S.pots_sync(); await S.bcast({"t": "pots", "sum": S.pots_sum()})
+                elif k == "force_sub":
+                    lst = [x.strip() for x in (v if isinstance(v, list) else str(v).replace(" ", ",").split(",")) if x.strip()]
+                    S.setcfg("force_sub", [("@" + x.lstrip("@").split("/")[-1]) if not x.lstrip("-").isdigit() else x for x in lst][:10]); S.SUBOK.clear()
                 elif k == "lb_period" and v in ("day", "week"): S.setcfg(k, v)
                 elif k == "lb_metric" and v in ("profit", "wins"): S.setcfg(k, v)
                 elif k == "notice":
@@ -381,6 +384,16 @@ def setup(app, S):
                   "cfg": {k: S.CFG[k] for k in ("lb_prizes", "lb_period", "lb_metric", "lb_auto")}, "left": max(0, nxt - time.time())})
 
     @guard
+    async def mass(r):
+        m = await r.json(); amt = float(m.get("amount"))
+        if not 0 <= amt <= 1e7: return J({"error": "Неверная сумма"}, status=400)
+        if m.get("action") == "set": n = await S.mass_set(amt); audit(f"set all balances {amt:g} x{n}")
+        else:
+            if amt <= 0: return J({"error": "Сумма должна быть > 0"}, status=400)
+            n = await S.mass_bonus(amt); audit(f"mass bonus {amt:g} x{n}")
+        return J({"ok": True, "n": n})
+
+    @guard
     async def audit_log(r):
         return J({"list": rows("SELECT l.ts,l.note,u.name,l.uid FROM log l LEFT JOIN users u ON u.uid=l.uid WHERE kind='audit' ORDER BY l.id DESC LIMIT 100")})
 
@@ -390,6 +403,6 @@ def setup(app, S):
         web.get("/api/admin/wd", wd), web.post("/api/admin/wd", wd_act),
         web.get("/api/admin/promo", promo), web.post("/api/admin/promo", promo),
         web.get("/api/admin/settings", settings), web.post("/api/admin/settings", settings), web.post("/api/admin/broadcast", broadcast),
-        web.get("/api/admin/export", export), web.get("/api/admin/backup", backup), web.get("/api/admin/audit", audit_log),
+        web.get("/api/admin/export", export), web.get("/api/admin/backup", backup), web.get("/api/admin/audit", audit_log), web.post("/api/admin/mass", mass),
         web.get("/api/admin/giveaway", giveaway), web.post("/api/admin/giveaway", giveaway),
         web.get("/api/admin/lbprize", lbprize), web.post("/api/admin/lbprize", lbprize)])
