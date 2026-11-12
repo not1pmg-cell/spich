@@ -45,7 +45,7 @@ def setup(app, S):
         if not PASS: return J({"error": "ADMIN_PASSWORD не задан в .env"}, status=503)
         now, a = time.time(), ip(r); FAILS[a] = [x for x in FAILS.get(a, []) if now - x < 300]
         if len(FAILS[a]) >= 5: return J({"error": "Слишком много попыток. Подождите 5 минут"}, status=429)
-        pw = (await r.json()).get("password", "")
+        pw = str((await r.json()).get("password", "")).strip()
         if not hmac.compare_digest(hashlib.sha256(pw.encode()).digest(), hashlib.sha256(PASS.encode()).digest()):
             FAILS[a].append(now); await asyncio.sleep(1); return J({"error": "Неверный пароль"}, status=401)
         audit(f"login {a}")
