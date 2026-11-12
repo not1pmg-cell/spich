@@ -32,15 +32,14 @@ def play_url(arg):
     return bot.URL + ("?" + "&".join(q) if q else "")
 
 async def welcome(chat, arg, edit=None):
-    await say(chat, "⚡ <b>SPICH GAME</b>\n\n🟢 Arena · 🎡 Jackpot · 🃏 Дурак · 🎲 Нарды · ⚽ Пенальти · 🂡 21 и другие\n\n"
-                    "Играй с реальными соперниками и выигрывай ⭐\nПриглашай друзей — 5% с их ставок тебе!\n\n"
-                    "O'yna, yut, do'stlarni taklif qil — ularning stavkasidan 5% senga!",
-              kb([[{"text": "▶ Играть / O'ynash", "web_app": {"url": play_url(arg)}}]]), edit)
+    await say(chat, "⭐ <b>STARUM</b>\n\n🟢 Арена · 🎡 Джекпот · 🃏 Дурак · 🎲 Нарды · ⚽ Пенальти · 🂡 21 и другие\n\n"
+                    "Играй с реальными соперниками и выигрывай ⭐\nПриглашай друзей — 5% с их ставок тебе!",
+              kb([[{"text": "▶ Играть", "web_app": {"url": play_url(arg)}}]]), edit)
 
 async def sub_prompt(chat, miss, arg, edit=None):
     rows = [[{"text": f"📢 {ch}", "url": S.chan_link(ch)}] for ch in miss]
-    rows.append([B("✅ Я подписался / Obuna bo'ldim", "chk:" + (arg or "")[:55])])
-    await say(chat, "🔒 <b>Подпишитесь на каналы</b>, чтобы играть в SPICH GAME.\n\nO'ynash uchun quyidagi kanallarga obuna bo'ling, so'ng «Проверить» ni bosing.", kb(rows), edit)
+    rows.append([B("✅ Я подписался", "chk:" + (arg or "")[:55])])
+    await say(chat, "🔒 <b>Подпишитесь на каналы</b>, чтобы играть в STARUM.\n\nПосле подписки нажмите «Я подписался».", kb(rows), edit)
 
 async def on_start(m):
     chat = m["chat"]["id"]; uid = "tg%s" % m["from"]["id"]; arg = m["text"][6:].strip()
@@ -65,7 +64,7 @@ def menu_kb():
 
 async def menu(chat, edit=None):
     C = S.CFG
-    await say(chat, f"🔥 <b>SPICH GAME · Админ</b>\n\n👥 Онлайн: <b>{len(S.conns)}</b> · 🎮 Столы: <b>{len(S.ACTIVE)}</b>\n"
+    await say(chat, f"🔥 <b>STARUM · Админ</b>\n\n👥 Онлайн: <b>{len(S.conns)}</b> · 🎮 Столы: <b>{len(S.ACTIVE)}</b>\n"
                     f"💰 Комиссия: <b>{C['fee'] * 100:g}%</b> · Реф: <b>{C['ref'] * 100:g}%</b>\n"
                     f"📤 Вывод ⭐: <b>{C['wd_fee_star'] * 100:g}%</b> · TON: <b>{C['wd_fee'] * 100:g}%</b>\n"
                     f"🎁 Приветственный бонус: <b>{C['welcome']:g} ⭐</b>", menu_kb(), edit)
@@ -141,7 +140,7 @@ def find_user(q):
 PROMPTS = {"mass": "🎁 Сколько ⭐ начислить <b>каждому</b> игроку? Напишите число (например 100).",
            "setall": "🟰 Установить баланс <b>всем</b> игрокам ровно в … ⭐\nНапишите число: <code>0</code> — обнулить всех, <code>100</code> — всем по 100.\n⚠️ Действие нельзя отменить!",
            "lbp": "🏆 Призы рейтинга по местам через запятую, например <code>1000, 500, 250</code>\nНапишите <code>0</code>, чтобы убрать призы.",
-           "promo": "🎟 Напишите: <code>КОД СУММА КОЛ-ВО</code>\nнапример <code>SPICH 50 100</code> (50 ⭐, 100 активаций)",
+           "promo": "🎟 Напишите: <code>КОД СУММА КОЛ-ВО</code>\nнапример <code>STARUM 50 100</code> (50 ⭐, 100 активаций)",
            "blink": "🔗 Напишите: <code>СУММА КОЛ-ВО</code>\nнапример <code>100 500</code> — ссылка на 100 ⭐ для 500 человек",
            "bc": "✉️ Напишите текст рассылки (уйдёт всем в Telegram и в приложение).",
            "user": "👤 Напишите Telegram ID или имя игрока.",
