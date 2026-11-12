@@ -42,37 +42,24 @@ async def setup():
     else:
         print("DIQQAT: WEBAPP_URL https:// bilan boshlanishi kerak, aks holda Telegram ochmaydi")
 
-async def poll(credit):
+async def poll(credit, handler=None):
+    """Long polling: Stars to'lovlari shu yerda, qolgan hammasi (start, admin, tugmalar) — handler'ga."""
     off = 0
     while True:
         try:
             ups = await call("getUpdates", offset=off, timeout=50,
-                             allowed_updates=["message", "pre_checkout_query"]) or []
+                             allowed_updates=["message", "pre_checkout_query", "callback_query"]) or []
             for u in ups:
                 off = u["update_id"] + 1
-                if "pre_checkout_query" in u:
-                    await call("answerPreCheckoutQuery", pre_checkout_query_id=u["pre_checkout_query"]["id"], ok=True)
-                m = u.get("message")
-                if not m:
-                    continue
-                sp = m.get("successful_payment")
-                if sp and sp["invoice_payload"].startswith("stars:"):
-                    await credit(sp["invoice_payload"][6:], "star", sp["total_amount"],
-                                 "tg:" + sp["telegram_payment_charge_id"])
-                elif (m.get("text") or "").startswith("/start"):
-                    arg = m["text"][6:].strip()
-                    q = []
-                    for part in arg.split("__"):
-                        if part.startswith("ref_"): q.append("ref=" + part[4:])
-                        elif part.startswith("room_"): q.append("room=" + part[5:])
-                        elif part.startswith("arena_"): q.append("arena=" + part[6:])
-                        elif part.startswith("bonus_"): q.append("bonus=" + part[6:])
-                    url = URL + ("?" + "&".join(q) if q else "")
-                    await call("sendMessage", chat_id=m["chat"]["id"],
-                               text="⚡ SPICH GAME\n\n🟢 Arena · 🎡 Jackpot · 🃏 Durak · 🎲 Nardi · ⚽ Penalti · 🂡 21 va boshqalar\n"
-                                    "O'yna, yut, do'stlarni taklif qil — ular stavkasidan 5% senga!\n\n"
-                                    "Играй с реальными соперниками и выигрывай ⭐",
-                               reply_markup={"inline_keyboard": [[{"text": "▶ O'ynash / Играть", "web_app": {"url": url}}]]})
+                try:
+                    if "pre_checkout_query" in u:
+                        await call("answerPreCheckoutQuery", pre_checkout_query_id=u["pre_checkout_query"]["id"], ok=True); continue
+                    sp = (u.get("message") or {}).get("successful_payment")
+                    if sp and sp["invoice_payload"].startswith("stars:"):
+                        await credit(sp["invoice_payload"][6:], "star", sp["total_amount"], "tg:" + sp["telegram_payment_charge_id"]); continue
+                    if handler: await handler(u)
+                except Exception as e:
+                    print("update:", repr(e))
         except Exception as e:
             print("bot:", e)
             await asyncio.sleep(3)
