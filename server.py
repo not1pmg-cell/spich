@@ -904,8 +904,16 @@ async def on_stop(app):
 
 async def health(r): return web.Response(text="ok")
 
+def _ver(name):
+    try: return str(int(os.path.getmtime(os.path.join(BASE, "static", name))))
+    except OSError: return "0"
+
 async def index(r):
-    return web.FileResponse(os.path.join(BASE, "static", "index.html"), headers={"Cache-Control": "no-cache"})
+    """index.html: app.js/engines.js ga fayl o'zgargan vaqtini versiya qilib qo'yadi —
+    git pull'dan keyin Telegram eski JS'ni keshdan olmaydi."""
+    with open(os.path.join(BASE, "static", "index.html"), encoding="utf-8") as f: html = f.read()
+    html = re.sub(r'(src="(engines|app)\.js)\?v=[^"]*"', lambda m: f'{m.group(1)}?v={_ver(m.group(2) + ".js")}"', html)
+    return web.Response(text=html, content_type="text/html", headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 async def manifest(r):
     url = bot.URL or f"{r.scheme}://{r.host}"
