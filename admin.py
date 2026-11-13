@@ -24,7 +24,7 @@ SETTABLE = {"fee": (float, 0, .5), "ref": (float, 0, .5), "ref1": (float, 0, .3)
             "jp_min": (float, 1, 1e6), "jp_time": (int, 5, 600), "jp_max": (int, 2, 100), "min_dep_star": (float, 1, 1e6), "min_dep_ton": (float, .01, 1e4),
             "arena_time": (int, 5, 600), "arena_max": (int, 2, 60), "lb_auto": (int, 0, 1), "feed_min": (float, 0, 1e7),
             "wd_star": (int, 0, 1), "min_wd_star": (float, 1, 1e7), "dep_on": (int, 0, 1), "wd_on": (int, 0, 1), "wd_fee_star": (float, 0, .9),
-            "tok_on": (int, 0, 1), "tok_daily": (float, 0, 1e7), "tok_welcome": (float, 0, 1e7),
+            "tok_on": (int, 0, 1), "lb_pr_on": (int, 0, 1), "rc_on": (int, 0, 1), "rc_prize": (float, 0, 1e9), "tok_daily": (float, 0, 1e7), "tok_welcome": (float, 0, 1e7),
             "tk_play": (float, 0, 1e7), "tk_win": (float, 0, 1e7), "tk_ref": (float, 0, 1e7), "tk_sub": (float, 0, 1e7)}
 
 def setup(app, S):
@@ -275,6 +275,10 @@ def setup(app, S):
                     S.setcfg("stakes", lst[:12])
                 elif k in ("games_off", "hot"):
                     S.setcfg(k, [str(x) for x in v][:30])
+                elif k == "rc_end":   # "2026-11-20T21:00" (server vaqti) yoki bo'sh — muddatsiz
+                    v = str(v or "").strip()
+                    try: S.setcfg(k, int(time.mktime(time.strptime(v[:16], "%Y-%m-%dT%H:%M"))) if v else 0)
+                    except ValueError: return J({"error": "Неверная дата окончания конкурса"}, status=400)
                 elif k == "tok_ch":
                     S.setcfg(k, re.sub(r"[^A-Za-z0-9_@\-]", "", str(v))[:40])
                 elif k == "tok_stakes":
@@ -393,7 +397,7 @@ def setup(app, S):
         hist = rows("SELECT a.*,u.name FROM lb_awards a LEFT JOIN users u ON u.uid=a.uid ORDER BY a.id DESC LIMIT 60")
         nxt = since + (7 if per == "week" else 1) * 86400
         return J({"top": [{"name": x["name"], "p": round(x["p"] or 0, 2), "v": x["v"], "w": x["w"], "n": x["n"]} for x in top], "hist": hist,
-                  "cfg": {k: S.CFG[k] for k in ("lb_prizes", "lb_period", "lb_metric", "lb_auto")}, "left": max(0, nxt - time.time())})
+                  "cfg": {k: S.CFG[k] for k in ("lb_prizes", "lb_period", "lb_metric", "lb_auto", "lb_pr_on", "rc_on", "rc_prize", "rc_end")}, "left": max(0, nxt - time.time())})
 
     @guard
     async def mass(r):

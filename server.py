@@ -48,7 +48,9 @@ CFG = {"fee": 0.10, "ref": 0.05, "ref1": 0.03, "ref2": 0.02, "ref3": 0.01, "test
        "daily": 0, "welcome": 0, "star_usd": 0.015, "rate_manual": 0, "rate_fallback": 200,
        "jp_min": 10, "jp_time": 30, "jp_max": 32, "games_off": [], "hot": ["durak", "nardy", "jackpot"],
        "min_dep_star": 1, "min_dep_ton": 0.1,
-       "arena_tiers": [50, 200], "arena_time": 25, "arena_max": 20, "lb_prizes": [1000, 500, 250], "lb_period": "week",
+       "arena_tiers": [50, 200], "arena_time": 25, "arena_max": 20, "lb_prizes": [1000, 500, 250], "lb_pr_on": 0, "lb_period": "week",
+       # referal konkursi (bosh sahifadagi birinchi banner): rc_on, umumiy fond, tugash vaqti (unix ts, 0 — muddatsiz)
+       "rc_on": 1, "rc_prize": 1000, "rc_end": 0,
        "lb_metric": "profit", "lb_auto": 0, "feed_min": 20, "wd_star": 1, "min_wd_star": 100,
        "dep_on": 1, "wd_on": 1, "wd_fee_star": 0.2, "force_sub": [],
        # SPC — o'yin tokeni (HOZIRCHA O'CHIQ, admin panel → Токен включён): bepul o'ynash uchun, vazifa va kunlik bonus orqali yig'iladi (pulga almashtirilmaydi)
@@ -89,7 +91,7 @@ def pubcfg():
     return {k: CFG[k] for k in ("fee", "ref1", "ref2", "ref3", "stakes", "min_wd", "wd_fee", "daily", "jp_min", "jp_max", "games_off", "hot",
                                 "free_pvp", "bot_mode", "test", "min_dep_star", "min_dep_ton", "jp_time",
                                 "arena_tiers", "arena_time", "lb_prizes", "lb_period", "lb_metric", "wd_star", "min_wd_star",
-                                "dep_on", "wd_on", "wd_fee_star", "tok_on", "tok_daily", "tok_stakes")} | {"force_sub": bool(CFG["force_sub"])} | {"rate": RATE(), "ref": ref_levels()[0]}
+                                "dep_on", "wd_on", "wd_fee_star", "tok_on", "tok_daily", "tok_stakes", "rc_on", "rc_prize", "rc_end")} | {"force_sub": bool(CFG["force_sub"])} | {"rate": RATE(), "ref": ref_levels()[0]} | {"lb_prizes": CFG["lb_prizes"] if CFG["lb_pr_on"] else []}
 
 class C:
     def __init__(s, ws): s.ws = ws; s.uid = None; s.name = ""; s.t = None; s.seat = 0; s.room = None
@@ -569,7 +571,7 @@ def lb(per, by, uid):
         rank = db.execute(f"SELECT COUNT(*) FROM ({LBX(by)}) WHERE v>?", (since, now, mine["v"])).fetchone()[0] + 1
         my = {"rank": rank, "v": round(mine["v"] or 0, 2), "p": round(mine["v"] or 0, 2), "w": mine["w"], "n": mine["n"]}
     pr = None
-    if CFG["lb_prizes"] and per == CFG["lb_period"] and by == CFG["lb_metric"]:
+    if CFG["lb_pr_on"] and CFG["lb_prizes"] and per == CFG["lb_period"] and by == CFG["lb_metric"]:
         nxt = period_start(per) + (7 if per == "week" else 1) * 86400
         pr = {"list": CFG["lb_prizes"], "left": max(0, nxt - time.time()), "auto": CFG["lb_auto"]}
     last = [dict(r) for r in db.execute("SELECT a.place,a.amt,u.name FROM lb_awards a LEFT JOIN users u ON u.uid=a.uid WHERE a.period=(SELECT period FROM lb_awards ORDER BY id DESC LIMIT 1) ORDER BY a.place")]
@@ -597,7 +599,7 @@ async def lb_loop():
             per = CFG["lb_period"]; cur = period_key(per)
             row = db.execute("SELECT v FROM kv WHERE k='lb_last'").fetchone(); last = row["v"] if row else None
             if last != cur:
-                if last and CFG["lb_auto"] and CFG["lb_prizes"]:
+                if last and CFG["lb_pr_on"] and CFG["lb_auto"] and CFG["lb_prizes"]:
                     until = period_start(per); since = period_start(per, until - 1)
                     await lb_award(since, until, period_key(per, until - 1))
                 db.execute("INSERT OR REPLACE INTO kv VALUES('lb_last',?)", (cur,)); db.commit()

@@ -55,7 +55,7 @@ refT:['Do‘stlarni taklif qil','Приглашай друзей','Invite friend
 refs:['Do‘stlar','Друзья','Friends'],earned:['Ishlab topildi','Заработано','Earned'],copy:['Nusxalash','Копировать','Copy'],copied:['Nusxalandi','Скопировано','Copied'],share:['Ulashish','Поделиться','Share'],
 st1:['Havolani do‘stingizga yuboring','Отправь ссылку другу','Send the link to a friend'],st2:['U StarUm’da o‘ynaydi','Он играет в StarUm','They play StarUm'],st3:['U ham do‘st chaqirsa — 2 va 3-darajadan ham % olasiz','Пригласит своих друзей — получишь % и со 2-го и 3-го уровня','They invite friends — you earn from levels 2 and 3 too'],
 shareTxt:['⭐ StarUm’da men bilan o‘yna! Durak, Nardi, Jackpot…','⭐ Играй со мной в StarUm! Дурак, Нарды, Джекпот…','🔥 Play with me in StarUm! Durak, Backgammon, Jackpot…'],
-day:['Kun','День','Day'],week:['Hafta','Неделя','Week'],allT:['Hamma vaqt','Всё время','All time'],byP:['Yutuq','Выигрыш','Winnings'],byW:['G‘alabalar','Победы','Wins'],byD:['Depozit','Депозит','Deposits'],byR:['Referallar','Рефералы','Referrals'],refsN:['ta do‘st','друзей','friends'],depN:['depozit','пополн.','deposits'],you:['Siz','Вы','You'],
+day:['Kun','День','Day'],week:['Hafta','Неделя','Week'],allT:['Hamma vaqt','Всё время','All time'],byP:['Yutuq','Выигрыш','Winnings'],byW:['G‘alabalar','Победы','Wins'],byD:['Depozit','Депозит','Deposits'],rcT:['REFERAL KONKURS','РЕФЕРАЛЬНЫЙ КОНКУРС','REFERRAL CONTEST'],rcB:['Do‘st chaqir — sovrinni ol!','Зови друзей — забирай приз!','Invite friends — win the prize!'],rcF:['Sovrin fondi','Призовой фонд','Prize pool'],rcGo:['Qatnashish','Участвовать','Join'],rcS:['Eng ko‘p do‘st chaqirganlar sovrinni bo‘lishadi','Больше всех пригласил — забираешь приз','Top inviters share the prize'],byR:['Referallar','Рефералы','Referrals'],refsN:['ta do‘st','друзей','friends'],depN:['depozit','пополн.','deposits'],you:['Siz','Вы','You'],
 emptyTop:['Hali hech kim yo‘q — birinchi bo‘l!','Пока пусто — стань первым!','Empty — be the first!'],
 wins:['G‘alaba','Победы','Wins'],played:['O‘yinlar','Игры','Played'],wr:['G‘alaba %','Винрейт','Win rate'],lvl:['Daraja','Уровень','Level'],xp:['XP','XP','XP'],
 lang:['Til','Язык','Language'],sound:['Ovoz','Звук','Sound'],bg:['Fon','Фон','Background'],bg_fire:['Olov','Огонь','Fire'],bg_cosmos:['Koinot','Космос','Cosmos'],bg_snow:['Qor','Снег','Snow'],bg_grid:['Neon','Неон','Neon'],bg_off:['O‘chiq','Выкл','Off'],
@@ -150,7 +150,7 @@ const SVGI={back:'<svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg>',cloc
  snd:'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',mute:'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="m17 9 5 6M22 9l-5 6"/></svg>',share:'<svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>'};
 /* ======================= holat */
 let TASKS=null,ws,U={tok:0,star:0,games:0,wins:0,refs:0,ref_earn:0,wallet:'',photo:''},CFG={stakes:[10,25,50,100,250,500],fee:.1,ref:.05,rate:200,games_off:[],hot:[],bot_mode:1,free_pvp:0,min_wd:500,wd_fee:0,daily:0,jp_min:10,jp_time:30,arena_tiers:[50,200],arena_time:25,lb_prizes:[],lb_period:'week',lb_metric:'profit',wd_star:1,min_wd_star:100,min_dep_star:1,min_dep_ton:.1};
-const SEENR=new Set();let myUid='',BOT='',G=null,SH=null,ONL=0,LASTQ=null,ROOMS=[],LIVE=[],NLIVE=0,POTSUM={},PS=null,PKEY=null,WANTPRIV=0,MYROOM=null,CUR='home',RF='',GC='all',LBQ=null,WT='dep',DM='star',WM='ton',BONUS=null,WDS=[],HIST=[],FEED=[],GWS=[],TG='top';
+const SEENR=new Set();let CFGJ='',LBC={},LBSIG='',myUid='',BOT='',G=null,SH=null,ONL=0,LASTQ=null,ROOMS=[],LIVE=[],NLIVE=0,POTSUM={},PS=null,PKEY=null,WANTPRIV=0,MYROOM=null,CUR='home',RF='',GC='all',LBQ=null,WT='dep',DM='star',WM='ton',BONUS=null,WDS=[],HIST=[],FEED=[],GWS=[],TG='top';
 const myName=()=>tg?.initDataUnsafe?.user?.first_name||'Player',myPhoto=()=>U.photo||tg?.initDataUnsafe?.user?.photo_url||'';
 const gid=LS.get('gid',null)||(()=>{const v=Math.random().toString(36).slice(2,12);LS.set('gid',v);return v})();
 const S=o=>{if(ws&&ws.readyState===1)ws.send(JSON.stringify(o))};
@@ -163,7 +163,7 @@ function connect(){ws=new WebSocket((location.protocol==='https:'?'wss://':'ws:/
 const lvlOf=u=>{const xp=(u.games||0)*10+(u.wins||0)*20,l=Math.floor(Math.sqrt(xp/50))+1,a=50*(l-1)**2,b=50*l*l;return{l,xp,p:Math.round((xp-a)/(b-a)*100),next:b}};
 const toTon=s=>(+s||0)/(CFG.rate||200);
 function onMsg(m){switch(m.t){
- case'me':{const old=U.star;if(m.user)U=m.user;if(m.uid)myUid=m.uid;if('bot'in m)BOT=m.bot;if('notice'in m)notice(m.notice);if(m.cfg){CFG=m.cfg;if(!LBQ)LBQ={per:CFG.lb_period,by:CFG.lb_metric}}if('online'in m)ONL=m.online;chips(old);if(m.cfg)redraw();if($('#pot').classList.contains('on'))potBal();break}
+ case'me':{const old=U.star;if(m.user)U=m.user;if(m.uid)myUid=m.uid;if('bot'in m)BOT=m.bot;if('notice'in m)notice(m.notice);let cfgCh=false;if(m.cfg){const js=JSON.stringify(m.cfg);cfgCh=js!==CFGJ;CFGJ=js;CFG=m.cfg;if(!LBQ)LBQ={per:CFG.lb_period,by:CFG.lb_metric}}if('online'in m)ONL=m.online;chips(old);if(cfgCh)redraw();if($('#pot').classList.contains('on'))potBal();break}
  case'cfg':CFG=m.cfg;chips();redraw();break;
  case'rate':CFG.rate=m.rate;chips();break;
  case'online':ONL=m.n;chips();break;
@@ -182,7 +182,7 @@ function onMsg(m){switch(m.t){
  case'chat':fly(m.text,m.from===G?.seat);SFX.pop();break;
  case'opp_left':if(G&&!G.over){G.over=1;G.w=G.seat;bars()}toast(t('left'));break;
  case'paid':paid(m);break;
- case'lb':drawTop(m);break;
+ case'lb':{const k=m.per+'|'+m.by,js=JSON.stringify(m);LBC[k]=m;const q=lbq();if(q.per===m.per&&(q.by===m.by||!['profit','dep','ref'].includes(q.by))&&js!==LBSIG){LBSIG=js;drawTop(m)}break}
  case'dep':depRes(m);break;
  case'pots':POTSUM=m.sum;if(CUR==='home'){drawLiveCards();drawBanners(1)}break;
  case'pot':if(m.priv&&WANTPRIV&&m.key!==PKEY){WANTPRIV=0;PKEY=m.key;PS=m;drawPot(true);break}if(m.open){openPot(m.key)}if(m.key===PKEY){PS=m;drawPot()}break;
@@ -214,7 +214,7 @@ function chips(old){const L=lvlOf(U),ph=myPhoto();$('#hnm').textContent=myName()
 const NAV=[['home','<path d="M3 11 12 3l9 8M5 9.5V20h5v-6h4v6h5V9.5"/>'],['games','<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 10v5M4.5 12.5h5"/><circle cx="16" cy="11" r=".6"/><circle cx="18" cy="14" r=".6"/>'],['top','<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/>'],['wallet','<path d="M3 7a2 2 0 0 1 2-2h13v4"/><rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="16.5" cy="13.5" r="1"/>'],['me','<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>']];
 function drawNav(cur){const dot=(CFG.daily&&BONUS&&!BONUS.next)||GWS.some(g=>g.status==='active'&&!g.joined);
  $('#nav').innerHTML=NAV.map(([v,i])=>`<button data-v="${v}" class="${v===cur?'on':''}"><svg viewBox="0 0 24 24">${i}</svg><span>${t(v)}</span>${v==='me'&&dot?'<i class="dotb"></i>':''}</button>`).join('')}
-function show(v){if(v==='bonus')v='me';CUR=v;$$('section').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));drawNav(v);window.scrollTo({top:0});
+let STILLT=null;function show(v){if(v==='bonus')v='me';CUR=v;$$('section').forEach(s=>{s.classList.toggle('on',s.id==='v-'+v);s.classList.remove('still')});clearTimeout(STILLT);STILLT=setTimeout(()=>{const e=$('#v-'+v);if(e)e.classList.add('still')},700);drawNav(v);window.scrollTo({top:0});
  if(v==='home'){drawHome();S({t:'rooms'})}if(v==='games')drawGames();if(v==='wallet'){drawWallet();loadTC();if(WT!=='dep')S({t:WT==='wd'?'wds':'hist'})}if(v==='top'){drawTop(null);S({t:'lb',...lbq()})}if(v==='me'){drawMe();S({t:'bonus'});S({t:'gws'});S({t:'tasks'})}hap();SFX.tap()}
 function redraw(){if(CUR==='home')drawHome();if(CUR==='games')drawGames();if(CUR==='wallet')drawWallet();if(CUR==='me')drawMe();drawNav(CUR)}
 const enabled=g=>!(CFG.games_off||[]).includes(g),isHot=g=>(CFG.hot||[]).includes(g),lbq=()=>LBQ||{per:CFG.lb_period||'week',by:CFG.lb_metric||'profit'};
@@ -235,7 +235,7 @@ function drawHome(){const gs=Object.keys(GM).filter(enabled);
  drawBanners();drawTicker();drawLiveCards();drawRoomsOnly()}
 let CARI=0,CART=null;
 function drawBanners(soft){const c=$('#car');if(!c)return;const ar=Object.entries(POTSUM).filter(([k])=>k.startsWith('arena:')).reduce((a,[,v])=>a+v.pot,0),jp=(POTSUM.jackpot||{}).pot||0,gw=GWS.find(g=>g.status==='active');
- const sl=[];if(enabled('arena'))sl.push(`<button class="bn bn-ar" data-pot="${arenaKey()}"><div class="bnt"><small>🟢 ARENA · LIVE</small><b>${t('bnArena')}</b><p>${t('pot')}: ${fmtK(ar)} ⭐</p><span class="bnb">${t('playNow')} ›</span></div><div class="bna ar-mini"><i></i><i></i><i></i><i></i><u></u></div></button>`);
+ const sl=[];if(CFG.rc_on)sl.push(`<button class="bn bn-rc" data-rc="1"><div class="bnt"><small>👥 ${t('rcT')}</small><b>${t('rcB')}</b><p>${t('rcF')}: <span class="rcv">${fmt(CFG.rc_prize||0)} ⭐</span>${CFG.rc_end?` · ⏱ <span data-rcl>${fmtLeft(CFG.rc_end-Date.now()/1000)}</span>`:''}</p><span class="bnb">${t('rcGo')} ›</span></div><div class="bna rc-mini"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="rcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".5" stop-color="#ffc83d"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs><path d="M18 8h28v6h8c0 10-5 17-13 18-2 5-5 8-7 9v7h8v6H22v-6h8v-7c-2-1-5-4-7-9-8-1-13-8-13-18h8zm-3 12c1 5 3 8 5 9l-1-9zm34 0h-4l-1 9c2-1 4-4 5-9z" fill="url(#rcg)" stroke="#b45309" stroke-width="1.2"/><path d="M32 16l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="#fff" opacity=".9"/></svg><em>${fmtK(CFG.rc_prize||0)}</em></div></button>`);if(enabled('arena'))sl.push(`<button class="bn bn-ar" data-pot="${arenaKey()}"><div class="bnt"><small>🟢 ARENA · LIVE</small><b>${t('bnArena')}</b><p>${t('pot')}: ${fmtK(ar)} ⭐</p><span class="bnb">${t('playNow')} ›</span></div><div class="bna ar-mini"><i></i><i></i><i></i><i></i><u></u></div></button>`);
  if(enabled('jackpot'))sl.push(`<button class="bn bn-jp" data-pot="jackpot"><div class="bnt"><small>🎡 JACKPOT</small><b>${t('bnJp')}</b><p>${t('pot')}: ${fmtK(jp)} ⭐</p><span class="bnb">${t('playNow')} ›</span></div><div class="bna"><div class="jpw-mini"></div></div></button>`);
  if(gw)sl.push(`<button class="bn bn-gw" data-v="me"><div class="bnt"><small>🎉 ${t('gw').toUpperCase()}</small><b>${esc(gw.title)}</b><p>${fmtK(gw.prize)} ⭐ × ${gw.winners} · ${gw.n} ${t('partic')}</p><span class="bnb">${gw.joined?'✓ '+t('gwIn'):t('gwJoin')} ›</span></div><div class="bna gift3">🎁</div></button>`);
  if((CFG.lb_prizes||[]).length)sl.push(`<button class="bn bn-lb" data-v="top"><div class="bnt"><small>🏆 ${t('lbPr')}</small><b>${t('lbPrS')}</b><p>🥇 ${fmtK(CFG.lb_prizes[0])} ⭐ ${CFG.lb_prizes[1]?'· 🥈 '+fmtK(CFG.lb_prizes[1])+' ⭐':''}</p><span class="bnb">${t('top')} ›</span></div><div class="bna cup3">🏆</div></button>`);
@@ -393,10 +393,11 @@ function spinWheel(){const p=PS,w=p.win,b=p.bets[w.i];if(!b||b._a==null)drawWhee
  setTimeout(()=>potResult(w),7100)}
 /* ======================= REYTING */
 function fmtLeft(s){s=Math.max(0,s|0);const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?`${d}${t('dd')} ${h}${t('hh')}`:`${h}${t('hh')} ${m}${t('mm')}`}
-function drawTop(m){const q=lbq(),by=['profit','dep','ref'].includes(q.by)?q.by:'profit',vv=r=>r.v??r.p??0,val=r=>by==='ref'?fmt(vv(r))+' 👥':by==='dep'?fmtK(vv(r))+' ⭐':'+'+fmtK(vv(r))+' ⭐',sub=r=>by==='ref'?`${fmt(vv(r))} ${t('refsN')}`:by==='dep'?`${r.n} ${t('depN')}`:`${r.n} ${t('played').toLowerCase()}`;
+function drawTop(m){if(!m){const c=LBC[lbq().per+'|'+lbq().by];if(c){LBSIG=JSON.stringify(c);m=c}else LBSIG=''}const q=lbq(),by=['profit','dep','ref'].includes(q.by)?q.by:'profit',vv=r=>r.v??r.p??0,val=r=>by==='ref'?fmt(vv(r))+' 👥':by==='dep'?fmtK(vv(r))+' ⭐':'+'+fmtK(vv(r))+' ⭐',sub=r=>by==='ref'?`${fmt(vv(r))} ${t('refsN')}`:by==='dep'?`${r.n} ${t('depN')}`:`${r.n} ${t('played').toLowerCase()}`;
  let h=`<div class="seg" style="margin-bottom:8px">${[['day',t('day')],['week',t('week')],['all',t('allT')]].map(([k,l])=>`<button class="${q.per===k?'on':''}" data-per="${k}">${l}</button>`).join('')}</div>
  <div class="lbtabs">${[['profit','💰 '+t('byP')],['dep','💳 '+t('byD')],['ref','👥 '+t('byR')]].map(([k,l])=>`<button class="lbt ${by===k?'on':''}" data-by="${k}">${l}</button>`).join('')}</div>`;
  if(!m){$('#v-top').innerHTML=h+'<div class="empty"><span class="sp"></span></div>';return}
+ if(by==='ref'&&CFG.rc_on)h+=`<div class="rcbox"><div><small>👥 ${t('rcT')}</small><b>${t('rcF')}: ${fmt(CFG.rc_prize||0)} ⭐</b><span>${t('rcS')}</span></div>${CFG.rc_end?`<div class="rct"><small>${t('ends')}</small><b data-rcl>${fmtLeft(CFG.rc_end-Date.now()/1000)}</b></div>`:''}</div>`;
  const pr=m.prizes,prz=i=>pr&&pr.list[i]?`<span class="przb">🎁 ${fmtK(pr.list[i])} ⭐</span>`:'';
  if(pr)h+=`<div class="lbpr"><div><small>🏆 ${t('lbPr')}</small><b>${t('ends')} ${fmtLeft(pr.left)}</b></div><div class="lbpl">${pr.list.slice(0,5).map((v,i)=>`<span><i>${['🥇','🥈','🥉'][i]||i+1}</i>${fmtK(v)} ⭐</span>`).join('')}</div></div>`;
  const L=m.list;if(!L.length){$('#v-top').innerHTML=h+`<div class="empty"><i>🏆</i>${t('emptyTop')}</div>`;return}
@@ -645,7 +646,7 @@ on('[data-pot]',x=>{const k=x.dataset.pot;if(k==='jackpot'?!enabled('jackpot'):!
 on('[data-pick]',x=>pickSheet(x.dataset.pick));
 on('[data-pg]',x=>{const m=x.dataset.pm;sheet(x.dataset.pg,m==='create')});
 on('[data-mode]',x=>{SH.mode=x.dataset.mode;SFX.tap();drawSheet()});on('[data-deck]',x=>{SH.deck=+x.dataset.deck;SFX.tap();drawSheet()});on('[data-tr]',x=>{SH.tr=+x.dataset.tr;SFX.tap();drawSheet()});
-on('#tplay',()=>{WANTTOK=1;pickSheet('quick')});on('#tclaim',()=>{hap('heavy');S({t:'tokdaily'})});on('[data-task]',x=>{hap('medium');S({t:'task',id:x.dataset.task})});on('[data-tst]',x=>{SH.tst=+x.dataset.tst;hap();SFX.tap();drawSheet()});on('[data-w]',x=>{SH.w=+x.dataset.w;hap();SFX.tap();drawSheet()});on('[data-st]',x=>{SH.st=+x.dataset.st;hap();SFX.tap();drawSheet()});on('#rulesb',()=>{SH.rules=!SH.rules;drawSheet()});on('#priv',x=>{SH.priv=x.checked?1:0});
+on('#tplay',()=>{WANTTOK=1;pickSheet('quick')});on('#tclaim',()=>{hap('heavy');S({t:'tokdaily'})});on('[data-task]',x=>{hap('medium');S({t:'task',id:x.dataset.task})});on('[data-rc]',()=>{LBQ={...lbq(),by:'ref'};show('top');SFX.tap()});on('[data-tst]',x=>{SH.tst=+x.dataset.tst;hap();SFX.tap();drawSheet()});on('[data-w]',x=>{SH.w=+x.dataset.w;hap();SFX.tap();drawSheet()});on('[data-st]',x=>{SH.st=+x.dataset.st;hap();SFX.tap();drawSheet()});on('#rulesb',()=>{SH.rules=!SH.rules;drawSheet()});on('#priv',x=>{SH.priv=x.checked?1:0});
 on('#goq',goQuick);on('#goc',goCreate);on('#gobot',goBot);on('#cx',()=>{S({t:'cancel'});MYROOM=null;if(SH){SH.q=0;SH.wait=null;drawSheet()}});
 on('#sh',(x,e)=>{if(e.target===x)closeSheet()});on('[data-close]',closeSheetSilent);
 const shareL=(l,txt)=>{const u='https://t.me/share/url?url='+encodeURIComponent(l)+'&text='+encodeURIComponent(txt||t('shareTxt'));tg&&tg.openTelegramLink?tg.openTelegramLink(u):window.open(u)};
@@ -711,4 +712,5 @@ function applyBg(){document.body.className='bg-'+BGM}
    if(shoot){const g=cx.createLinearGradient(shoot.x,shoot.y,shoot.x-shoot.vx*12,shoot.y-shoot.vy*12);g.addColorStop(0,`rgba(255,255,255,${shoot.l})`);g.addColorStop(1,'rgba(255,255,255,0)');cx.strokeStyle=g;cx.lineWidth=2*dpr;cx.beginPath();cx.moveTo(shoot.x,shoot.y);cx.lineTo(shoot.x-shoot.vx*12,shoot.y-shoot.vy*12);cx.stroke();shoot.x+=shoot.vx;shoot.y+=shoot.vy;shoot.l-=.012;if(shoot.l<=0||shoot.x>W)shoot=null}}})();
 })();
 iconize(document.body);applyBg();drawNav('home');drawHome();chips();connect();
+setInterval(()=>{if(CFG.rc_end)$$('[data-rcl]').forEach(e=>e.textContent=fmtLeft(CFG.rc_end-Date.now()/1000))},1000);
 setInterval(()=>{for(const v of Object.values(POTSUM))if(v.st==='count')v.left=Math.max(0,v.left-1);if(CUR==='home')drawLiveCards()},1000);
