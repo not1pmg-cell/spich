@@ -2,14 +2,15 @@
 import sys, asyncio, json, os, random, re, sqlite3, hmac, hashlib, secrets, time
 from urllib.parse import parse_qsl
 from aiohttp import web
-import bot, wallet, durak, nardy, quick, admin, botadmin
+import bot, wallet, durak, nardy, quick, admin
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PORT = int(os.getenv("PORT", "3000")); TOKEN = bot.TOKEN
-BOT_NAME = ""; TURN = 40; QTURN = 20
+BOT_NAME = ""; TURN = 40; QTURN = 15
 RNG = random.SystemRandom()
 BOARD = {"chess", "checkers", "connect4", "gomoku", "reversi", "ttt"}   # mijozda hisoblanadi, natijani ikkalasi tasdiqlaydi
 QUICK = {"dice", "rps", "coin", "hilo", "bj", "pen"}
+WINS = {"dice": 2, "rps": 2, "pen": 5}   # xona egasi 1..5 tanlaydi: dice/rps — g'alabalar, pen — zarbalar soni
 GAMES = BOARD | QUICK | {"durak", "nardy"}
 ADMIN_IDS = [x.strip() for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
 
@@ -28,9 +29,12 @@ CREATE TABLE IF NOT EXISTS gw(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,pr
  channel TEXT DEFAULT '',status TEXT DEFAULT 'active',created INT,result TEXT DEFAULT '');
 CREATE TABLE IF NOT EXISTS gw_join(gid INT,uid TEXT,ts INT,PRIMARY KEY(gid,uid));
 CREATE TABLE IF NOT EXISTS lb_awards(id INTEGER PRIMARY KEY AUTOINCREMENT,ts INT,period TEXT,place INT,uid TEXT,amt REAL,val REAL);
-CREATE INDEX IF NOT EXISTS res_ts ON res(ts); CREATE INDEX IF NOT EXISTS log_uid ON log(uid);""")
+CREATE INDEX IF NOT EXISTS res_ts ON res(ts); CREATE INDEX IF NOT EXISTS log_uid ON log(uid);
+CREATE INDEX IF NOT EXISTS users_ref ON users(ref_by);
+CREATE TABLE IF NOT EXISTS tasks(uid TEXT,tid TEXT,day TEXT,ts INT,PRIMARY KEY(uid,tid,day));""")
 for col in ("banned INT DEFAULT 0", "created INT DEFAULT 0", "last INT DEFAULT 0", "daily_ts INT DEFAULT 0",
-            "ref_earn REAL DEFAULT 0", "wallet TEXT DEFAULT ''", "vip INT DEFAULT 0", "photo TEXT DEFAULT ''"):
+            "ref_earn REAL DEFAULT 0", "wallet TEXT DEFAULT ''", "vip INT DEFAULT 0", "photo TEXT DEFAULT ''",
+            "tok REAL DEFAULT 0", "tokd_ts INT DEFAULT 0"):
     try: db.execute("ALTER TABLE users ADD COLUMN " + col)
     except sqlite3.OperationalError: pass
 try: db.execute("ALTER TABLE wd ADD COLUMN method TEXT DEFAULT 'ton'")
@@ -39,14 +43,16 @@ db.commit()
 conns, ACTIVE, ROOMS = {}, [], {}
 
 # ---- sozlamalar (admin paneldan o'zgaradi, kv jadvalida JSON bo'lib saqlanadi)
-CFG = {"fee": 0.10, "ref": 0.05, "test": 1 if os.getenv("TEST_MODE") == "1" else 0, "maint": 0, "notice": "",
-       "free_pvp": 0, "bot_mode": 0, "stakes": [10, 25, 50, 100, 250, 500, 1000], "min_wd": 500, "wd_fee": 0.2,
+CFG = {"fee": 0.10, "ref": 0.05, "ref1": 0.03, "ref2": 0.02, "ref3": 0.01, "test": 1 if os.getenv("TEST_MODE") == "1" else 0, "maint": 0, "notice": "",
+       "free_pvp": 0, "bot_mode": 1, "stakes": [10, 25, 50, 100, 250, 500, 1000], "min_wd": 500, "wd_fee": 0.0,
        "daily": 0, "welcome": 0, "star_usd": 0.015, "rate_manual": 0, "rate_fallback": 200,
        "jp_min": 10, "jp_time": 30, "jp_max": 32, "games_off": [], "hot": ["durak", "nardy", "jackpot"],
        "min_dep_star": 1, "min_dep_ton": 0.1,
        "arena_tiers": [50, 200], "arena_time": 25, "arena_max": 20, "lb_prizes": [1000, 500, 250], "lb_period": "week",
        "lb_metric": "profit", "lb_auto": 0, "feed_min": 20, "wd_star": 1, "min_wd_star": 100,
-       "dep_on": 1, "wd_on": 1, "wd_fee_star": 0.2, "force_sub": []}
+       # SPC — o'yin tokeni: bepul o'ynash uchun, vazifa va kunlik bonus orqali yig'iladi (pulga almashtirilmaydi)
+       "tok_on": 1, "tok_daily": 100, "tok_welcome": 300, "tok_stakes": [10, 50, 100, 500], "tok_ch": "",
+       "tk_play": 50, "tk_win": 50, "tk_ref": 300, "tk_sub": 100}
 for r in db.execute("SELECT k,v FROM kv"):
     if r["k"] in CFG:
         try: v = json.loads(r["v"])
@@ -71,15 +77,18 @@ def user(uid):
     r = db.execute("SELECT * FROM users WHERE uid=?", (uid,)).fetchone()
     return dict(r) if r else None
 def pub(u): return {"star": round(u["star"], 2), "games": u["games"], "wins": u["wins"], "refs": u["refs"],
-                    "ref_earn": round(u["ref_earn"] or 0, 2), "wallet": u["wallet"] or "", "vip": u["vip"] or 0, "guest": u["guest"], "photo": u.get("photo") or ""}
+                    "ref_earn": round(u["ref_earn"] or 0, 2), "tok": round(u.get("tok") or 0, 2), "wallet": u["wallet"] or "", "vip": u["vip"] or 0, "guest": u["guest"], "photo": u.get("photo") or ""}
 def add(uid, amt):
     db.execute("UPDATE users SET star=ROUND(star+?,2) WHERE uid=?", (amt, uid)); db.commit()
 def bal(uid): return (user(uid) or {}).get("star", 0)
+def addt(uid, amt):
+    db.execute("UPDATE users SET tok=ROUND(COALESCE(tok,0)+?,2) WHERE uid=?", (amt, uid)); db.commit()
+def tbal(uid): return (user(uid) or {}).get("tok") or 0
 def pubcfg():
-    return {k: CFG[k] for k in ("fee", "ref", "stakes", "min_wd", "wd_fee", "daily", "jp_min", "jp_max", "games_off", "hot",
+    return {k: CFG[k] for k in ("fee", "ref1", "ref2", "ref3", "stakes", "min_wd", "wd_fee", "daily", "jp_min", "jp_max", "games_off", "hot",
                                 "free_pvp", "bot_mode", "test", "min_dep_star", "min_dep_ton", "jp_time",
                                 "arena_tiers", "arena_time", "lb_prizes", "lb_period", "lb_metric", "wd_star", "min_wd_star",
-                                "dep_on", "wd_on", "wd_fee_star")} | {"force_sub": bool(CFG["force_sub"])} | {"rate": RATE()}
+                                "tok_on", "tok_daily", "tok_stakes")} | {"rate": RATE(), "ref": ref_levels()[0]}
 
 class C:
     def __init__(s, ws): s.ws = ws; s.uid = None; s.name = ""; s.t = None; s.seat = 0; s.room = None
@@ -126,49 +135,6 @@ async def credit(uid, cur, amt, txid):
     if c: await send(c, {"t": "dep", "ok": True, "user": pub(user(uid)), "stars": stars})
     await notify_admins(f"💰 Пополнение: {user(uid)['name']} +{amt} {'⭐' if cur == 'star' else 'TON'}")
 
-# ================= majburiy obuna =================
-SUBOK = {}  # uid -> vaqt (tasdiqlangan obuna keshi)
-def chan_id(ch):
-    ch = str(ch).strip()
-    return ch if ch.startswith("@") or ch.lstrip("-").isdigit() else "@" + ch.split("/")[-1]
-async def missing_subs(uid):
-    """Foydalanuvchi obuna bo'lmagan kanallar ro'yxati (bo'sh — hammasi joyida)."""
-    chans = CFG["force_sub"] or []
-    if not chans or not TOKEN or not uid.startswith("tg"): return []
-    if time.time() - SUBOK.get(uid, 0) < 600: return []
-    miss = []
-    for ch in chans:
-        try:
-            r = await bot.call("getChatMember", chat_id=chan_id(ch), user_id=int(uid[2:]))
-            if r.get("status") not in ("member", "administrator", "creator", "restricted"): miss.append(ch)
-        except Exception as e:
-            print("sub:", ch, e)   # bot kanalda admin emas — o'tkazib yuboramiz
-    if not miss: SUBOK[uid] = time.time()
-    return miss
-def chan_link(ch):
-    ch = str(ch).strip()
-    if ch.startswith("http"): return ch
-    return "https://t.me/" + ch.lstrip("@")
-
-async def mass_bonus(amt, note="bonus"):
-    """Barcha (ban qilinmagan) foydalanuvchilarga bonus."""
-    ids = [r["uid"] for r in db.execute("SELECT uid FROM users WHERE banned=0")]
-    for uid in ids: add(uid, amt); logx(uid, "bonus", "star", amt, note)
-    for uid in ids:
-        c = conns.get(uid)
-        if c: await send(c, {"t": "gift", "amt": amt, "why": "🎁 Бонус для всех"}); await me(uid)
-    return len(ids)
-
-async def mass_set(amt):
-    """Hammaning balansini aniq qiymatga o'rnatish (masalan 0 yoki 100)."""
-    rows = db.execute("SELECT uid,star FROM users WHERE banned=0").fetchall()
-    for r in rows:
-        if round(r["star"], 2) != amt: logx(r["uid"], "admin", "star", round(amt - r["star"], 2), f"set all {amt:g}")
-    db.execute("UPDATE users SET star=? WHERE banned=0", (amt,)); db.commit()
-    for r in rows:
-        if r["uid"] in conns: await me(r["uid"])
-    return len(rows)
-
 # ================= jonli yutuqlar lentasi =================
 FEED = []
 async def feed_push(uid, g, prize, stake):
@@ -183,19 +149,37 @@ def stop(t):
     tm = t.get("tm")
     if tm and tm is not asyncio.current_task(): tm.cancel()
 
+def ref_levels(): return [float(CFG["ref1"] or 0), float(CFG["ref2"] or 0), float(CFG["ref3"] or 0)]
+
 async def ref_pay(uid, stake, g):
-    """Referal: taklif qilgan odamga do'stining stavkasidan CFG['ref'] ulush."""
+    """3 bosqichli referal: o'yinchining stavkasidan
+    1-daraja (uni taklif qilgan) — ref1, 2-daraja (taklif qilganning taklifchisi) — ref2, 3-daraja — ref3."""
     u = user(uid)
-    if not u or not u["ref_by"] or not CFG["ref"]: return
-    amt = round(stake * CFG["ref"], 2)
-    if amt <= 0: return
-    add(u["ref_by"], amt); db.execute("UPDATE users SET ref_earn=ref_earn+? WHERE uid=?", (amt, u["ref_by"])); db.commit()
-    logx(u["ref_by"], "ref", "star", amt, f"{u['name']} · {g}")
-    await me(u["ref_by"])
+    if not u or not u["ref_by"]: return
+    seen, cur = {uid}, u["ref_by"]
+    for lv, pct in enumerate(ref_levels(), 1):
+        if not cur or cur in seen: break          # zanjir tugadi yoki aylana bor
+        seen.add(cur); p = user(cur)
+        if not p: break
+        amt = round(stake * pct, 2)
+        if amt > 0:
+            add(cur, amt); db.execute("UPDATE users SET ref_earn=ref_earn+? WHERE uid=?", (amt, cur)); db.commit()
+            logx(cur, "ref", "star", amt, f"L{lv} · {u['name']} · {g}")
+            await me(cur)
+        cur = p["ref_by"]
+
+def ref_stats(uid):
+    """Har daraja bo'yicha: foiz, odamlar soni, ishlab topilgan summa."""
+    l1 = "SELECT uid FROM users WHERE ref_by=?"; l2 = f"SELECT uid FROM users WHERE ref_by IN ({l1})"; l3 = f"SELECT uid FROM users WHERE ref_by IN ({l2})"
+    n = [db.execute(f"SELECT COUNT(*) FROM ({q})", (uid,)).fetchone()[0] for q in (l1, l2, l3)]
+    e2, e3 = [db.execute("SELECT COALESCE(SUM(amt),0) FROM log WHERE uid=? AND kind='ref' AND note LIKE ?", (uid, f"L{i} %")).fetchone()[0] for i in (2, 3)]
+    tot = (user(uid) or {}).get("ref_earn") or 0
+    earn = [max(0, tot - e2 - e3), e2, e3]   # eski yozuvlar (L belgisisiz) 1-darajaga kiradi
+    return [{"p": p, "n": n[i], "earn": round(earn[i], 2)} for i, p in enumerate(ref_levels())]
 
 async def settle(t, w):
     if t["done"]: return
-    t["done"] = True; stop(t); st = t["stake"]; paid = t["cur"] != "free"
+    t["done"] = True; stop(t); st = t["stake"]; tok = t["cur"] == "tok"; bet = t["cur"] != "free"; paid = t["cur"] == "star"
     if t in ACTIVE: ACTIVE.remove(t)
     ids = [("bot" if u is None else u) for u in t["u"]]
     db.execute("INSERT INTO games(ts,g,cur,stake,p0,p1,w) VALUES(?,?,?,?,?,?,?)", (int(time.time()), t["g"], t["cur"], st, ids[0], ids[1], w)); db.commit()
@@ -203,14 +187,15 @@ async def settle(t, w):
     for i, uid in enumerate(t["u"]):
         if uid is None: continue
         amt = 0
-        if paid:
+        if bet:
             amt = st if w == -1 else round(st * 2 * (1 - CFG["fee"]), 2) if w == i else 0
-            if amt: add(uid, amt); logx(uid, "win" if w == i else "refund", "star", amt, t["g"])
+            if amt: (addt if tok else add)(uid, amt); logx(uid, "win" if w == i else "refund", "tok" if tok else "star", amt, t["g"])
+        if paid:
             if w == i: await feed_push(uid, t["g"], amt, st)
             if w != -1: await ref_pay(uid, st, t["g"])
         if not t.get("bot"):
             db.execute("UPDATE users SET games=games+1,wins=wins+? WHERE uid=?", (1 if w == i else 0, uid))
-            db.execute("INSERT INTO res(ts,uid,g,stake,prize,win) VALUES(?,?,?,?,?,?)", (int(time.time()), uid, t["g"], st if paid else 0, amt, 1 if w == i else 0))
+            db.execute("INSERT INTO res(ts,uid,g,stake,prize,win) VALUES(?,?,?,?,?,?)", (int(time.time()), uid, t["g"], st if paid else 0, amt if paid else 0, 1 if w == i else 0))
             db.commit()
         c = conns.get(uid)
         if c: await send(c, {"t": "paid", "user": pub(user(uid)), "amount": amt, "w": w})
@@ -222,7 +207,7 @@ def mk_table(ps, g, cur, st, opts=None, bot_game=False):
          "res": {}, "g": g, "bot": bot_game, "opts": opts, "ts": int(time.time())}
     if g == "durak": t["eng"] = durak.Durak(bool(opts.get("tr")), 24 if opts.get("deck") == 24 else 36)
     elif g == "nardy": t["eng"] = nardy.Nardy()
-    elif g in QUICK: t["eng"] = quick.Quick(g)
+    elif g in QUICK: t["eng"] = quick.Quick(g, opts.get("w"))
     return t
 
 def lvl(uid):
@@ -232,8 +217,9 @@ def lvl(uid):
 async def begin(t):
     ACTIVE.append(t)
     if t["cur"] != "free":
+        tok = t["cur"] == "tok"
         for uid in t["u"]:
-            if uid: add(uid, -t["stake"]); logx(uid, "bet", "star", -t["stake"], t["g"])
+            if uid: (addt if tok else add)(uid, -t["stake"]); logx(uid, "bet", "tok" if tok else "star", -t["stake"], t["g"])
     names = [{"name": p.name if p else "🤖 Bot", "lvl": lvl(p.uid) if p else 1} for p in t["p"]]
     for i, p in enumerate(t["p"]):
         if not p: continue
@@ -298,12 +284,12 @@ async def tick(t):
 
 # ================= xonalar (lobbi) =================
 def room_pub(r):
-    return {"id": r["id"], "g": r["g"], "stake": r["stake"], "opts": r["opts"], "host": r["hn"], "hl": r["hl"],
+    return {"id": r["id"], "g": r["g"], "stake": r["stake"], "cur": r.get("cur", "star"), "opts": r["opts"], "host": r["hn"], "hl": r["hl"],
             "n": len(r["ps"]), "max": 2, "ts": r["ts"]}
 async def rooms_bc(c=None):
     lst = [room_pub(r) for r in ROOMS.values() if not r["priv"]]
     lst.sort(key=lambda r: -r["ts"])
-    live = [{"g": t["g"], "stake": t["stake"], "p": [(p.name if p else "Bot") for p in t["p"]]} for t in ACTIVE if not t["bot"]]
+    live = [{"g": t["g"], "stake": t["stake"], "cur": t["cur"], "p": [(p.name if p else "Bot") for p in t["p"]]} for t in ACTIVE if not t["bot"]]
     msg = {"t": "rooms", "list": lst[:60], "live": live[:30], "nlive": len(live), "online": len(conns)}
     if c: await send(c, msg)
     else: await bcast(msg)
@@ -311,14 +297,23 @@ async def rooms_bc(c=None):
 def norm_opts(g, o):
     o = o if isinstance(o, dict) else {}
     if g == "durak": return {"deck": 24 if o.get("deck") == 24 else 36, "tr": 1 if o.get("tr") else 0}
+    if g in WINS:
+        try: w = int(o.get("w") or WINS[g])
+        except (TypeError, ValueError): w = WINS[g]
+        return {"w": max(1, min(5, w))}
     return {}
 
-async def validate(c, g, stake):
-    if getattr(c, "needsub", False): await send(c, {"t": "err", "code": "sub"}); return None
+async def validate(c, g, stake, cur="star"):
     if g not in GAMES or g in CFG["games_off"]: await send(c, {"t": "err", "code": "off"}); return None
     if CFG["maint"]: await send(c, {"t": "err", "code": "maint"}); return None
     if c.t and not c.t["done"]: return None
-    stake = float(stake or 0)
+    try: stake = float(stake or 0)
+    except (TypeError, ValueError): return None
+    if cur == "tok":
+        if not CFG["tok_on"]: await send(c, {"t": "err", "code": "off"}); return None
+        if stake not in [float(x) for x in CFG["tok_stakes"]]: return None
+        if tbal(c.uid) < stake: await send(c, {"t": "err", "code": "tbalance"}); return None
+        return stake
     if stake == 0:
         if not CFG["free_pvp"]: await send(c, {"t": "err", "code": "nofree"}); return None
         return 0.0
@@ -335,9 +330,9 @@ async def leave_room(c, bc=True):
     if not r["ps"]: ROOMS.pop(r["id"], None)
     if bc: await rooms_bc()
 
-async def create_room(c, g, stake, opts, priv=False):
+async def create_room(c, g, stake, opts, priv=False, cur="star"):
     await leave_room(c, False)
-    r = {"id": secrets.token_hex(3), "g": g, "stake": stake, "opts": norm_opts(g, opts), "host": c.uid, "hn": c.name,
+    r = {"id": secrets.token_hex(3), "g": g, "stake": stake, "cur": cur, "opts": norm_opts(g, opts), "host": c.uid, "hn": c.name,
          "hl": lvl(c.uid), "ps": [c], "ts": int(time.time()), "priv": bool(priv)}
     ROOMS[r["id"]] = r; c.room = r["id"]
     await send(c, {"t": "wait", "room": room_pub(r), "priv": r["priv"]})
@@ -347,20 +342,21 @@ async def join_room(c, rid):
     r = ROOMS.get(rid)
     if not r: return await send(c, {"t": "err", "code": "gone"})
     if c in r["ps"]: return
-    st = await validate(c, r["g"], r["stake"])
+    cur = r.get("cur", "star")
+    st = await validate(c, r["g"], r["stake"], cur)
     if st is None: return
     await leave_room(c, False)
     r["ps"].append(c); c.room = rid
     if len(r["ps"]) < 2: return await rooms_bc()
     ROOMS.pop(rid, None)
-    ok = [p for p in r["ps"] if r["stake"] == 0 or bal(p.uid) >= r["stake"]]
+    ok = [p for p in r["ps"] if r["stake"] == 0 or (tbal(p.uid) if cur == "tok" else bal(p.uid)) >= r["stake"]]
     for p in r["ps"]: p.room = None
     if len(ok) < 2:
         for p in r["ps"]:
-            if p not in ok: await send(p, {"t": "err", "code": "balance"})
+            if p not in ok: await send(p, {"t": "err", "code": "tbalance" if cur == "tok" else "balance"})
         for p in ok: await send(p, {"t": "err", "code": "gone"})
         return await rooms_bc()
-    await begin(mk_table(ok, r["g"], "free" if r["stake"] == 0 else "star", r["stake"], r["opts"]))
+    await begin(mk_table(ok, r["g"], "tok" if cur == "tok" else "free" if r["stake"] == 0 else "star", r["stake"], r["opts"]))
 
 async def cancel_room(rid, reason="cancel"):
     r = ROOMS.pop(rid, None)
@@ -413,7 +409,6 @@ async def pot_bet(c, key, amt):
     p = POTS.get(key)
     if not p: return await send(c, {"t": "err", "code": "gone"})
     amt = round(float(amt or 0), 2)
-    if getattr(c, "needsub", False): return await send(c, {"t": "err", "code": "sub"})
     if p.kind in CFG["games_off"]: return await send(c, {"t": "err", "code": "off"})
     if CFG["maint"]: return await send(c, {"t": "err", "code": "maint"})
     if p.st == "spin": return await send(c, {"t": "err", "code": "spin"})
@@ -585,6 +580,37 @@ async def gw_loop():
             for k in [k for k, p in POTS.items() if p.priv and not p.bets and time.time() - p.ts > 7200]: POTS.pop(k, None)
         except Exception as e: print("gw:", repr(e))
 
+# ================= SPC tokeni: vazifalar va kunlik bonus =================
+def tasks_for(uid):
+    u = user(uid); d0 = period_start("day"); dk = period_key("day")
+    r = db.execute("SELECT COUNT(*) n, COALESCE(SUM(win),0) w FROM res WHERE uid=? AND ts>=?", (uid, d0)).fetchone()
+    done = {x["tid"] for x in db.execute("SELECT tid FROM tasks WHERE uid=? AND (day=? OR day='')", (uid, dk))}
+    L = [{"id": "play", "p": min(r["n"], 3), "n": 3, "r": CFG["tk_play"], "daily": 1},
+         {"id": "win", "p": min(r["w"], 1), "n": 1, "r": CFG["tk_win"], "daily": 1},
+         {"id": "ref", "p": min(u["refs"] or 0, 1), "n": 1, "r": CFG["tk_ref"], "daily": 0}]
+    if CFG["tok_ch"]: L.append({"id": "sub", "p": 0, "n": 1, "r": CFG["tk_sub"], "daily": 0, "ch": CFG["tok_ch"]})
+    L = [x for x in L if x["r"]]
+    for x in L: x["done"] = x["id"] in done
+    return L
+
+async def send_tasks(c):
+    u = user(c.uid)
+    await send(c, {"t": "tasks", "list": tasks_for(c.uid), "daily": CFG["tok_daily"], "on": CFG["tok_on"],
+                   "next": max(0, (u["tokd_ts"] or 0) + 86400 - time.time())})
+
+async def task_claim(c, tid):
+    if not CFG["tok_on"]: return
+    x = next((x for x in tasks_for(c.uid) if x["id"] == tid), None)
+    if not x: return
+    if x["done"]: return await send(c, {"t": "err", "code": "used"})
+    if tid == "sub":
+        if not await gw_check_channel(c.uid, x["ch"]): return await send(c, {"t": "err", "code": "gwsub", "ch": x["ch"]})
+    elif x["p"] < x["n"]: return await send(c, {"t": "err", "code": "task"})
+    try: db.execute("INSERT INTO tasks VALUES(?,?,?,?)", (c.uid, tid, period_key("day") if x["daily"] else "", int(time.time()))); db.commit()
+    except sqlite3.IntegrityError: return await send(c, {"t": "err", "code": "used"})
+    addt(c.uid, x["r"]); logx(c.uid, "task", "tok", x["r"], tid)
+    await me(c.uid); await send(c, {"t": "gift", "amt": x["r"], "cur": "tok", "why": "✅"}); await send_tasks(c)
+
 UNAME = re.compile(r"^@?[A-Za-z][A-Za-z0-9_]{3,31}$")
 ADDR = re.compile(r"^(EQ|UQ|kQ|0Q)[A-Za-z0-9_\-]{46}$|^-?[01]:[0-9a-fA-F]{64}$")
 def clean(s, n=20): return re.sub(r"[<>\x00-\x1f]", "", str(s or ""))[:n]
@@ -614,6 +640,7 @@ async def on_msg(c, m):
             if okref: db.execute("UPDATE users SET refs=refs+1 WHERE uid=?", (ref,))
             db.commit()
             if CFG["welcome"] and not guest: add(uid, CFG["welcome"]); logx(uid, "bonus", "star", CFG["welcome"], "welcome")
+            if CFG["tok_on"] and CFG["tok_welcome"]: addt(uid, CFG["tok_welcome"]); logx(uid, "bonus", "tok", CFG["tok_welcome"], "welcome")
         else: db.execute("UPDATE users SET name=?,last=? WHERE uid=?", (name, int(time.time()), uid)); db.commit()
         if photo: db.execute("UPDATE users SET photo=? WHERE uid=?", (photo, uid)); db.commit()
         old = conns.get(uid)
@@ -622,8 +649,6 @@ async def on_msg(c, m):
         await send(c, {"t": "me", "uid": uid, "user": pub(user(uid)), "bot": BOT_NAME, "online": len(conns), "notice": CFG["notice"], "cfg": pubcfg()})
         await send(c, {"t": "pots", "sum": pots_sum()}); await send(c, {"t": "feedall", "list": FEED[:20]}); await rooms_bc(c)
         await send(c, {"t": "gws", "list": gw_list(uid)})
-        miss = await missing_subs(uid); c.needsub = bool(miss)
-        if miss: await send(c, {"t": "needsub", "ch": [{"name": ch, "url": chan_link(ch)} for ch in miss]})
         rid = str(m.get("room") or "")
         if rid in ROOMS: await send(c, {"t": "invite", "room": room_pub(ROOMS[rid])})
         ak = "ap" + re.sub(r"\W", "", str(m.get("arena") or ""))[:8]
@@ -635,17 +660,16 @@ async def on_msg(c, m):
         c.name = clean(m.get("name")) or c.name
         db.execute("UPDATE users SET name=? WHERE uid=?", (c.name, c.uid)); db.commit()
     elif k == "rooms": await rooms_bc(c)
-    elif k == "subcheck":
-        SUBOK.pop(c.uid, None); miss = await missing_subs(c.uid); c.needsub = bool(miss)
-        await send(c, {"t": "needsub", "ch": [{"name": ch, "url": chan_link(ch)} for ch in miss]} if miss else {"t": "subok"})
     elif k in ("quick", "create"):
-        g = m.get("game"); st = await validate(c, g, m.get("stake"))
+        g = m.get("game"); cur = "tok" if m.get("cur") == "tok" else "star"
+        st = await validate(c, g, m.get("stake"), cur)
         if st is None: return
+        if cur == "tok" and st == 0: cur = "star"
         opts = norm_opts(g, m.get("opts"))
         if k == "quick":
-            r = next((r for r in ROOMS.values() if not r["priv"] and r["g"] == g and r["stake"] == st and r["opts"] == opts and r["host"] != c.uid and len(r["ps"]) < 2), None)
+            r = next((r for r in ROOMS.values() if not r["priv"] and r["g"] == g and r["stake"] == st and r.get("cur", "star") == cur and r["opts"] == opts and r["host"] != c.uid and len(r["ps"]) < 2), None)
             if r: return await join_room(c, r["id"])
-        await create_room(c, g, st, opts, k == "create" and m.get("priv"))
+        await create_room(c, g, st, opts, k == "create" and m.get("priv"), cur)
     elif k == "join": await join_room(c, str(m.get("id")))
     elif k == "cancel": await leave_room(c)
     elif k == "bot":
@@ -698,7 +722,6 @@ async def on_msg(c, m):
         except sqlite3.IntegrityError: pass
         await send(c, {"t": "gwok", "id": g["id"]}); await send(c, {"t": "gws", "list": gw_list(c.uid)})
     elif k == "deposit":
-        if not CFG["dep_on"]: return await send(c, {"t": "err", "code": "depoff"})
         meth = m.get("method")
         try: amt = round(float(m.get("amount") or 0), 4)
         except Exception: return
@@ -719,7 +742,6 @@ async def on_msg(c, m):
         u = user(c.uid); addr = str(m.get("addr") or "").strip(); meth = "star" if m.get("method") == "star" else "ton"
         try: amt = round(float(m.get("amount") or 0), 2)
         except Exception: return
-        if not CFG["wd_on"]: return await send(c, {"t": "err", "code": "wdoff"})
         if u["guest"] and not CFG["test"]: return await send(c, {"t": "err", "code": "guest"})
         if meth == "ton" and not ADDR.match(addr): return await send(c, {"t": "err", "code": "addr"})
         if meth == "star":
@@ -729,7 +751,7 @@ async def on_msg(c, m):
         if amt < (CFG["min_wd_star"] if meth == "star" else CFG["min_wd"]): return await send(c, {"t": "err", "code": "min"})
         if amt > u["star"]: return await send(c, {"t": "err", "code": "balance"})
         if db.execute("SELECT COUNT(*) FROM wd WHERE uid=? AND status='pending'", (c.uid,)).fetchone()[0] >= 3: return await send(c, {"t": "err", "code": "wdmany"})
-        out = int(amt * (1 - CFG["wd_fee_star"])) if meth == "star" else round(amt / RATE() * (1 - CFG["wd_fee"]), 4)
+        out = int(amt * (1 - CFG["wd_fee"])) if meth == "star" else round(amt / RATE() * (1 - CFG["wd_fee"]), 4)
         unit = "⭐" if meth == "star" else "TON"
         add(c.uid, -amt); logx(c.uid, "withdraw", "star", -amt, f"{out} {unit} → {addr[:12]}")
         db.execute("INSERT INTO wd(ts,uid,amt,ton,addr,method) VALUES(?,?,?,?,?,?)", (int(time.time()), c.uid, amt, out, addr, meth)); db.commit()
@@ -743,7 +765,7 @@ async def on_msg(c, m):
     elif k == "bonus":
         u = user(c.uid)
         await send(c, {"t": "bonus", "daily": CFG["daily"], "next": max(0, (u["daily_ts"] or 0) + 86400 - time.time()),
-                       "ref": CFG["ref"], "refs": u["refs"], "earn": round(u["ref_earn"] or 0, 2),
+                       "ref": ref_levels()[0], "lv": ref_stats(c.uid), "refs": u["refs"], "earn": round(u["ref_earn"] or 0, 2),
                        "friends": [dict(r) for r in db.execute("SELECT name,games FROM users WHERE ref_by=? ORDER BY created DESC LIMIT 20", (c.uid,))]})
     elif k == "daily":
         u = user(c.uid)
@@ -752,6 +774,15 @@ async def on_msg(c, m):
         db.execute("UPDATE users SET daily_ts=? WHERE uid=?", (int(time.time()), c.uid)); db.commit()
         add(c.uid, CFG["daily"]); logx(c.uid, "bonus", "star", CFG["daily"], "daily")
         await me(c.uid); await send(c, {"t": "gift", "amt": CFG["daily"]}); await on_msg(c, {"t": "bonus"})
+    elif k == "tasks": await send_tasks(c)
+    elif k == "task": await task_claim(c, str(m.get("id") or ""))
+    elif k == "tokdaily":
+        u = user(c.uid)
+        if not CFG["tok_on"] or not CFG["tok_daily"]: return
+        if time.time() - (u["tokd_ts"] or 0) < 86400: return await send(c, {"t": "err", "code": "early"})
+        db.execute("UPDATE users SET tokd_ts=? WHERE uid=?", (int(time.time()), c.uid)); db.commit()
+        addt(c.uid, CFG["tok_daily"]); logx(c.uid, "bonus", "tok", CFG["tok_daily"], "daily")
+        await me(c.uid); await send(c, {"t": "gift", "amt": CFG["tok_daily"], "cur": "tok"}); await send_tasks(c)
     elif k == "promo":
         code = re.sub(r"\W", "", str(m.get("code") or "")).upper()[:24]
         p = db.execute("SELECT * FROM promo WHERE code=?", (code,)).fetchone()
@@ -797,8 +828,7 @@ async def on_start(app):
     app["tasks"] = [asyncio.create_task(rate_loop()), asyncio.create_task(gw_loop()), asyncio.create_task(lb_loop())]
     if TOKEN:
         BOT_NAME = await bot.me() or ""; await bot.setup()
-        botadmin.S = sys.modules[__name__]
-        app["tasks"] += [asyncio.create_task(bot.poll(credit, botadmin.handle)), asyncio.create_task(wallet.ton_poll(credit))]
+        app["tasks"] += [asyncio.create_task(bot.poll(credit)), asyncio.create_task(wallet.ton_poll(credit))]
 
 async def on_stop(app):
     for t in app.get("tasks", []): t.cancel()
