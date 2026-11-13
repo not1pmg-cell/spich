@@ -91,6 +91,9 @@ tonWait:['Tranzaksiya yuborildi, tasdiq kutilmoqda','Транзакция отп
 hit:['Yana','Ещё','Hit'],stand:['Yetarli','Хватит','Stand'],bust:['Ko‘p!','Перебор!','Bust!'],bjStand:['To‘xtadi','Хватит','Stood'],bjDone:['tayyor','готово','done'],
 penKick:['Siz zarba berasiz — burchakni tanlang','Вы бьёте — выберите угол','You kick — pick a corner'],penSave:['Siz darvozabon — qayerga sakraysiz?','Вы вратарь — куда прыгнуть?','You’re the keeper — dive where?'],
 pen_l:['Chap','Влево','Left'],pen_c:['Markaz','Центр','Center'],pen_r:['O‘ng','Вправо','Right'],goal:['GOOL! ⚽','ГОООЛ! ⚽','GOAL! ⚽'],save:['SEYV! 🧤','СЕЙВ! 🧤','SAVE! 🧤'],
+penShot:['Zarba','Удар','Shot'],penDive:['Darvozabon','Вратарь','Keeper'],yourPick:['Tanlovingiz','Ваш выбор','Your pick'],coinPick:['Tomonni tanlang — kim birinchi tanlasa, o‘sha oladi','Выберите сторону — кто первым выбрал, тот её и получает','Pick a side — first to choose gets it'],coinChose:['tanladi','выбрал первым','chose first'],
+e_sub:['Avval kanallarga obuna bo‘ling','Сначала подпишитесь на каналы','Subscribe to the channels first'],e_depoff:['To‘ldirish vaqtincha yopiq','Пополнение временно закрыто','Deposits are temporarily closed'],e_wdoff:['Yechish vaqtincha yopiq','Вывод временно закрыт','Withdrawals are temporarily closed'],
+subT:['Kanallarga obuna bo‘ling','Подпишитесь на каналы','Subscribe to channels'],subS:['O‘ynash uchun quyidagi kanallarga obuna bo‘ling','Чтобы играть, подпишитесь на каналы ниже','Subscribe to play'],subCheck:['✅ Obuna bo‘ldim','✅ Я подписался','✅ I subscribed'],
 e_uname:['@username noto‘g‘ri','Неверный @username','Invalid @username'],e_gwgames:['Kamida {n} ta o‘yin o‘ynang','Нужно сыграть минимум {n} игр','Play at least {n} games'],e_gwsub:['Avval {ch} ga obuna bo‘ling','Сначала подпишитесь на {ch}','Subscribe to {ch} first'],
 k_giveaway:['Konkurs','Розыгрыш','Giveaway'],k_lbprize:['Reyting sovrini','Приз рейтинга','Leaderboard prize'],
 rules:['Qoidalar','Правила','Rules'],tokM:['💠 SPC','💠 SPC','💠 SPC'],tokT:['SPC tokeni','Токен SPC','SPC token'],tokS:['Bepul o‘ynash uchun o‘yin tokeni. Vazifa bajarib, kunlik bonus olib yig‘ing','Игровой токен для бесплатной игры. Фармите за задания и ежедневный бонус','Free-play token. Farm it with tasks and the daily bonus'],
@@ -101,7 +104,7 @@ const t=k=>(D[k]||[k,k,k])[LI[lang]];
 /* ======================= o'yinlar katalogi */
 const GM={
 bj:{n:['21 (Ochko)','21 (Очко)','Blackjack 21'],s:['Kartalar · 21 ga yaqin','Карты · ближе к 21','Cards · closest to 21'],a:'#22c55e',ic:'🂡',cat:'card',wide:1,r:['Ikkalangizga 2 tadan karta. «Yana» yoki «Yetarli». 21 dan oshsa — yutqazdingiz. 21 ga yaqini yutadi.','Обоим по 2 карты. «Ещё» или «Хватит». Перебор больше 21 — проигрыш. Ближе к 21 — победа.','Two cards each. Hit or stand. Over 21 loses, closest to 21 wins.']},
-pen:{n:['Penalti','Пенальти','Penalty'],s:['1–5 zarba · futbol','1–5 ударов · футбол','1–5 kicks · football'],a:'#16a34a',ic:'⚽',cat:'fast',r:['Navbat bilan penalti (xona egasi 1–5 zarba tanlaydi). Zarbachi burchak tanlaydi, darvozabon sakraydi. Ko‘p gol urgan yutadi.','Пенальти по очереди (создатель комнаты выбирает 1–5 ударов). Бьющий выбирает угол, вратарь прыгает. Кто забил больше — победил.','Penalties in turns (room creator picks 1–5 kicks). Kicker picks a corner, keeper dives. Most goals wins.']},
+pen:{n:['Penalti','Пенальти','Penalty'],s:['1–5 zarba · futbol','1–5 ударов · футбол','1–5 kicks · football'],a:'#16a34a',ic:'⚽',cat:'fast',wide:1,r:['Navbat bilan penalti (xona egasi 1–5 zarba tanlaydi). Zarbachi burchak tanlaydi, darvozabon sakraydi. Ko‘p gol urgan yutadi.','Пенальти по очереди (создатель комнаты выбирает 1–5 ударов). Бьющий выбирает угол, вратарь прыгает. Кто забил больше — победил.','Penalties in turns (room creator picks 1–5 kicks). Kicker picks a corner, keeper dives. Most goals wins.']},
 durak:{n:['Durak','Дурак','Durak'],s:['24/36 karta · podkidnoy/perevodnoy','24/36 карт · подкидной/переводной','24/36 cards · classic/transfer'],a:'#ff3b5c',ic:'🃏',cat:'card',wide:1,r:['Kartalarni birinchi bo‘lib tugatgan yutadi. Hujumchi karta tashlaydi, himoyachi kattaroq yoki kozir bilan uradi.','Побеждает тот, кто первым избавится от карт. Атакующий подкидывает, защищающийся бьёт старшей картой или козырем.','First to get rid of all cards wins. Attacker throws, defender beats with higher or trump.']},
 nardy:{n:['Nardi','Нарды','Backgammon'],s:['Uzun nardi · 1 vs 1','Длинные нарды · 1 на 1','Long nardy · 1 vs 1'],a:'#ff9a3d',ic:'🎲',cat:'board',wide:1,r:['Uzun nardi: 15 ta shashkani uyga olib kirib, birinchi chiqargan yutadi. Raqib turgan joyga qo‘yib bo‘lmaydi.','Длинные нарды: проведите 15 шашек в дом и выбросите первым. Нельзя ставить на пункт соперника.','Long nardy: bring 15 checkers home and bear off first. You can’t land on opponent’s point.']},
 dice:{n:['Zar','Кости','Dice'],s:['1–5 g‘alaba · tezkor','До 1–5 побед · быстро','First to 1–5 · instant'],a:'#38d9ff',ic:'🎲',cat:'fast',r:['Ikkalangiz 2 ta zar tashlaysiz — yig‘indisi katta bo‘lgan raundni oladi. Xona egasi tanlagan g‘alabalar soniga (1–5) birinchi yetgan yutadi.','Оба бросают 2 кубика — у кого сумма больше, тот берёт раунд. Игра до 1–5 побед — выбирает создатель комнаты.','Both roll 2 dice — higher sum takes the round. First to 1–5 wins (room creator picks).']},
@@ -193,7 +196,10 @@ function onMsg(m){switch(m.t){
  case'gift':giftFx(m.amt,m.why,m.cur);break;case'tasks':TASKS=m;if(CUR==='me'&&!document.activeElement?.matches('input'))drawMe();break;
  case'wds':WDS=m.list;if(CUR==='wallet'&&WT==='wd')drawWallet();break;
  case'hist':HIST=m.list;if(CUR==='wallet'&&WT==='hist')drawWallet();break;
- case'wdok':toast('✅ '+t('wdOk'));SFX.win();break}}
+ case'wdok':toast('✅ '+t('wdOk'));SFX.win();break;
+ case'needsub':showSub(m.ch);break;
+ case'subok':$('#res').classList.remove('on');toast('✅');SFX.win();break}}
+function showSub(ch){$('#res').classList.add('on');$('#resc').innerHTML=`<div class="trophy" style="font-size:56px">📢</div><div class="rt" style="font-size:20px">${t('subT')}</div><p style="color:var(--mu);margin-bottom:12px">${t('subS')}</p>${ch.map(c=>`<button class="btn" data-chan="${esc(c.url)}">📢 ${esc(c.name)}</button>`).join('')}<button class="btn go" id="subchk">${t('subCheck')}</button>`}
 function notice(x,pop){if(pop){toast('📢 '+esc(x));SFX.pop();return}const n=$('#notice');n.textContent=x||'';n.style.display=x?'block':'none'}
 function toast(x){$$('.toast').forEach(e=>e.remove());const d=document.createElement('div');d.className='toast';d.innerHTML=x;document.body.appendChild(d);setTimeout(()=>d.remove(),2800)}
 function fly(x,mine){const d=document.createElement('div');d.className='fly';d.textContent=x;d.style.left=(mine?'22%':'68%');document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
@@ -416,14 +422,16 @@ function drawWallet(){
  <div class="rt"><span>${TI} 1 TON = ${fmt(CFG.rate)} ⭐</span><span>⭐ 1 = 1 Telegram Star</span></div></div>
  ${CFG.test?`<div class="note" style="color:var(--gold);word-break:normal">${t('test')}</div>`:''}
  <div class="seg" style="margin-top:14px">${[['dep','⬇ '+t('dep')],['wd','⬆ '+t('wd')],['hist','🧾 '+t('hist')]].map(([k,l])=>`<button class="${WT===k?'on':''}" data-wt="${k}">${l}</button>`).join('')}</div>`;
- if(WT==='dep'){const ton=DM==='ton',v=DSEL[DM];
+ if(WT==='dep'&&CFG.dep_on===0)h+=`<div class="empty"><i>🔒</i>${t('e_depoff')}</div>`;
+ if(WT==='wd'&&CFG.wd_on===0)h+=`<div class="empty"><i>🔒</i>${t('e_wdoff')}</div>`;
+ if(WT==='dep'&&CFG.dep_on!==0){const ton=DM==='ton',v=DSEL[DM];
   h+=`<div class="card" style="margin-top:12px"><div class="seg">${[['star','⭐ Stars'],['ton','💎 TON']].map(([k,l])=>`<button class="${DM===k?'on':''}" data-dm="${k}">${l}</button>`).join('')}</div>
   <div class="row">${DEP[DM].map(a=>`<button class="opt ${v===a?'on':''}" data-da="${a}" style="flex:0 0 calc(33.3% - 6px)">${ton?'💎 ':'⭐ '}${fmt(a)}<small>${ton?'≈ '+fmtK(Math.round(a*CFG.rate))+' ⭐':'1:1'}</small></button>`).join('')}</div>
   <input class="inp" id="damt" type="number" inputmode="decimal" placeholder="${t('other')} (${ton?'TON':'Stars'})" value="${DEP[DM].includes(v)?'':v}">
   <div id="dhint" class="hint">${ton?`${t('youGet')}: <b>≈ ${fmt(Math.round(v*CFG.rate))} ⭐</b>`:`${t('youGet')}: <b>${fmt(v)} ⭐</b> · 1:1`}</div>
   ${ton?(tcOn()?`<button class="btn ton" id="dgo">${TI} ${t('payWallet')} · ${fmt(v)} TON</button><div style="text-align:center;margin-top:6px"><small class="mono">${esc((U.wallet||'').slice(0,6)+'…'+(U.wallet||'').slice(-6))}</small> <button class="chip" id="tcoff" style="padding:3px 9px">✕</button></div>`:`<button class="btn ton" id="tcon">${TI} ${t('connect')}</button><button class="btn" id="dgo">${t('manual')}</button>`):`<button class="btn go" id="dgo">⭐ ${t('dep')} ${fmt(v)} Stars</button>`}
   <div id="depr"></div></div>`}
- if(WT==='wd'){const st=WM==='star',mn=st?CFG.min_wd_star:CFG.min_wd,a=LS.get('wda','')||'';
+ if(WT==='wd'&&CFG.wd_on!==0){const st=WM==='star',mn=st?CFG.min_wd_star:CFG.min_wd,a=LS.get('wda','')||'';
   h+=`<div class="card" style="margin-top:12px">${CFG.wd_star?`<div class="seg" style="margin-bottom:12px">${[['ton','💎 TON'],['star','⭐ Stars']].map(([k,l])=>`<button class="${WM===k?'on':''}" data-wm="${k}">${l}</button>`).join('')}</div>`:''}
   <div class="lbl" style="margin-top:0">${t('amount')} (⭐) · ${t('wdMin')} ${fmt(mn)}</div><div style="display:flex;gap:8px"><input class="inp" id="wamt" type="number" inputmode="decimal" placeholder="${fmt(mn)}" value="${esc(a)}"><button class="chip" id="wmax">MAX</button></div>
   ${st?`<div class="lbl">${t('uname')}</div><input class="inp" id="waddr" placeholder="@username" value="${esc(LS.get('wduser','')||(tg?.initDataUnsafe?.user?.username?'@'+tg.initDataUnsafe.user.username:''))}"><div class="hint">⭐ ${t('starWd')}</div>`
@@ -433,7 +441,7 @@ function drawWallet(){
  if(WT==='hist'){const IC={task:'✅',deposit:'⬇️',withdraw:'⬆️',bet:'🎲',win:'🏆',refund:'↩️',ref:'👥',promo:'🎟',bonus:'🎁',admin:'🛠',giveaway:'🎉',lbprize:'🥇'};
   h+=`<div class="hist" style="margin-top:12px">${HIST.length?HIST.map((l,i)=>`<div class="li" style="--n:${i}"><div class="ic">${IC[l.kind]||'•'}</div><div class="g"><b>${t('k_'+l.kind)}</b><small>${esc(['bet','win','refund'].includes(l.kind)?gn(l.note.split(' ')[0]):l.note.split(' ').slice(0,3).join(' '))} · ${new Date(l.ts*1000).toLocaleString(lang,{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</small></div><b class="num" style="color:${l.amt>=0?'var(--ok)':'var(--red)'}">${l.amt>0?'+':''}${fmt(l.amt)} ${l.cur==='ton'?'💎':l.cur==='tok'?'💠':'⭐'}</b></div>`).join(''):`<div class="empty"><i>🧾</i>${t('noHist')}</div>`}</div>`}
  $('#v-wallet').innerHTML=h}
-const wdGet=a=>WM==='star'?`${t('youGet')}: <b>${fmt(Math.floor(a*(1-CFG.wd_fee)))} ⭐ Stars</b>`:`${t('youGet')}: <b style="color:var(--ton)">≈ ${fmt((a/CFG.rate*(1-CFG.wd_fee)).toFixed(4))} 💎 TON</b>${CFG.wd_fee?` <small>(${t('fee')} ${Math.round(CFG.wd_fee*100)}%)</small>`:''}`;
+const wdGet=a=>WM==='star'?`${t('youGet')}: <b>${fmt(Math.floor(a*(1-(CFG.wd_fee_star??.2))))} ⭐ Stars</b>${CFG.wd_fee_star?` <small>(${t('fee')} ${Math.round(CFG.wd_fee_star*100)}%)</small>`:''}`:`${t('youGet')}: <b style="color:var(--ton)">≈ ${fmt((a/CFG.rate*(1-CFG.wd_fee)).toFixed(4))} 💎 TON</b>${CFG.wd_fee?` <small>(${t('fee')} ${Math.round(CFG.wd_fee*100)}%)</small>`:''}`;
 function depRes(m){if(m.ok){U=m.user||U;chips(0);SFX.win();confetti(24);return toast('✅ '+t('depOk')+(m.stars?' +'+fmt(m.stars)+' ⭐':''))}
  if(m.link){try{tg.openInvoice(m.link,st=>{if(st==='paid'){toast('✅ '+t('depOk'));SFX.win()}})}catch(e){window.open(m.link,'_blank')}return}
  if(m.ton){const x=m.ton;if(tcOn())return tonPay(x);const n=Math.round(x.amount*1e9),b=$('#depr');
@@ -585,6 +593,7 @@ function ndTap(p){const v=G&&G.nv;if(!v||v.win!=null||v.turn!==G.seat)return;
 const FACE={1:[0,0],2:[0,-90],3:[-90,0],4:[90,0],5:[0,90],6:[0,180]};let SPINC=0;
 const cubeH=(id)=>`<div class="cube" id="${id}">${[1,2,3,4,5,6].map(n=>`<i class="f${n}">${Array.from({length:9},(_,i)=>PIPS[n].includes(i)?'<b></b>':'<span></span>').join('')}</i>`).join('')}</div>`;
 const HANDS={r:'✊',s:'✌️',p:'✋'};
+const penLine=L=>{const A={l:'⬅ '+t('pen_l'),c:'⬆ '+t('pen_c'),r:'➡ '+t('pen_r')};return`⚽ ${t('penShot')}: <b>${A[L.pen[0]]}</b> · 🧤 ${t('penDive')}: <b>${A[L.pen[1]]}</b>`};
 const hiloCard=(r,s=0)=>{const su=SU[s%4],rk={11:'J',12:'Q',13:'K',14:'A'}[r]||r;return`<div class="cd ${s%4%3?'red':''}"><b>${rk}<br>${su}</b><u>${su}</u><b class="br">${rk}<br>${su}</b></div>`};
 function renderQ(m){const v=m.v,me=G.seat,op=1-me,k=v.k,prev=G.qv,newRes=v.last&&JSON.stringify(v.last)!==JSON.stringify(prev&&prev.last);G.qv=v;
  const myName_=G.pl[me],opName=G.pl[op];let h='',msg='';
@@ -593,9 +602,9 @@ function renderQ(m){const v=m.v,me=G.seat,op=1-me,k=v.k,prev=G.qv,newRes=v.last&
   <div class="qmsg" id="qmsg"></div><div class="qbtns"><button class="btn go" data-q="roll" ${v.me||v.win!=null?'disabled':''}>${v.me?t('waitO'):t('roll')}</button></div>`}
  else if(k==='rps'){h=`<div class="qarena"><div class="qside" id="qsL"><small>${esc(myName_)}</small><span class="hand me" id="hm">${v.last&&!newRes?HANDS[v.last.rps[me]]:'✊'}</span></div><div class="qvs">VS</div><div class="qside" id="qsR"><small>${esc(opName)}</small><span class="hand" id="ho">${v.last&&!newRes?HANDS[v.last.rps[op]]:'✊'}</span></div></div>
   <div class="qmsg" id="qmsg">${v.me?t('waitO'):''}</div><div class="rpsb">${['r','p','s'].map(x=>`<button data-q="${x}" class="${G.qpick===x&&v.me?'on':''}" ${v.me||v.win!=null?'disabled':''}>${HANDS[x]}</button>`).join('')}</div>`}
- else if(k==='coin'){const mySide=me===0?t('heads'):t('tails');h=`<div style="perspective:800px;margin:10px 0"><div class="coin3" id="coin" style="transform:rotateY(${G.coinR||0}deg)"><i class="h"><div><span>🦅</span>${t('heads')}</div></i><i class="t"><div><span>①</span>${t('tails')}</div></i></div></div>
-  <div class="qmsg">${t('yourSide')}: <span style="color:${me===0?'var(--gold)':'var(--ton)'}">${mySide}</span></div><div class="qmsg" id="qmsg">${v.me&&v.win==null?t('waitO'):''}</div>
-  <div class="qbtns"><button class="btn go" data-q="ready" ${v.me||v.win!=null?'disabled':''}>${t('flip')}</button></div>`}
+ else if(k==='coin'){const L=v.last,picked=L&&L.picks,mine=picked?picked[me]:null;h=`<div style="perspective:800px;margin:10px 0"><div class="coin3" id="coin" style="transform:rotateY(${G.coinR||0}deg)"><i class="h"><div><span>🦅</span>${t('heads')}</div></i><i class="t"><div><span>①</span>${t('tails')}</div></i></div></div>
+  <div class="qmsg">${mine?`${t('yourSide')}: <span style="color:${mine==='h'?'var(--gold)':'var(--ton)'}">${mine==='h'?'🦅 '+t('heads'):'① '+t('tails')}</span>${L.by===me?'':` <small>(${esc(opName)} ${t('coinChose')})</small>`}`:t('coinPick')}</div><div class="qmsg" id="qmsg"></div>
+  <div class="qbtns">${picked?'':`<button class="btn go" data-q="h">🦅 ${t('heads')}</button><button class="btn ton" data-q="t">① ${t('tails')}</button>`}</div>`}
  else if(k==='hilo'){const L=v.last;h=`<div class="qmsg" style="color:var(--mu)">${t('guess')}</div><div class="hlc">${L&&newRes?hiloCard(L.hilo[0],1)+'<span style="font-size:26px">→</span>'+`<div id="hnew">${hiloCard(L.hilo[1],(L.hilo[1]*7)%4)}</div>`:hiloCard(v.card,(v.card*7)%4)}</div>
   <div class="qmsg" id="qmsg"></div><div class="qbtns"><button class="btn go" data-q="hi" ${v.me||v.win!=null?'disabled':''}>${t('hi')}</button><button class="btn" data-q="lo" ${v.me||v.win!=null?'disabled':''} style="background:linear-gradient(135deg,#38d9ff,#6366f1);color:#fff;border:0">${t('lo')}</button></div>
   <small>${t('round')} ${Math.min(v.rd,v.need)}/${v.need}${v.me&&v.win==null?' · '+t('waitO'):''}</small>`}
@@ -608,10 +617,10 @@ function renderQ(m){const v=m.v,me=G.seat,op=1-me,k=v.k,prev=G.qv,newRes=v.last&
   <div class="qmsg" id="qmsg">${end?(v.draw?t('draw'):v.win===me?t('rWin'):t('rLose')):v.me?t('waitO'):''}</div>
   <div class="qbtns"><button class="btn go" data-q="hit" ${v.me||end?'disabled':''}>➕ ${t('hit')}</button><button class="btn" data-q="stand" ${v.me||end?'disabled':''}>✋ ${t('stand')}</button></div>`;
   if(mh.length+oh.length>pm+po)SFX.card()}
- else if(k==='pen'){const iK=v.kicker===me,gl=v.goals||[[],[]];const dots=i=>{const g=gl[i];let s='';for(let j=0;j<Math.max(v.n||5,g.length);j++)s+=`<i class="${g[j]===1?'g':g[j]===0?'m':''}"></i>`;return s};
+ else if(k==='pen'){G.penKeep=(!newRes&&G.penLock&&Date.now()<G.penLock)?$('#qk .pitch'):null;G.penKeepR=G.penKeep?$('#pres')?.innerHTML:'';const iK=v.kicker===me,gl=v.goals||[[],[]];const dots=i=>{const g=gl[i];let s='';for(let j=0;j<Math.max(v.n||5,g.length);j++)s+=`<i class="${g[j]===1?'g':g[j]===0?'m':''}"></i>`;return s};
   h=`<div class="pens"><div><small>${esc(myName_)}</small><div class="pdots">${dots(me)}</div></div><div><small>${esc(opName)}</small><div class="pdots">${dots(op)}</div></div></div>
-  <div class="pitch"><div class="goal"><div class="net"></div><div class="keeper" id="kp">🧤</div></div><div class="pball" id="pb">⚽</div><div class="ptxt" id="ptx"></div></div>
-  <div class="qmsg" id="qmsg">${v.win!=null?'':v.me?t('waitO'):iK?t('penKick'):t('penSave')}</div>
+  <div class="pitch"><div class="goal"><div class="net"></div><div class="keeper" id="kp">🧤</div></div><div class="pball" id="pball">⚽</div><div class="ptxt" id="ptx"></div></div><div class="pres" id="pres">${v.last&&!newRes?penLine(v.last):''}</div>
+  <div class="qmsg" id="qmsg">${v.win!=null?'':v.me?(G.qpick&&'lcr'.includes(G.qpick)?t('yourPick')+': '+{l:'⬅ '+t('pen_l'),c:'⬆ '+t('pen_c'),r:'➡ '+t('pen_r')}[G.qpick]+' · ':'')+t('waitO'):iK?t('penKick'):t('penSave')}</div>
   <div class="qbtns pen3">${[['l','⬅'],['c','⬆'],['r','➡']].map(([x,a])=>`<button class="btn ${iK?'go':''}" data-q="${x}" ${v.me||v.win!=null?'disabled':''}>${a} ${t('pen_'+x)}</button>`).join('')}</div>`}
  $('#qk').innerHTML=(k==='bj'||k==='pen'?'':`<div class="qs"><b style="color:var(--ok)">${v.sc[me]}</b><span>:</span><b style="color:var(--red)">${v.sc[op]}</b></div><small>${k==='hilo'?'':`${t('round')} ${v.rd} · ${wTxt(k,v.need)}`}</small>`)+h;
  // animatsiyalar
@@ -622,11 +631,12 @@ function renderQ(m){const v=m.v,me=G.seat,op=1-me,k=v.k,prev=G.qv,newRes=v.last&
  if(k==='rps'&&v.last&&newRes){const hm=$('#hm'),ho=$('#ho');hm.textContent=ho.textContent='✊';hm.classList.add('shake');ho.classList.add('shake');[0,450,900].forEach(d=>setTimeout(()=>beep(330,.06),d));
   setTimeout(()=>{hm.classList.remove('shake');ho.classList.remove('shake');hm.textContent=HANDS[v.last.rps[me]];ho.textContent=HANDS[v.last.rps[op]];const w=v.last.w,q=$('#qmsg');if(q&&!v.me)q.textContent=resTxt(w);if(w>=0){const e=$(w===me?'#qsL':'#qsR');if(e)e.classList.add('win')}beep(w===me?880:w===-1?440:220,.15)},1400)}
  if(k==='coin'&&v.last&&newRes){const side=v.last.coin,base=(G.coinR||0)-((G.coinR||0)%360)+360*8+(side?180:0);G.coinR=base;requestAnimationFrame(()=>requestAnimationFrame(()=>{const c=$('#coin');if(c)c.style.transform=`rotateY(${base}deg)`}));
-  let i=0;const tk=setInterval(()=>{beep(900,.02,'square',.03);if(++i>16)clearInterval(tk)},150);setTimeout(()=>{const q=$('#qmsg');if(q)q.textContent=(side?t('tails'):t('heads'))+'!';beep(side===me?880:220,.2)},3050)}
+  let i=0;const tk=setInterval(()=>{beep(900,.02,'square',.03);if(++i>16)clearInterval(tk)},150);setTimeout(()=>{const q=$('#qmsg');if(q)q.textContent=(side?'① '+t('tails'):'🦅 '+t('heads'))+'!';beep(v.last.w===me?880:220,.2)},3050)}
  if(k==='hilo'&&v.last&&newRes){const n=$('#hnew .cd');if(n)n.classList.add('fl');const ok=v.last.ok[me],q=$('#qmsg');if(q)q.innerHTML=`<span style="color:${ok?'var(--ok)':'var(--red)'}">${ok?'✅ '+t('ok'):'❌ '+t('nok')}</span> <small>· ${esc(opName)}: ${v.last.ok[op]?'✅':'❌'}</small>`;beep(ok?880:220,.15);
   if(v.win==null)setTimeout(()=>{if(G&&G.qv===v)renderQ({v:{...v,last:v.last},left:m.left})},1300)}
- if(k==='pen'&&v.last&&newRes){const Lr=v.last,pb=$('#pb'),kp=$('#kp'),tx=$('#ptx');SFX.kick();requestAnimationFrame(()=>requestAnimationFrame(()=>{pb&&pb.classList.add('to-'+Lr.pen[0]);kp&&kp.classList.add('dv-'+Lr.pen[1])}));
-  setTimeout(()=>{if(!tx)return;tx.textContent=Lr.goal?t('goal'):t('save');tx.className='ptxt show '+(Lr.goal?'g':'s');if(Lr.goal){SFX.cheer();const n=$('.net');n&&n.classList.add('shake')}else SFX.bounce(.7);hap('medium')},620)}
+ if(k==='pen'&&G.penKeep){const np=$('#qk .pitch');if(np)np.replaceWith(G.penKeep);const pr=$('#pres');if(pr)pr.innerHTML=G.penKeepR;G.penKeep=null}
+ if(k==='pen'&&v.last&&newRes){const Lr=v.last,pb=$('#pball'),kp=$('#kp'),tx=$('#ptx');G.penLock=Date.now()+1900;SFX.kick();requestAnimationFrame(()=>requestAnimationFrame(()=>{pb&&pb.classList.add('to-'+Lr.pen[0]);kp&&kp.classList.add('dv-'+Lr.pen[1])}));
+  setTimeout(()=>{if(!tx)return;tx.textContent=Lr.goal?t('goal'):t('save');tx.className='ptxt show '+(Lr.goal?'g':'s');const pr=$('#pres');if(pr)pr.innerHTML=penLine(Lr);if(Lr.goal){SFX.cheer();const n=$('.net');n&&n.classList.add('shake')}else SFX.bounce(.7);hap('medium')},620)}
  if(k==='dice'&&v.last&&newRes)SFX.dice();if(k==='coin'&&v.last&&newRes)SFX.launch();if(k==='hilo'&&v.last&&newRes)SFX.card();
  if(v.win==null&&!v.draw)startTimer(m.left||15,!v.me);bars()}
 /* ======================= hodisalar */
@@ -663,7 +673,8 @@ on('#wgo',()=>{const a=+$('#wamt').value,ad=$('#waddr').value.trim(),st=WM==='st
  ask(`${t('wd')} ${fmt(a)} ⭐ → ${st?ad:ad.slice(0,6)+'…'+ad.slice(-4)}?`,ok=>{if(ok)S({t:'wd',amount:a,addr:ad,method:WM})})});
 on('#pgo',()=>{const c=$('#pcode').value.trim();if(c){hap('medium');S({t:'promo',code:c})}});on('#dclaim',()=>{hap('heavy');S({t:'daily'})});
 on('[data-gw]',x=>{hap('medium');SFX.tap();S({t:'gwjoin',id:+x.dataset.gw})});
-on('[data-chan]',x=>{const c=x.dataset.chan.replace(/^@/,'');const u='https://t.me/'+c;tg&&tg.openTelegramLink?tg.openTelegramLink(u):window.open(u)});
+on('#subchk',()=>{S({t:'subcheck'});SFX.tap()});
+on('[data-chan]',x=>{const c=x.dataset.chan;const u=c.startsWith('http')?c:'https://t.me/'+c.replace(/^@/,'');tg&&tg.openTelegramLink?tg.openTelegramLink(u):window.open(u)});
 on('[data-cpy]',x=>{try{navigator.clipboard.writeText(x.dataset.cpy)}catch(e){}toast('⧉ '+t('copied'));hap();SFX.tap()});
 on('[data-lang]',x=>{lang=x.dataset.lang;LS.set('lang',lang);document.documentElement.lang=lang;chips();redraw();drawMe()});
 on('[data-bg]',x=>{BGM=x.dataset.bg;LS.set('bg',BGM);applyBg();drawMe()});on('[data-snd]',x=>{SND=x.dataset.snd==='1';LS.set('snd',SND?1:0);drawMe();SFX.coin()});

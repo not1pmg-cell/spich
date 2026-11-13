@@ -31,9 +31,14 @@ def play_url(arg):
             if part.startswith(pre): q.append(f"{key}={part[len(pre):]}")
     return bot.URL + ("?" + "&".join(q) if q else "")
 
+def ref_line():
+    try: lv = [round(x * 100, 1) for x in S.ref_levels()]
+    except Exception: lv = [3, 2, 1]
+    return "👥 Приглашай друзей — " + " + ".join(f"{x:g}%" for x in lv) + " с их ставок (3 уровня)!"
+
 async def welcome(chat, arg, edit=None):
     await say(chat, "⭐ <b>STARUM</b>\n\n🟢 Арена · 🎡 Джекпот · 🃏 Дурак · 🎲 Нарды · ⚽ Пенальти · 🂡 21 и другие\n\n"
-                    "Играй с реальными соперниками и выигрывай ⭐\nПриглашай друзей — 5% с их ставок тебе!",
+                    "Играй с реальными соперниками и выигрывай ⭐\n" + ref_line(),
               kb([[{"text": "▶ Играть", "web_app": {"url": play_url(arg)}}]]), edit)
 
 async def sub_prompt(chat, miss, arg, edit=None):

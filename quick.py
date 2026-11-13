@@ -1,7 +1,7 @@
 """Tezkor PvP o'yinlar (server hakam, tasodif serverda):
 dice  — Zar duel: har raund ikkalasi 2 ta zar tashlaydi, kattasi raundni oladi. N raund yutgan g'olib (N=1..5, xona egasi tanlaydi).
 rps   — Tosh/Qaychi/Qog'oz: N raund yutgan g'olib (N=1..5).
-coin  — Tanga: 0-o'rindiq Burgut, 1-o'rindiq Raqam; bitta tashlash.
+coin  — Tanga: birinchi tanlagan o'yinchi tomonini oladi (Burgut/Raqam), ikkinchisiga qarama-qarshisi; bitta tashlash.
 hilo  — Katta/Kichik: karta ochiladi, keyingisi kattami-kichikmi? 5 savol, ko'p topgan yutadi.
 bj    — 21 (Очко): ikkalasiga 2 tadan karta, "yana"/"yetarli". 21 dan oshgan yutqazadi, 21 ga yaqini yutadi.
 pen   — Penalti: navbat bilan N tadan zarba (N=1..5). Zarbachi burchak tanlaydi, darvozabon sakraydi. Ko'p gol urgan yutadi.
@@ -51,6 +51,7 @@ class Quick:
         """Kim harakat qilishi kerak: o'rindiqlar ro'yxati."""
         if s.winner is not None or getattr(s, "draw", False): return []
         if s.k == "bj": return [i for i in (0, 1) if s.pick[i] is None and not s.done(i)]
+        if s.k == "coin": return [0, 1] if s.pick[0] is None else []
         return [i for i in (0, 1) if s.pick[i] is None]
 
     def act(s, who, v):
@@ -63,7 +64,10 @@ class Quick:
         if s.k == "pen" and v not in ("l", "c", "r"): return False
         if s.k == "dice": v = "roll"
         elif s.k == "rps" and v not in BEAT: return False
-        elif s.k == "coin": v = "ready"
+        elif s.k == "coin":
+            if v not in ("h", "t"): return False
+            s.pick[who] = v; s.pick[1 - who] = "t" if v == "h" else "h"; s.chooser = who
+            s._resolve(); return True
         elif s.k == "hilo" and v not in ("hi", "lo"): return False
         s.pick[who] = v
         if None not in s.pick: s._resolve()
@@ -71,7 +75,7 @@ class Quick:
 
     def auto(s, who):
         if s.k == "bj": return "hit" if s.total(who) < 15 else "stand"
-        return {"dice": "roll", "rps": RNG.choice("rsp"), "coin": "ready", "hilo": RNG.choice(["hi", "lo"]), "pen": RNG.choice("lcr")}[s.k]
+        return {"dice": "roll", "rps": RNG.choice("rsp"), "coin": RNG.choice("ht"), "hilo": RNG.choice(["hi", "lo"]), "pen": RNG.choice("lcr")}[s.k]
 
     def _resolve(s):
         k = s.k; w = -1
@@ -102,8 +106,8 @@ class Quick:
             w = -1 if a == b else (0 if BEAT[a] == b else 1)
             s.last = {"rps": [a, b], "w": w}
         elif k == "coin":
-            side = RNG.randrange(2); w = side
-            s.last = {"coin": side, "w": w}
+            side = RNG.choice("ht"); w = 0 if s.pick[0] == side else 1
+            s.last = {"coin": 0 if side == "h" else 1, "side": side, "picks": list(s.pick), "by": getattr(s, "chooser", 0), "w": w}
         elif k == "hilo":
             nxt = s.deck.pop(); res = "hi" if nxt > s.card else "lo" if nxt < s.card else "eq"
             ok = [p == res for p in s.pick]
