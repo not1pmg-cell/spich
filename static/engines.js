@@ -1,4 +1,4 @@
-/* SPICH GAME — taxta o'yinlar dvigateli (shaxmat, shashka, 4 qator, gomoku, reversi, krestik-nolik) va botlar */
+/* StarUm — taxta o'yinlar dvigateli (shaxmat, shashka, 4 qator, gomoku, reversi, krestik-nolik) va botlar */
 //ENG-START
 const inb=(r,c,n=8)=>r>=0&&r<n&&c>=0&&c<n;
 const grid=(R,C,v)=>Array.from({length:R},()=>Array(C).fill(v));

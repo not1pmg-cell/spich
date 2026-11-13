@@ -1,4 +1,4 @@
-"""SPICH GAME server: python server.py"""
+"""StarUm server: python server.py"""
 import sys, asyncio, json, os, random, re, sqlite3, hmac, hashlib, secrets, time
 from urllib.parse import parse_qsl
 from aiohttp import web
@@ -535,24 +535,39 @@ def period_start(per, t=None):
 def period_key(per, t=None):
     return time.strftime("%Y-%m-%d", time.localtime(period_start(per, t)))
 
-LBQ = """SELECT r.uid,u.name,u.vip,u.photo ph,u.games ug,u.wins uw,SUM(r.prize-r.stake) p,SUM(r.win) w,COUNT(*) n FROM res r JOIN users u ON u.uid=r.uid
-         WHERE r.ts>=? AND r.ts<? AND u.banned=0 AND r.stake>0 GROUP BY r.uid"""
+# Reyting turlari: profit — sof yutuq (faqat plyusdagilar), dep — depozitlar (⭐, TON kurs bo'yicha),
+# ref — taklif qilingan do'stlar soni, wins — g'alabalar. Minus/nol natijali o'yinchilar reytingga tushmaydi.
+LB_BY = ("profit", "dep", "ref", "wins")
+def lb_sql(by):
+    if by == "dep":
+        return ("SELECT uid, SUM(CASE WHEN cur='ton' THEN amt*%f ELSE amt END) v, COUNT(*) n, 0 w FROM log "
+                "WHERE kind='deposit' AND ts>=? AND ts<? GROUP BY uid" % float(RATE()))
+    if by == "ref":
+        return ("SELECT ref_by uid, COUNT(*) v, COUNT(*) n, 0 w FROM users "
+                "WHERE ref_by IS NOT NULL AND guest=0 AND created>=? AND created<? GROUP BY ref_by")
+    col = "SUM(win)" if by == "wins" else "SUM(prize-stake)"
+    return f"SELECT uid, {col} v, COUNT(*) n, SUM(win) w FROM res WHERE ts>=? AND ts<? AND stake>0 GROUP BY uid"
+def LBX(by):
+    return (f"SELECT q.uid,q.v,q.n,q.w,u.name,u.vip,u.photo ph,u.games ug,u.wins uw FROM ({lb_sql(by)}) q "
+            "JOIN users u ON u.uid=q.uid WHERE u.banned=0 AND q.v>0")
+
 def lb_top(since, until, by, n=50):
-    col = "w" if by == "wins" else "p"
-    return [dict(x) for x in db.execute(f"SELECT * FROM ({LBQ}) ORDER BY {col} DESC, n ASC LIMIT ?", (since, until, n))]
+    if by not in LB_BY: by = "profit"
+    out = [dict(x) for x in db.execute(f"SELECT * FROM ({LBX(by)}) ORDER BY v DESC, n ASC LIMIT ?", (since, until, n))]
+    for r in out: r["v"] = round(r["v"] or 0, 2); r["p"] = r["v"]   # "p" — eski kod (admin) uchun
+    return out
 
 def lb(per, by, uid):
+    if by not in LB_BY: by = "profit"
     now = time.time() + 1
     since = period_start(per) if per in ("day", "week") else 0
-    col = "w" if by == "wins" else "p"
     rows = lb_top(since, now, by)
-    for r in rows: r["p"] = round(r["p"] or 0, 2); r["lvl"] = int(((r.pop("ug") * 10 + r.pop("uw") * 20) / 50) ** .5) + 1; r["me"] = r["uid"] == uid; r.pop("uid")
-    mine = db.execute(f"SELECT * FROM ({LBQ}) WHERE uid=?", (since, now, uid)).fetchone()
+    for r in rows: r["lvl"] = int(((r.pop("ug") * 10 + r.pop("uw") * 20) / 50) ** .5) + 1; r["me"] = r["uid"] == uid; r.pop("uid")
+    mine = db.execute(f"SELECT * FROM ({LBX(by)}) WHERE uid=?", (since, now, uid)).fetchone()
     my = None
-    if mine:
-        v = mine[col] or 0
-        rank = db.execute(f"SELECT COUNT(*) FROM ({LBQ}) WHERE {col}>?", (since, now, v)).fetchone()[0] + 1
-        my = {"rank": rank, "p": round(mine["p"] or 0, 2), "w": mine["w"], "n": mine["n"]}
+    if mine:   # minusdagi o'yinchi o'z o'rnini ham ko'rmaydi
+        rank = db.execute(f"SELECT COUNT(*) FROM ({LBX(by)}) WHERE v>?", (since, now, mine["v"])).fetchone()[0] + 1
+        my = {"rank": rank, "v": round(mine["v"] or 0, 2), "p": round(mine["v"] or 0, 2), "w": mine["w"], "n": mine["n"]}
     pr = None
     if CFG["lb_prizes"] and per == CFG["lb_period"] and by == CFG["lb_metric"]:
         nxt = period_start(per) + (7 if per == "week" else 1) * 86400
@@ -565,8 +580,8 @@ async def lb_award(since, until, label):
     prizes = [float(x) for x in CFG["lb_prizes"]]; by = CFG["lb_metric"]
     top = lb_top(since, until, by, len(prizes)); paid = []
     for i, r in enumerate(top):
-        val = r["w"] if by == "wins" else r["p"]
-        if by != "wins" and (val or 0) <= 0: continue
+        val = r["v"]
+        if (val or 0) <= 0: continue
         amt = prizes[i]; add(r["uid"], amt); logx(r["uid"], "lbprize", "star", amt, f"#{i + 1} {label}")
         db.execute("INSERT INTO lb_awards(ts,period,place,uid,amt,val) VALUES(?,?,?,?,?,?)", (int(time.time()), label, i + 1, r["uid"], amt, val or 0))
         paid.append({"place": i + 1, "name": r["name"], "amt": amt})
@@ -894,7 +909,7 @@ async def index(r):
 
 async def manifest(r):
     url = bot.URL or f"{r.scheme}://{r.host}"
-    return web.json_response({"url": url, "name": "SPICH GAME", "iconUrl": url + "/icon.png"}, headers={"Access-Control-Allow-Origin": "*"})
+    return web.json_response({"url": url, "name": "StarUm", "iconUrl": url + "/icon.png"}, headers={"Access-Control-Allow-Origin": "*"})
 
 app = web.Application(); app.on_startup.append(on_start); app.on_cleanup.append(on_stop)
 admin.setup(app, sys.modules[__name__])
@@ -903,4 +918,4 @@ app.add_routes([web.get("/ws", ws_handler), web.get("/health", health), web.get(
 app.router.add_static("/", os.path.join(BASE, "static"))
 HOST = os.getenv("HOST", "127.0.0.1")
 if __name__ == "__main__":
-    print(f"SPICH GAME: http://localhost:{PORT}  TEST_MODE={CFG['test']}"); web.run_app(app, host=HOST, port=PORT)
+    print(f"StarUm: http://localhost:{PORT}  TEST_MODE={CFG['test']}"); web.run_app(app, host=HOST, port=PORT)

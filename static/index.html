@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>SPICH GAME</title><meta name="theme-color" content="#07060b">
+<title>StarUm</title><meta name="theme-color" content="#07060b">
 <link rel="icon" href="icon.png">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -512,6 +512,10 @@ section{display:none}section.on{display:block;animation:vin .35s cubic-bezier(.2
 .tkr2{display:flex;align-items:center;gap:10px;padding:10px;border-radius:16px;background:#0b141caa;border:1px solid #38d9ff22;margin-top:8px}.tkr2.dn{opacity:.55}
 .tkr2 .g{flex:1;min-width:0}.tkr2 .g b{display:block;font-size:13.5px}.tkr2 .g small{font-size:11.5px}.tki{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:#38d9ff1a;flex:none}
 .tkp{height:4px;border-radius:4px;background:#ffffff14;margin-top:5px;overflow:hidden}.tkp i{display:block;height:100%;background:linear-gradient(90deg,#38d9ff,#2ee59d)}
+/* reyting: 3 ustun */
+.lbtabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.lbt{padding:11px 4px;border-radius:14px;border:1px solid var(--line,#ffffff1a);background:linear-gradient(180deg,#1d1826,#15121c);color:var(--mu);font:800 12.5px var(--H);cursor:pointer;transition:transform .12s,background .2s,color .2s}
+.lbt.on{color:#fff;border-color:transparent;background:var(--fire);box-shadow:0 6px 18px #ff4d3d44,inset 0 1px 0 #ffffff40}.lbt:active{transform:scale(.96)}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="fireg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb11a"/><stop offset=".5" stop-color="#ff2e63"/><stop offset="1" stop-color="#a855f7"/></linearGradient><linearGradient id="sgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE98A"/><stop offset=".5" stop-color="#FFC727"/><stop offset="1" stop-color="#F59E0B"/></linearGradient><radialGradient id="wshade"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient></defs></svg>
 <div id="bgfx"><div class="bl b1"></div><div class="bl b2"></div><div class="bl b3"></div><div class="gridf"></div></div><canvas id="fx"></canvas>

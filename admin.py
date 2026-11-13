@@ -85,6 +85,10 @@ def setup(app, S):
                   "dep24": round(one("SELECT SUM(amt) FROM log WHERE kind='deposit' AND cur='star' AND ts>?", (day,)) + one("SELECT SUM(amt) FROM log WHERE kind='deposit' AND cur='ton' AND ts>?", (day,)) * rate, 2),
                   "fee": round(fee, 2), "fee24": round(one("SELECT SUM(amt) FROM log WHERE kind='fee' AND ts>?", (day,)), 2),
                   "refpaid": round(refp, 2), "net": round(fee - refp, 2),
+                  "bets": round(-one("SELECT SUM(amt) FROM log WHERE kind='bet' AND cur='star'"), 2),
+                  "bets24": round(-one("SELECT SUM(amt) FROM log WHERE kind='bet' AND cur='star' AND ts>?", (day,)), 2),
+                  "nbets": one("SELECT COUNT(*) FROM log WHERE kind='bet' AND cur='star'"),
+                  "nbets24": one("SELECT COUNT(*) FROM log WHERE kind='bet' AND cur='star' AND ts>?", (day,)),
                   "wd_paid": round(one("SELECT SUM(amt) FROM wd WHERE status='paid'"), 2), "wd_pending": one("SELECT COUNT(*) FROM wd WHERE status='pending'"),
                   "wd_pending_sum": round(one("SELECT SUM(amt) FROM wd WHERE status='pending'"), 2),
                   "promo_given": round(one("SELECT SUM(amt) FROM log WHERE kind IN ('promo','bonus','giveaway','lbprize')"), 2),
@@ -288,7 +292,7 @@ def setup(app, S):
                     lst = [x.strip() for x in (v if isinstance(v, list) else str(v).replace(" ", ",").split(",")) if x.strip()]
                     S.setcfg("force_sub", [("@" + x.lstrip("@").split("/")[-1]) if not x.lstrip("-").isdigit() else x for x in lst][:10]); S.SUBOK.clear()
                 elif k == "lb_period" and v in ("day", "week"): S.setcfg(k, v)
-                elif k == "lb_metric" and v in ("profit", "wins"): S.setcfg(k, v)
+                elif k == "lb_metric" and v in S.LB_BY: S.setcfg(k, v)
                 elif k == "notice":
                     S.setcfg("notice", str(v)[:200]); await S.bcast({"t": "notice", "text": S.CFG["notice"]})
             audit("settings " + ",".join(m.keys()))
@@ -337,7 +341,7 @@ def setup(app, S):
         fd, path = tempfile.mkstemp(suffix=".db"); os.close(fd)
         dst = sqlite3.connect(path); db.backup(dst); dst.close()
         audit("backup")
-        return web.FileResponse(path, headers={"Content-Disposition": f"attachment; filename=spich-{time.strftime('%Y%m%d-%H%M')}.db"})
+        return web.FileResponse(path, headers={"Content-Disposition": f"attachment; filename=starum-{time.strftime('%Y%m%d-%H%M')}.db"})
 
     # ------------------------------------------------ розыгрыши
     @guard
@@ -388,7 +392,7 @@ def setup(app, S):
         top = S.lb_top(since, time.time() + 1, S.CFG["lb_metric"], max(10, len(S.CFG["lb_prizes"])))
         hist = rows("SELECT a.*,u.name FROM lb_awards a LEFT JOIN users u ON u.uid=a.uid ORDER BY a.id DESC LIMIT 60")
         nxt = since + (7 if per == "week" else 1) * 86400
-        return J({"top": [{"name": x["name"], "p": round(x["p"] or 0, 2), "w": x["w"], "n": x["n"]} for x in top], "hist": hist,
+        return J({"top": [{"name": x["name"], "p": round(x["p"] or 0, 2), "v": x["v"], "w": x["w"], "n": x["n"]} for x in top], "hist": hist,
                   "cfg": {k: S.CFG[k] for k in ("lb_prizes", "lb_period", "lb_metric", "lb_auto")}, "left": max(0, nxt - time.time())})
 
     @guard

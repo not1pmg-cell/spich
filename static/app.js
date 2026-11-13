@@ -1,4 +1,4 @@
-/* SPICH GAME — Telegram Mini App */
+/* StarUm — Telegram Mini App */
 const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();try{tg.setHeaderColor('#07060b');tg.setBackgroundColor('#07060b');tg.disableVerticalSwipes&&tg.disableVerticalSwipes()}catch(e){}}
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],on=(s,f)=>document.addEventListener('click',e=>{const x=e.target.closest(s);if(x)f(x,e)});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -53,9 +53,9 @@ promo:['Promokod','Промокод','Promo code'],promoPh:['Kodni kiriting','В
 daily:['Kunlik bonus','Ежедневный бонус','Daily bonus'],claim:['Olish','Забрать','Claim'],nextIn:['Keyingisi','Следующий через','Next in'],
 refT:['Do‘stlarni taklif qil','Приглашай друзей','Invite friends'],refS:['Do‘stlar va ularning do‘stlari stavkasidan — umrbod','Со ставок друзей и их друзей — навсегда','From friends’ and their friends’ bets — forever'],
 refs:['Do‘stlar','Друзья','Friends'],earned:['Ishlab topildi','Заработано','Earned'],copy:['Nusxalash','Копировать','Copy'],copied:['Nusxalandi','Скопировано','Copied'],share:['Ulashish','Поделиться','Share'],
-st1:['Havolani do‘stingizga yuboring','Отправь ссылку другу','Send the link to a friend'],st2:['U SPICH GAME’da o‘ynaydi','Он играет в SPICH GAME','They play SPICH GAME'],st3:['U ham do‘st chaqirsa — 2 va 3-darajadan ham % olasiz','Пригласит своих друзей — получишь % и со 2-го и 3-го уровня','They invite friends — you earn from levels 2 and 3 too'],
-shareTxt:['🔥 SPICH GAME’da men bilan o‘yna! Durak, Nardi, Jackpot…','🔥 Играй со мной в SPICH GAME! Дурак, Нарды, Джекпот…','🔥 Play with me in SPICH GAME! Durak, Backgammon, Jackpot…'],
-day:['Kun','День','Day'],week:['Hafta','Неделя','Week'],allT:['Hamma vaqt','Всё время','All time'],byP:['Yutuq','Выигрыш','Winnings'],byW:['G‘alabalar','Победы','Wins'],you:['Siz','Вы','You'],
+st1:['Havolani do‘stingizga yuboring','Отправь ссылку другу','Send the link to a friend'],st2:['U StarUm’da o‘ynaydi','Он играет в StarUm','They play StarUm'],st3:['U ham do‘st chaqirsa — 2 va 3-darajadan ham % olasiz','Пригласит своих друзей — получишь % и со 2-го и 3-го уровня','They invite friends — you earn from levels 2 and 3 too'],
+shareTxt:['⭐ StarUm’da men bilan o‘yna! Durak, Nardi, Jackpot…','⭐ Играй со мной в StarUm! Дурак, Нарды, Джекпот…','🔥 Play with me in StarUm! Durak, Backgammon, Jackpot…'],
+day:['Kun','День','Day'],week:['Hafta','Неделя','Week'],allT:['Hamma vaqt','Всё время','All time'],byP:['Yutuq','Выигрыш','Winnings'],byW:['G‘alabalar','Победы','Wins'],byD:['Depozit','Депозит','Deposits'],byR:['Referallar','Рефералы','Referrals'],refsN:['ta do‘st','друзей','friends'],depN:['depozit','пополн.','deposits'],you:['Siz','Вы','You'],
 emptyTop:['Hali hech kim yo‘q — birinchi bo‘l!','Пока пусто — стань первым!','Empty — be the first!'],
 wins:['G‘alaba','Победы','Wins'],played:['O‘yinlar','Игры','Played'],wr:['G‘alaba %','Винрейт','Win rate'],lvl:['Daraja','Уровень','Level'],xp:['XP','XP','XP'],
 lang:['Til','Язык','Language'],sound:['Ovoz','Звук','Sound'],bg:['Fon','Фон','Background'],bg_fire:['Olov','Огонь','Fire'],bg_cosmos:['Koinot','Космос','Cosmos'],bg_snow:['Qor','Снег','Snow'],bg_grid:['Neon','Неон','Neon'],bg_off:['O‘chiq','Выкл','Off'],
@@ -393,18 +393,18 @@ function spinWheel(){const p=PS,w=p.win,b=p.bets[w.i];if(!b||b._a==null)drawWhee
  setTimeout(()=>potResult(w),7100)}
 /* ======================= REYTING */
 function fmtLeft(s){s=Math.max(0,s|0);const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?`${d}${t('dd')} ${h}${t('hh')}`:`${h}${t('hh')} ${m}${t('mm')}`}
-function drawTop(m){const q=lbq(),by=q.by,val=r=>by==='wins'?fmt(r.w)+' 🏆':(r.p>0?'+':'')+fmtK(r.p)+' ⭐';
+function drawTop(m){const q=lbq(),by=['profit','dep','ref'].includes(q.by)?q.by:'profit',vv=r=>r.v??r.p??0,val=r=>by==='ref'?fmt(vv(r))+' 👥':by==='dep'?fmtK(vv(r))+' ⭐':'+'+fmtK(vv(r))+' ⭐',sub=r=>by==='ref'?`${fmt(vv(r))} ${t('refsN')}`:by==='dep'?`${r.n} ${t('depN')}`:`${r.n} ${t('played').toLowerCase()}`;
  let h=`<div class="seg" style="margin-bottom:8px">${[['day',t('day')],['week',t('week')],['all',t('allT')]].map(([k,l])=>`<button class="${q.per===k?'on':''}" data-per="${k}">${l}</button>`).join('')}</div>
- <div class="chips">${[['profit','💰 '+t('byP')],['wins','🏆 '+t('byW')]].map(([k,l])=>`<button class="chip ${by===k?'on':''}" data-by="${k}">${l}</button>`).join('')}</div>`;
+ <div class="lbtabs">${[['profit','💰 '+t('byP')],['dep','💳 '+t('byD')],['ref','👥 '+t('byR')]].map(([k,l])=>`<button class="lbt ${by===k?'on':''}" data-by="${k}">${l}</button>`).join('')}</div>`;
  if(!m){$('#v-top').innerHTML=h+'<div class="empty"><span class="sp"></span></div>';return}
  const pr=m.prizes,prz=i=>pr&&pr.list[i]?`<span class="przb">🎁 ${fmtK(pr.list[i])} ⭐</span>`:'';
  if(pr)h+=`<div class="lbpr"><div><small>🏆 ${t('lbPr')}</small><b>${t('ends')} ${fmtLeft(pr.left)}</b></div><div class="lbpl">${pr.list.slice(0,5).map((v,i)=>`<span><i>${['🥇','🥈','🥉'][i]||i+1}</i>${fmtK(v)} ⭐</span>`).join('')}</div></div>`;
  const L=m.list;if(!L.length){$('#v-top').innerHTML=h+`<div class="empty"><i>🏆</i>${t('emptyTop')}</div>`;return}
  const P=[L[1],L[0],L[2]],cls=['p2','p1','p3'],col=['#c0c8d8','#ffc83d','#e4945a'];
  h+=`<div class="pod">${P.map((r,i)=>r?`<div class="pd ${cls[i]}" style="--pr:${col[i]};--d:${[1,0,2][i]}">${i===1?'<div class="cr">👑</div>':''}<div class="pa">${avH(r.name,r.ph)}</div><b>${esc(r.name)}${r.vip?' 👑':''}</b><div class="pv">${val(r)}</div>${prz([1,0,2][i])}<div class="st">${[2,1,3][i]}</div></div>`:'<div></div>').join('')}</div>`;
- h+=L.slice(3).map((r,i)=>`<div class="lbr ${r.me?'mine':''}" style="--n:${i}"><span class="rk">${i+4}</span>${avH(r.name,r.ph)}<div class="g"><b>${esc(r.name)}${r.vip?' 👑':''}</b><small>${t('lvl')} ${r.lvl} · ${r.n} ${t('played').toLowerCase()}</small></div>${prz(i+3)}<span class="val" style="color:${by==='wins'?'#fff':r.p>=0?'var(--ok)':'var(--red)'}">${val(r)}</span></div>`).join('');
+ h+=L.slice(3).map((r,i)=>`<div class="lbr ${r.me?'mine':''}" style="--n:${i}"><span class="rk">${i+4}</span>${avH(r.name,r.ph)}<div class="g"><b>${esc(r.name)}${r.vip?' 👑':''}</b><small>${t('lvl')} ${r.lvl} · ${sub(r)}</small></div>${prz(i+3)}<span class="val" style="color:${by==='ref'?'#d8b4fe':by==='dep'?'var(--gold)':'var(--ok)'}">${val(r)}</span></div>`).join('');
  if(m.lastw&&m.lastw.length)h+=`<h2>🎖 ${t('lastW')}</h2><div class="card">${m.lastw.map(x=>`<div class="lw"><span>${['🥇','🥈','🥉'][x.place-1]||'#'+x.place}</span><b>${esc(x.name)}</b><em>+${fmtK(x.amt)} ⭐</em></div>`).join('')}</div>`;
- if(m.my)h+=`<div class="lbr mine myrank"><span class="rk">#${m.my.rank}</span>${avH(myName(),myPhoto())}<div class="g"><b>${t('you')}</b><small>${m.my.n} ${t('played').toLowerCase()} · ${m.my.w} ${t('wins').toLowerCase()}</small></div><span class="val">${val(m.my)}</span></div>`;
+ if(m.my)h+=`<div class="lbr mine myrank"><span class="rk">#${m.my.rank}</span>${avH(myName(),myPhoto())}<div class="g"><b>${t('you')}</b><small>${sub(m.my)}</small></div><span class="val">${val(m.my)}</span></div>`;
  $('#v-top').innerHTML=h}
 /* ======================= HAMYON */
 let TC=null,TCload=0;
@@ -476,7 +476,7 @@ function drawMe(){const L=lvlOf(U),wr=U.games?Math.round(U.wins/U.games*100):0,b
  <h2>⚙️ ${t('settings')}</h2><div class="card"><div class="lbl" style="margin-top:0">🎨 ${t('bg')}</div><div class="grid" style="grid-template-columns:repeat(5,1fr);gap:6px">${BGS.map(k=>`<button class="opt ${BGM===k?'on':''}" data-bg="${k}" style="padding:10px 2px;font-size:20px">${{fire:'🔥',cosmos:'🌌',snow:'❄️',grid:'🌆',off:'⚫'}[k]}<small>${t('bg_'+k)}</small></button>`).join('')}</div>
  <div class="lbl">🌐 ${t('lang')}</div><div class="seg">${[['uz','🇺🇿 UZ'],['ru','🇷🇺 RU'],['en','🇬🇧 EN']].map(([l,n])=>`<button class="${l===lang?'on':''}" data-lang="${l}">${n}</button>`).join('')}</div>
  <div class="lbl">🔊 ${t('sound')}</div><div class="seg"><button class="${SND?'on':''}" data-snd="1">🔊 ON</button><button class="${SND?'':'on'}" data-snd="0">🔇 OFF</button></div></div>
- <p style="text-align:center;color:var(--mu);font-size:11px;margin-top:18px">⚡ SPICH GAME</p>`;
+ <p style="text-align:center;color:var(--mu);font-size:11px;margin-top:18px">⭐ StarUm</p>`;
  clearInterval(BT);BT=setInterval(()=>{if(CUR!=='me')return clearInterval(BT);if(TASKS&&TASKS.next>0){TASKS.next--;const e=$('#tnext');if(e)e.textContent=fmtT(TASKS.next);if(TASKS.next<=0)drawMe()}if(b.next>0){b.next--;const e=$('#dnext');if(e)e.textContent=fmtT(b.next);if(b.next<=0)drawMe()}$$('[data-gwl]').forEach(e=>e.textContent=fmtLeft(+e.dataset.gwl-Date.now()/1000))},1000)}
 function giftFx(a,why,cur){SFX.win();confetti(70);$('#res').classList.add('on');$('#resc').innerHTML=`<div class="trophy">🎁</div><div class="rt">${t('gift')}</div>${why?`<div style="color:var(--mu);margin-bottom:6px">${esc(why)}</div>`:''}<div class="num" style="font-size:30px;color:var(--gold)">+${fmt(a)}${cu(cur)}</div><button class="btn go" id="rclose">OK</button>`}
 

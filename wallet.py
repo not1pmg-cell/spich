@@ -6,7 +6,7 @@ KEY = os.getenv("TONCENTER_KEY", "")
 
 async def stars_link(uid, n):
     try:
-        return await call("createInvoiceLink", title="SPICH GAME Stars", description=f"{n} ⭐",
+        return await call("createInvoiceLink", title="StarUm Stars", description=f"{n} ⭐",
                           payload=f"stars:{uid}", provider_token="", currency="XTR",
                           prices=[{"label": "Stars", "amount": n}])
     except Exception as e:

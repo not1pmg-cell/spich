@@ -1,4 +1,4 @@
-# ⚡ SPICH GAME — Telegram Mini App (VPS ga o'rnatish)
+# ⚡ StarUm — Telegram Mini App (VPS ga o'rnatish)
 
 ## 1. Bot tokenini yangilang
 @BotFather → `/mybots` → botingiz → API Token → **Revoke**. Yangi tokenni `.env` ga yozing. `.env` GitHub'ga **chiqmaydi** (`.gitignore` da).
