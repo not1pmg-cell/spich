@@ -1,10 +1,10 @@
 """Tezkor PvP o'yinlar (server hakam, tasodif serverda):
-dice  — Zar duel: har raund ikkalasi 2 ta zar tashlaydi, kattasi raundni oladi. 2 raund yutgan g'olib.
-rps   — Tosh/Qaychi/Qog'oz: 2 raund yutgan g'olib.
-coin  — Tanga: birinchi tanlagan o'yinchi tomonini oladi (Burgut/Raqam), ikkinchisiga qarama-qarshisi; bitta tashlash.
+dice  — Zar duel: har raund ikkalasi 2 ta zar tashlaydi, kattasi raundni oladi. N raund yutgan g'olib (N=1..5, xona egasi tanlaydi).
+rps   — Tosh/Qaychi/Qog'oz: N raund yutgan g'olib (N=1..5).
+coin  — Tanga: 0-o'rindiq Burgut, 1-o'rindiq Raqam; bitta tashlash.
 hilo  — Katta/Kichik: karta ochiladi, keyingisi kattami-kichikmi? 5 savol, ko'p topgan yutadi.
 bj    — 21 (Очко): ikkalasiga 2 tadan karta, "yana"/"yetarli". 21 dan oshgan yutqazadi, 21 ga yaqini yutadi.
-pen   — Penalti: navbat bilan 5 tadan zarba. Zarbachi burchak tanlaydi, darvozabon sakraydi. Ko'p gol urgan yutadi.
+pen   — Penalti: navbat bilan N tadan zarba (N=1..5). Zarbachi burchak tanlaydi, darvozabon sakraydi. Ko'p gol urgan yutadi.
 """
 import random
 RNG = random.SystemRandom()
@@ -12,9 +12,11 @@ BEAT = {"r": "s", "s": "p", "p": "r"}
 
 
 class Quick:
-    def __init__(s, kind):
+    def __init__(s, kind, w=None):
         s.k = kind; s.score = [0, 0]; s.pick = [None, None]; s.last = None; s.round = 1; s.winner = None
-        s.need = 2
+        try: w = max(1, min(5, int(w))) if w else None
+        except (TypeError, ValueError): w = None
+        s.need = w or 2                     # dice/rps: nechta g'alabagacha
         if kind == "coin": s.need = 1
         if kind == "bj":
             s.deck = [(r, su) for r in range(2, 15) for su in range(4)]; RNG.shuffle(s.deck)
@@ -23,7 +25,7 @@ class Quick:
                 if s.total(i) == 21: s.stood[i] = True
             s._bj_check()
         if kind == "pen":
-            s.kick = 0; s.goals = [[], []]
+            s.kick = 0; s.goals = [[], []]; s.n = w or 5; s.need = s.n   # har tomonga nechta zarba
         if kind == "hilo":
             s.need = 5; s.deck = list(range(2, 15)) * 4; RNG.shuffle(s.deck)
             s.card = s.deck.pop(); s.hist = []
@@ -49,7 +51,6 @@ class Quick:
         """Kim harakat qilishi kerak: o'rindiqlar ro'yxati."""
         if s.winner is not None or getattr(s, "draw", False): return []
         if s.k == "bj": return [i for i in (0, 1) if s.pick[i] is None and not s.done(i)]
-        if s.k == "coin": return [0, 1] if s.pick[0] is None else []
         return [i for i in (0, 1) if s.pick[i] is None]
 
     def act(s, who, v):
@@ -62,10 +63,7 @@ class Quick:
         if s.k == "pen" and v not in ("l", "c", "r"): return False
         if s.k == "dice": v = "roll"
         elif s.k == "rps" and v not in BEAT: return False
-        elif s.k == "coin":
-            if v not in ("h", "t"): return False
-            s.pick[who] = v; s.pick[1 - who] = "t" if v == "h" else "h"; s.chooser = who
-            s._resolve(); return True
+        elif s.k == "coin": v = "ready"
         elif s.k == "hilo" and v not in ("hi", "lo"): return False
         s.pick[who] = v
         if None not in s.pick: s._resolve()
@@ -73,7 +71,7 @@ class Quick:
 
     def auto(s, who):
         if s.k == "bj": return "hit" if s.total(who) < 15 else "stand"
-        return {"dice": "roll", "rps": RNG.choice("rsp"), "coin": RNG.choice("ht"), "hilo": RNG.choice(["hi", "lo"]), "pen": RNG.choice("lcr")}[s.k]
+        return {"dice": "roll", "rps": RNG.choice("rsp"), "coin": "ready", "hilo": RNG.choice(["hi", "lo"]), "pen": RNG.choice("lcr")}[s.k]
 
     def _resolve(s):
         k = s.k; w = -1
@@ -89,9 +87,10 @@ class Quick:
             s.last = {"pen": [aim, dive], "kicker": kicker, "goal": goal, "n": s.kick}
             s.kick += 1; s.pick = [None, None]; s.round = s.kick // 2 + 1
             a, b = s.score; ka, kb = len(s.goals[0]), len(s.goals[1])
-            if s.kick <= 10:
-                if a + (5 - ka) < b or b + (5 - kb) < a: s.winner = 0 if a > b else 1
-                elif s.kick == 10 and a != b: s.winner = 0 if a > b else 1
+            n = s.n
+            if s.kick <= 2 * n:
+                if a + (n - ka) < b or b + (n - kb) < a: s.winner = 0 if a > b else 1
+                elif s.kick == 2 * n and a != b: s.winner = 0 if a > b else 1
             elif s.kick % 2 == 0 and a != b: s.winner = 0 if a > b else 1
             return
         if k == "dice":
@@ -103,8 +102,8 @@ class Quick:
             w = -1 if a == b else (0 if BEAT[a] == b else 1)
             s.last = {"rps": [a, b], "w": w}
         elif k == "coin":
-            side = RNG.choice("ht"); w = 0 if s.pick[0] == side else 1
-            s.last = {"coin": 0 if side == "h" else 1, "side": side, "picks": list(s.pick), "by": getattr(s, "chooser", 0), "w": w}
+            side = RNG.randrange(2); w = side
+            s.last = {"coin": side, "w": w}
         elif k == "hilo":
             nxt = s.deck.pop(); res = "hi" if nxt > s.card else "lo" if nxt < s.card else "eq"
             ok = [p == res for p in s.pick]
@@ -130,5 +129,5 @@ class Quick:
             v.update(me=s.pick[i] is not None or s.done(i), hand=s.hand[i], tot=s.total(i), stood=s.stood[i],
                      oh=s.hand[1 - i] if end else [s.hand[1 - i][0]] + [None] * (len(s.hand[1 - i]) - 1), odone=s.done(1 - i), draw=getattr(s, "draw", False))
         if s.k == "pen":
-            v.update(kick=s.kick, kicker=s.kick % 2, goals=s.goals)
+            v.update(kick=s.kick, kicker=s.kick % 2, goals=s.goals, n=s.n)
         return v
