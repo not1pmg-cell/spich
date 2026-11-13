@@ -834,8 +834,15 @@ async def on_msg(c, m):
         await send(c, {"t": "hist", "list": [dict(r) for r in db.execute("SELECT ts,kind,cur,amt,note FROM log WHERE uid=? AND kind NOT IN ('fee','audit') ORDER BY id DESC LIMIT 50", (c.uid,))]})
     elif k == "bonus":
         u = user(c.uid)
+        try: lv = ref_stats(c.uid)
+        except Exception as e:
+            print("ref_stats:", repr(e)); lv = [{"p": p, "n": 0, "earn": 0} for p in ref_levels()]
+        nref = db.execute("SELECT COUNT(*) FROM users WHERE ref_by=?", (c.uid,)).fetchone()[0]
+        if nref != (u["refs"] or 0):   # hisoblagich haqiqiy ro'yxat bilan mos bo'lsin
+            db.execute("UPDATE users SET refs=? WHERE uid=?", (nref, c.uid)); db.commit()
+        if lv and lv[0]["n"] != nref: lv[0]["n"] = nref
         await send(c, {"t": "bonus", "daily": CFG["daily"], "next": max(0, (u["daily_ts"] or 0) + 86400 - time.time()),
-                       "ref": ref_levels()[0], "lv": ref_stats(c.uid), "refs": u["refs"], "earn": round(u["ref_earn"] or 0, 2),
+                       "ref": ref_levels()[0], "lv": lv, "refs": nref, "earn": round(u["ref_earn"] or 0, 2),
                        "friends": [dict(r) for r in db.execute("SELECT name,games FROM users WHERE ref_by=? ORDER BY created DESC LIMIT 20", (c.uid,))]})
     elif k == "daily":
         u = user(c.uid)
