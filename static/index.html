@@ -451,7 +451,6 @@ section{display:none}section.on{display:block;animation:vin .35s cubic-bezier(.2
 .pball.to-l{transform:translate(-280%,-150px) scale(.55) rotate(-540deg)}.pball.to-r{transform:translate(180%,-150px) scale(.55) rotate(540deg)}.pball.to-c{transform:translate(-50%,-160px) scale(.55) rotate(540deg)}
 .ptxt{position:absolute;left:0;right:0;top:56%;text-align:center;font:800 30px var(--H);opacity:0;transform:scale(.5);transition:.35s cubic-bezier(.2,1.4,.4,1);text-shadow:0 4px 20px #000}.ptxt.show{opacity:1;transform:none}.ptxt.g{color:var(--gold)}.ptxt.s{color:#7dd3fc}
 .pen3 .btn{font-size:13px;padding:13px 4px}
-.pres{min-height:20px;text-align:center;font-size:13px;color:var(--mu)}.pres b{color:#fff}
 /* yangi o'yin artlari */
 .a-bj i{position:absolute;width:42px;height:58px;border-radius:7px;background:#fff;font:800 16px var(--H);font-style:normal;display:grid;place-items:center;box-shadow:0 3px 0 #b9bfd0,0 8px 12px #0005;color:#1b1b2f}
 .a-bj i:first-child{left:8px;top:16px;transform:rotate(-12deg)}.a-bj i:nth-child(2){left:38px;top:12px;transform:rotate(10deg);color:#e11d48;animation:bjd 2.4s ease-in-out infinite}
@@ -463,6 +462,55 @@ section{display:none}section.on{display:block;animation:vin .35s cubic-bezier(.2
 .a-ar{border-radius:14px;overflow:hidden}.a-ar .ar-mini{width:100%;height:100%;border-radius:14px}
 
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* ===== v3: tugmalar dizayni qayta ishlandi (mijoz so'rovi) */
+/* bannerlar — matn sig'adi, "Играть" tugmasi kesilmaydi */
+.bn{height:auto;min-height:158px;padding:16px 12px 16px 18px}
+.bnt b{font-size:18px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bnt p{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bnb{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:9px 18px;border-radius:99px;background:#fff;color:#16111f;font:800 12.5px var(--H);border:0;backdrop-filter:none;box-shadow:0 6px 18px #0005,inset 0 -2px 0 #00000022;transition:transform .12s}
+.bn:active .bnb{transform:scale(.94)}
+.bna{width:96px;height:96px}.bn .ar-mini{width:92px;height:64px}.bn .jpw-mini{width:84px;height:84px}
+/* asosiy tugmalar: hajm, yorug'lik, bosilish effekti */
+.btn{background:linear-gradient(180deg,#262030,#1a1622);box-shadow:inset 0 1px 0 #ffffff17,0 4px 14px #0006;letter-spacing:.01em}
+.btn.go{box-shadow:0 8px 26px #ff4d3d44,inset 0 1px 0 #ffffff4d,inset 0 -3px 0 #00000026;text-shadow:0 1px 2px #0004}
+.btn.ton{box-shadow:0 8px 26px #0098ea44,inset 0 1px 0 #ffffff59,inset 0 -3px 0 #00000022}
+.btn:active,.join:active,.tile:active,.lv:active,.hero:active,.tier:active,.chip:active,.seg button:active{transform:scale(.96)}
+.join{border-radius:99px;padding:9px 16px;box-shadow:0 6px 18px #ff4d3d44,inset 0 1px 0 #ffffff4d,inset 0 -2px 0 #00000026;transition:transform .12s}
+.chip{transition:transform .12s,background .15s,border-color .15s,color .15s}
+.seg button{transition:transform .12s,background .2s,color .2s}
+.seg button.on{background:linear-gradient(180deg,#30283c,#231d2d);box-shadow:inset 0 1px 0 #ffffff1f,0 3px 10px #0007}
+.wseg button{font:800 16px var(--H);padding:10px 0}.wseg button.on{background:var(--fire);color:#fff;box-shadow:0 4px 16px #ff4d3d55,inset 0 1px 0 #ffffff4d}
+.opt.on{box-shadow:0 0 18px #ff6a1a33,inset 0 1px 0 #ffffff1f}
+/* "Tezkor o'yin" */
+.hero{transition:transform .12s}.hero .ar{width:38px;height:38px;border-radius:50%;background:#ffffff2e;border:1px solid #ffffff40;display:grid;place-items:center;font-size:24px;line-height:1;flex:none;animation:none}
+/* plitkalar: rangli ikonka, rangli chegara */
+.tile{transition:transform .12s;border-color:color-mix(in srgb,var(--tg) 28%,transparent)}
+.tile .ti{background:linear-gradient(135deg,color-mix(in srgb,var(--tg) 85%,#fff),color-mix(in srgb,var(--tg) 55%,#000));box-shadow:0 6px 18px color-mix(in srgb,var(--tg) 40%,transparent),inset 0 1px 0 #ffffff55}
+/* jonli kartalar (Arena / Jackpot) */
+.lv{transition:transform .12s;padding-bottom:14px}.lv-ar{border-color:#22c55e55}.lv-jp{border-color:#a855f755}
+.lv::after{content:"›";position:absolute;right:10px;bottom:10px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:800 18px/1 Manrope,system-ui;color:#fff;background:#ffffff1a;border:1px solid #ffffff26}
+/* arena darajalari */
+.tier{transition:transform .12s,background .2s,color .2s}
+.tier.on{background:linear-gradient(135deg,#16a34a,#0ea5e9);color:#fff;border-color:transparent;box-shadow:0 6px 20px #22c55e44,inset 0 1px 0 #ffffff40}
+.tg2 button.on{background:linear-gradient(180deg,#30283c,#231d2d);box-shadow:inset 0 1px 0 #ffffff1f}
+/* o'yin kartalari */
+.game.wide{border-color:color-mix(in srgb,var(--ac) 30%,transparent)}
+/* 3 darajali referal */
+.rlv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.rlv div{display:grid;gap:3px;justify-items:center;padding:10px 6px;border-radius:16px;background:#0b1f19aa;border:1px solid #2ee59d33;animation:up .4s both;animation-delay:calc(var(--n)*60ms)}
+.rlv div:first-child{border-color:#2ee59d88;background:linear-gradient(180deg,#2ee59d26,#0b1f19aa)}
+.rlv small{font-size:10px;text-transform:uppercase;letter-spacing:.06em}.rlv b{font-size:20px;color:var(--ok)}
+.rlv span{font-size:11.5px;color:#cdeee2}.rlv em{font:800 11.5px var(--H);font-style:normal;color:var(--gold)}
+.tdone{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#2ee59d26;color:var(--ok);font:800 16px var(--H)}.tkr2>.tag,.tkr2>.btn,.tkr2>.chip{flex:none}.tkr2>.tag.g{padding:5px 9px;font-size:13px}
+.btn svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.lv small{display:block;padding-right:30px}
+/* SPC tokeni */
+.tokc{position:relative;overflow:hidden;border-radius:24px;padding:16px;background:radial-gradient(220px 160px at 90% 0,#38d9ff2e,transparent 70%),linear-gradient(135deg,#0d1f2e,#0e0b14 70%);border:1px solid #38d9ff44;animation:up .45s both}
+.tokh{display:flex;align-items:center;gap:10px}.tokh>div{flex:1}.tokh b{display:block;font-size:26px;color:#7dd3fc}.toks{display:block;margin:6px 0 4px;font-size:12px}
+.tkr2{display:flex;align-items:center;gap:10px;padding:10px;border-radius:16px;background:#0b141caa;border:1px solid #38d9ff22;margin-top:8px}.tkr2.dn{opacity:.55}
+.tkr2 .g{flex:1;min-width:0}.tkr2 .g b{display:block;font-size:13.5px}.tkr2 .g small{font-size:11.5px}.tki{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:#38d9ff1a;flex:none}
+.tkp{height:4px;border-radius:4px;background:#ffffff14;margin-top:5px;overflow:hidden}.tkp i{display:block;height:100%;background:linear-gradient(90deg,#38d9ff,#2ee59d)}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="fireg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb11a"/><stop offset=".5" stop-color="#ff2e63"/><stop offset="1" stop-color="#a855f7"/></linearGradient><linearGradient id="sgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE98A"/><stop offset=".5" stop-color="#FFC727"/><stop offset="1" stop-color="#F59E0B"/></linearGradient><radialGradient id="wshade"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient></defs></svg>
 <div id="bgfx"><div class="bl b1"></div><div class="bl b2"></div><div class="bl b3"></div><div class="gridf"></div></div><canvas id="fx"></canvas>
@@ -484,5 +532,5 @@ section{display:none}section.on{display:block;animation:vin .35s cubic-bezier(.2
  <div class="acts"><button class="opt" data-rx="😎">😎</button><button class="opt" data-rx="🔥">🔥</button><button class="opt" data-rx="😭">😭</button><button class="opt" data-rx="👏">👏</button><button class="opt" id="rs">🏳</button></div>
 </div>
 <script src="engines.js?v=4"></script>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=4"></script>
 </body></html>
