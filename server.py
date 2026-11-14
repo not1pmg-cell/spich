@@ -582,7 +582,7 @@ def period_start(per, t=None):
 def period_key(per, t=None):
     return time.strftime("%Y-%m-%d", time.localtime(period_start(per, t)))
 
-# Reyting turlari: profit — sof yutuq (faqat plyusdagilar), dep — depozitlar (⭐, TON kurs bo'yicha),
+# Reyting turlari: profit — yutgan o'yinlardagi jami yutuq (yutqazishlar ayirilmaydi), dep — depozitlar (⭐, TON kurs bo'yicha),
 # ref — taklif qilingan do'stlar soni, wins — g'alabalar. Minus/nol natijali o'yinchilar reytingga tushmaydi.
 LB_BY = ("profit", "dep", "ref", "wins")
 def lb_sql(by):
@@ -592,7 +592,8 @@ def lb_sql(by):
     if by == "ref":
         return ("SELECT ref_by uid, COUNT(*) v, COUNT(*) n, 0 w FROM users "
                 "WHERE ref_by IS NOT NULL AND guest=0 AND created>=? AND created<? GROUP BY ref_by")
-    col = "SUM(win)" if by == "wins" else "SUM(prize-stake)"
+    # profit: faqat yutgan o'yinlardagi sof yutuq yig'iladi — keyin yutqazsa ham reytingdan tushmaydi
+    col = "SUM(win)" if by == "wins" else "SUM(CASE WHEN prize>stake THEN prize-stake ELSE 0 END)"
     return f"SELECT uid, {col} v, COUNT(*) n, SUM(win) w FROM res WHERE ts>=? AND ts<? AND stake>0 GROUP BY uid"
 def LBX(by):
     return (f"SELECT q.uid,q.v,q.n,q.w,u.name,u.vip,u.photo ph,u.games ug,u.wins uw FROM ({lb_sql(by)}) q "
