@@ -51,11 +51,11 @@ fromWallet:['Ulangan hamyondan','Из подключённого кошельк�
 k_deposit:['To‘ldirish','Пополнение','Deposit'],k_withdraw:['Yechish','Вывод','Withdrawal'],k_bet:['Stavka','Ставка','Bet'],k_win:['Yutuq','Выигрыш','Win'],k_refund:['Qaytarish','Возврат','Refund'],k_ref:['Referal','Реферал','Referral'],k_promo:['Promokod','Промокод','Promo'],k_bonus:['Bonus','Бонус','Bonus'],k_admin:['Admin','Корректировка','Adjustment'],
 promo:['Promokod','Промокод','Promo code'],promoPh:['Kodni kiriting','Введите код','Enter code'],activate:['Faollashtirish','Активировать','Activate'],gift:['Sovg‘a!','Подарок!','Gift!'],
 daily:['Kunlik bonus','Ежедневный бонус','Daily bonus'],claim:['Olish','Забрать','Claim'],nextIn:['Keyingisi','Следующий через','Next in'],
-refT:['Do‘stlarni taklif qil','Приглашай друзей','Invite friends'],refS:['Do‘stlar va ularning do‘stlari stavkasidan — umrbod','Со ставок друзей и их друзей — навсегда','From friends’ and their friends’ bets — forever'],
+refT:['Do‘stlarni taklif qil','Приглашай друзей','Invite friends'],refS:['Do‘stlar va ularning do‘stlari hisob to‘ldirganda — umrbod','С пополнений друзей и их друзей — навсегда','From friends’ and their friends’ deposits — forever'],
 refs:['Do‘stlar','Друзья','Friends'],earned:['Ishlab topildi','Заработано','Earned'],copy:['Nusxalash','Копировать','Copy'],copied:['Nusxalandi','Скопировано','Copied'],share:['Ulashish','Поделиться','Share'],
-st1:['Havolani do‘stingizga yuboring','Отправь ссылку другу','Send the link to a friend'],st2:['U StarUm’da o‘ynaydi','Он играет в StarUm','They play StarUm'],st3:['U ham do‘st chaqirsa — 2 va 3-darajadan ham % olasiz','Пригласит своих друзей — получишь % и со 2-го и 3-го уровня','They invite friends — you earn from levels 2 and 3 too'],
+st1:['Havolani do‘stingizga yuboring','Отправь ссылку другу','Send the link to a friend'],st2:['U StarUm’da hisobini to‘ldiradi — sizga %','Он пополняет баланс в StarUm — тебе %','They top up in StarUm — you get %'],st3:['U ham do‘st chaqirsa — 2 va 3-darajadan ham % olasiz','Пригласит своих друзей — получишь % и со 2-го и 3-го уровня','They invite friends — you earn from levels 2 and 3 too'],
 shareTxt:['⭐ StarUm’da men bilan o‘yna! Durak, Nardi, Jackpot…','⭐ Играй со мной в StarUm! Дурак, Нарды, Джекпот…','🔥 Play with me in StarUm! Durak, Backgammon, Jackpot…'],
-day:['Kun','День','Day'],week:['Hafta','Неделя','Week'],allT:['Hamma vaqt','Всё время','All time'],byP:['Yutuq','Выигрыш','Winnings'],byW:['G‘alabalar','Победы','Wins'],byD:['Depozit','Депозит','Deposits'],rcT:['REFERAL KONKURS','РЕФЕРАЛЬНЫЙ КОНКУРС','REFERRAL CONTEST'],rcB:['Do‘st chaqir — sovrinni ol!','Зови друзей — забирай приз!','Invite friends — win the prize!'],rcF:['Sovrin fondi','Призовой фонд','Prize pool'],rcGo:['Qatnashish','Участвовать','Join'],rcS:['Eng ko‘p do‘st chaqirganlar sovrinni bo‘lishadi','Больше всех пригласил — забираешь приз','Top inviters share the prize'],byR:['Referallar','Рефералы','Referrals'],refsN:['ta do‘st','друзей','friends'],depN:['depozit','пополн.','deposits'],you:['Siz','Вы','You'],
+day:['Kun','День','Day'],week:['Hafta','Неделя','Week'],allT:['Hamma vaqt','Всё время','All time'],byP:['Yutuq','Выигрыш','Winnings'],byW:['G‘alabalar','Победы','Wins'],byD:['Depozit','Депозит','Deposits'],plN:['O‘yinchilar soni','Количество игроков','Players'],dkOut:['chiqdi','вышел','out'],dkShare:['Durak qolmagan har bir o‘yinchiga','Каждому, кто не остался в дураках','To everyone who is not the fool'],waitN:['O‘yinchilar kutilmoqda','Ждём игроков','Waiting for players'],spinT:['Kunlik bonus','Ежедневный бонус','Daily bonus'],spinS:['24 soatda bir marta aylantiring va {a}–{b} ⭐ yutib oling','Крути колесо раз в 24 часа и получай от {a} до {b} ⭐','Spin once every 24 hours and win {a}–{b} ⭐'],spinGo:['Aylantirish','Крутить','Spin'],spinSub:['Bonusni olish uchun kanalga obuna bo‘ling','Чтобы забрать бонус, подпишись на наш канал','Subscribe to our channel to claim'],spinNext:['Keyingi aylantirish','Следующее вращение через','Next spin in'],spinB:['Aylantir — yulduz ol!','Крути — получай звёзды!','Spin & win stars!'],spinRdy:['Tayyor!','Доступно!','Ready!'],subBtn:['Obuna bo‘lish','Подписаться','Subscribe'],rcT:['REFERAL KONKURS','РЕФЕРАЛЬНЫЙ КОНКУРС','REFERRAL CONTEST'],rcB:['Do‘st chaqir — sovrinni ol!','Зови друзей — забирай приз!','Invite friends — win the prize!'],rcF:['Sovrin fondi','Призовой фонд','Prize pool'],rcGo:['Qatnashish','Участвовать','Join'],rcS:['Eng ko‘p do‘st chaqirganlar sovrinni bo‘lishadi','Больше всех пригласил — забираешь приз','Top inviters share the prize'],byR:['Referallar','Рефералы','Referrals'],refsN:['ta do‘st','друзей','friends'],depN:['depozit','пополн.','deposits'],you:['Siz','Вы','You'],
 emptyTop:['Hali hech kim yo‘q — birinchi bo‘l!','Пока пусто — стань первым!','Empty — be the first!'],
 wins:['G‘alaba','Победы','Wins'],played:['O‘yinlar','Игры','Played'],wr:['G‘alaba %','Винрейт','Win rate'],lvl:['Daraja','Уровень','Level'],xp:['XP','XP','XP'],
 lang:['Til','Язык','Language'],sound:['Ovoz','Звук','Sound'],bg:['Fon','Фон','Background'],bg_fire:['Olov','Огонь','Fire'],bg_cosmos:['Koinot','Космос','Cosmos'],bg_snow:['Qor','Снег','Snow'],bg_grid:['Neon','Неон','Neon'],bg_off:['O‘chiq','Выкл','Off'],
@@ -72,7 +72,7 @@ heads:['Burgut','Орёл','Heads'],tails:['Raqam','Решка','Tails'],yourSid
 hi:['⬆ Katta','⬆ Больше','⬆ Higher'],lo:['⬇ Kichik','⬇ Меньше','⬇ Lower'],guess:['Keyingi karta kattami yoki kichik?','Следующая карта больше или меньше?','Is the next card higher or lower?'],ok:['To‘g‘ri!','Верно!','Correct!'],nok:['Xato','Мимо','Wrong'],
 offT:['Chiqarildi','Выброшено','Borne off'],bearOff:['Chiqarish','Выбросить','Bear off'],
 allGames:['Barcha o‘yinlar','Все игры','All games'],playNow:['O‘ynash','Играть','Play'],bnArena:['To‘p kimga tushsa — o‘sha yutadi!','На кого упадёт шар — тот и забирает!','Where the ball lands — wins!'],
-bnJp:['G‘ildirakni aylantir — bankni ol!','Крути колесо — забирай банк!','Spin the wheel — take the pot!'],bnRef:['do‘stlar stavkasidan','со ставок друзей','of friends’ bets'],
+bnJp:['G‘ildirakni aylantir — bankni ol!','Крути колесо — забирай банк!','Spin the wheel — take the pot!'],bnRef:['do‘stlar depozitidan','с пополнений друзей','of friends’ deposits'],
 gw:['Konkurs','Розыгрыш','Giveaway'],gws:['Konkurslar','Розыгрыши','Giveaways'],gwJoin:['Qatnashish','Участвовать','Join'],gwIn:['Siz qatnashyapsiz','Вы участвуете','You’re in'],gwMinG:['Kamida {n} ta o‘yin','Минимум {n} игр','At least {n} games'],gwSub:['Obuna:','Подписка:','Subscribe:'],partic:['ishtirokchi','участников','joined'],
 lbPr:['HAFTA SOVRINLARI','ПРИЗЫ РЕЙТИНГА','LEADERBOARD PRIZES'],lbPrS:['Top o‘yinchilar sovrin oladi!','Топ игроков получают призы!','Top players win prizes!'],ends:['Tugashiga','До конца','Ends in'],lastW:['Oxirgi sovrindorlar','Прошлые победители','Last winners'],
 dd:['k','д','d'],hh:['s','ч','h'],mm:['d','м','m'],waiting:['O‘yinchilar kutilmoqda','Ждём игроков','Waiting for players'],spinning:['Aylanmoqda!','Розыгрыш!','Spinning!'],starting:['Boshlanishi','Старт через','Starting'],total:['Jami','Всего','Total'],
@@ -112,16 +112,17 @@ rps:{n:['Tosh-qaychi','Камень-ножницы','Rock-Paper'],s:['1–5 g‘
 coin:{n:['Tanga','Монетка','Coin flip'],s:['50/50 · 1 tashlash','50/50 · один бросок','50/50 · one flip'],a:'#ffc83d',ic:'🪙',cat:'fast',r:['Bitta tashlash: Burgut yoki Raqam. Tomoningiz tushsa — bank sizniki.','Один бросок: Орёл или Решка. Выпала ваша сторона — банк ваш.','One flip: Heads or Tails. Your side wins the pot.']},
 hilo:{n:['Katta/Kichik','Больше/Меньше','Hi-Lo'],s:['5 savol · intuitsiya','5 вопросов · интуиция','5 guesses · intuition'],a:'#2ee59d',ic:'🂠',cat:'card',r:['Keyingi karta kattami yoki kichikmi? 5 savoldan ko‘p topgan yutadi.','Следующая карта больше или меньше? Из 5 угадавший больше — побеждает.','Higher or lower? Most correct of 5 wins.']},
 chess:{n:['Shaxmat','Шахматы','Chess'],a:'#8b7bff',ic:'♟',cat:'board',r:['Klassik shaxmat. Mot — g‘alaba.','Классические шахматы. Мат — победа.','Classic chess. Checkmate wins.']},
-checkers:{n:['Shashka','Шашки','Checkers'],a:'#ff9a3d',ic:'⛀',cat:'board',r:['Urish majburiy. Raqib shashkalarini yo‘q qiling.','Бить обязательно. Уничтожьте шашки соперника.','Capturing is mandatory.']},
+checkers:{n:['Shashka','Шашки','Checkers'],a:'#ff9a3d',ic:'⛀',cat:'board',r:['Rus shashkasi. Urish majburiy — oldinga ham, orqaga ham. Oxirgi qatorga yetgan tosh damka bo‘ladi va istalgan masofaga yuradi.','Русские шашки. Бить обязательно — и вперёд, и назад. Шашка, дошедшая до последнего ряда, становится дамкой и ходит на любое расстояние.','Russian draughts. Capturing is mandatory, forwards and backwards. A piece reaching the last row becomes a flying king.']},
 connect4:{n:['4 qator','4 в ряд','Connect 4'],a:'#ff3d9a',ic:'🔴',cat:'board',r:['4 ta bir qatorga — g‘alaba.','Соберите 4 в ряд.','Line up 4.']},
 gomoku:{n:['Gomoku','Гомоку','Gomoku'],a:'#22d3ee',ic:'⚫',cat:'board',r:['5 ta bir qatorga.','Соберите 5 в ряд.','Line up 5.']},
 reversi:{n:['Reversi','Реверси','Reversi'],a:'#2ee59d',ic:'⚪',cat:'board',r:['Raqib toshlarini o‘raб aylantiring. Ko‘pi yutadi.','Окружайте и переворачивайте фишки соперника.','Flank and flip. Most discs wins.']},
 ttt:{n:['Krestik-nolik','Крестики-нолики','Tic-Tac-Toe'],a:'#fbbf24',ic:'❌',cat:'board',r:['3 ta bir qatorga.','Три в ряд.','Three in a row.']}};
+const prizeN=(st,n,fee)=>st*n*(1-fee)/Math.max(1,n-1),nOf=r=>(r&&r.opts&&r.opts.n)||(r&&r.max)||2;
 const WINS={dice:2,rps:2,pen:5},cu=c=>c==='tok'?' 💠':' ⭐';
 function wTxt(g,n){n=+n;if(g==='pen')return lang==='ru'?`${n} ${n===1?'удар':n<5?'удара':'ударов'}`:lang==='uz'?`${n} ta zarba`:`${n} kick${n>1?'s':''}`;
  return lang==='ru'?`до ${n} ${n===1?'победы':'побед'}`:lang==='uz'?`${n} g‘alabagacha`:`first to ${n}`}
 const RL=()=>[CFG.ref1??.03,CFG.ref2??.02,CFG.ref3??.01],pct=x=>+((+x||0)*100).toFixed(1)+'%',refTxt=()=>RL().map(pct).join(' · '),refSum=()=>pct(RL().reduce((a,b)=>a+(+b||0),0));
-const wTag=r=>r.opts&&r.opts.w&&WINS[r.g]?`<span class="tag v">${wTxt(r.g,r.opts.w)}</span>`:'';
+const wTag=r=>(r.opts&&r.opts.w&&WINS[r.g]?`<span class="tag v">${wTxt(r.g,r.opts.w)}</span>`:'')+(nOf(r)>2?`<span class="tag v">👥 ${r.n||1}/${nOf(r)}</span>`:'');
 const SERVER_BOT={durak:1,nardy:1,dice:1,rps:1,coin:1,hilo:1,bj:1,pen:1},QK={dice:1,rps:1,coin:1,hilo:1,bj:1,pen:1};
 const gn=g=>g==='jackpot'?t('jp'):g==='arena'?'Arena':(GM[g]?GM[g].n[LI[lang]]:g);
 const ART={bj:'<div class="art a-bj"><i>A♠</i><i>K♥</i><b>21</b></div>',pen:'<div class="art a-pn"><u>🧤</u><i>⚽</i></div>',arena:'<div class="art a-ar"><div class="ar-mini"><i></i><i></i><i></i><i></i><u></u></div></div>',durak:'<div class="art a-dk">'+[['-30deg','A♠',0],['0deg','K♥',1],['30deg','Q♦',2]].map(([r,x,k])=>`<i class="${k?'rd':''}" style="--r:${r};--k:${k}">${x}</i>`).join('')+'</div>',
@@ -163,11 +164,11 @@ function connect(){ws=new WebSocket((location.protocol==='https:'?'wss://':'ws:/
 const lvlOf=u=>{const xp=(u.games||0)*10+(u.wins||0)*20,l=Math.floor(Math.sqrt(xp/50))+1,a=50*(l-1)**2,b=50*l*l;return{l,xp,p:Math.round((xp-a)/(b-a)*100),next:b}};
 const toTon=s=>(+s||0)/(CFG.rate||200);
 function onMsg(m){switch(m.t){
- case'me':{const old=U.star;if(m.user)U=m.user;if(m.uid)myUid=m.uid;if('bot'in m)BOT=m.bot;if('notice'in m)notice(m.notice);let cfgCh=false;if(m.cfg){const js=JSON.stringify(m.cfg);cfgCh=js!==CFGJ;CFGJ=js;CFG=m.cfg;if(!LBQ)LBQ={per:CFG.lb_period,by:CFG.lb_metric}}if('online'in m)ONL=m.online;chips(old);if(cfgCh)redraw();if($('#pot').classList.contains('on'))potBal();break}
+ case'me':{const old=U.star;if(m.user)U=m.user;if(m.uid)myUid=m.uid;if('bot'in m)BOT=m.bot;if('notice'in m)notice(m.notice);let cfgCh=false;if(m.cfg){const js=JSON.stringify(m.cfg);cfgCh=js!==CFGJ;CFGJ=js;CFG=m.cfg;if(!LBQ)LBQ={per:CFG.lb_period,by:CFG.lb_metric}}if('online'in m)ONL=m.online;chips(old);if(cfgCh)redraw();if(m.cfg&&CFG.spin_on)S({t:'bonus'});if($('#pot').classList.contains('on'))potBal();break}
  case'cfg':CFG=m.cfg;chips();redraw();break;
  case'rate':CFG.rate=m.rate;chips();break;
  case'online':ONL=m.n;chips();break;
- case'err':if(SH&&SH.q){SH.q=0;drawSheet()}if(['gone','cancel','admin'].includes(m.code)){MYROOM=null;if(SH&&SH.wait){SH.wait=null;drawSheet()}}
+ case'err':betUnlock();if(SPINNING){SPINNING=0;if($('#spw'))drawSpin()}if(SH&&SH.q){SH.q=0;drawSheet()}if(['gone','cancel','admin'].includes(m.code)){MYROOM=null;if(SH&&SH.wait){SH.wait=null;drawSheet()}}
   toast('⚠️ '+esc(t('e_'+m.code)).replace('{n}',m.n||'').replace('{ch}',esc(m.ch||'')));SFX.error();break;
  case'notice':notice(m.text,m.pop);break;
  case'banned':document.body.innerHTML='<div style="padding:40vh 24px;text-align:center;font:700 18px Unbounded,system-ui;color:#fff">⛔ Banned</div>';break;
@@ -186,13 +187,14 @@ function onMsg(m){switch(m.t){
  case'dep':depRes(m);break;
  case'pots':POTSUM=m.sum;if(CUR==='home'){drawLiveCards();drawBanners(1)}break;
  case'pot':if(m.priv&&WANTPRIV&&m.key!==PKEY){WANTPRIV=0;PKEY=m.key;PS=m;drawPot(true);break}if(m.open){openPot(m.key)}if(m.key===PKEY){PS=m;drawPot()}break;
- case'betok':SFX.coin();hap('medium');break;
+ case'betok':SFX.coin();hap('medium');setTimeout(betUnlock,350);break;
  case'feedall':FEED=m.list||[];drawTicker();break;
  case'feed':FEED.unshift(m.item);FEED=FEED.slice(0,30);drawTicker();break;
  case'gws':GWS=m.list||[];if(CUR==='me'&&!document.activeElement?.matches('input'))drawMe();if(CUR==='home')drawBanners(1);break;
  case'gwok':SFX.coin();toast('✅ '+t('gwIn'));break;
  case'gwdone':toast('🎉 '+esc(m.title)+': '+(m.names||[]).map(esc).join(', '));S({t:'gws'});break;
- case'bonus':BONUS=m;if(CUR==='me'&&!document.activeElement?.matches('input'))drawMe();break;
+ case'spin':spinRes(m);break;
+ case'bonus':BONUS=m;if('spin_next'in m){const was=spinLeft()>0;SPINAT=Date.now()+m.spin_next*1000;if(CUR==='home'&&was!==(spinLeft()>0))drawHome();if($('#spw'))drawSpin()}if(CUR==='me'&&!document.activeElement?.matches('input'))drawMe();break;
  case'gift':giftFx(m.amt,m.why,m.cur);break;case'tasks':TASKS=m;if(CUR==='me'&&!document.activeElement?.matches('input'))drawMe();break;
  case'wds':WDS=m.list;if(CUR==='wallet'&&WT==='wd')drawWallet();break;
  case'hist':HIST=m.list;if(CUR==='wallet'&&WT==='hist')drawWallet();break;
@@ -218,7 +220,7 @@ let STILLT=null;function show(v){if(v==='bonus')v='me';CUR=v;$$('section').forEa
  if(v==='home'){drawHome();S({t:'rooms'})}if(v==='games')drawGames();if(v==='wallet'){drawWallet();loadTC();if(WT!=='dep')S({t:WT==='wd'?'wds':'hist'})}if(v==='top'){drawTop(null);S({t:'lb',...lbq()})}if(v==='me'){drawMe();S({t:'bonus'});S({t:'gws'});S({t:'tasks'})}hap();SFX.tap()}
 function redraw(){if(CUR==='home')drawHome();if(CUR==='games')drawGames();if(CUR==='wallet')drawWallet();if(CUR==='me')drawMe();drawNav(CUR)}
 const enabled=g=>!(CFG.games_off||[]).includes(g),isHot=g=>(CFG.hot||[]).includes(g),lbq=()=>LBQ||{per:CFG.lb_period||'week',by:CFG.lb_metric||'profit'};
-const arenaKey=()=>'arena:'+(+((CFG.arena_tiers||[50])[0])).toString();
+const arenaKey=()=>'arena:'+(+((CFG.arena_tiers||[10])[0])).toString();
 /* ======================= ASOSIY */
 function gameCard(g,i,wide){const o=GM[g];return`<button class="game ${wide&&o.wide?'wide':''}" style="--g1:${o.a};--n:${i}" data-g="${g}">${isHot(g)?`<span class="nw">🔥 HOT</span>`:''}${ART[g]}${wide&&o.wide?`<div class="tx"><b>${gn(g)}</b><small>${o.s?o.s[LI[lang]]:'1 vs 1'}</small></div>`:`<b>${gn(g)}</b><small>${o.s?o.s[LI[lang]]:'1 vs 1'}</small>`}</button>`}
 function drawHome(){const gs=Object.keys(GM).filter(enabled);
@@ -234,22 +236,27 @@ function drawHome(){const gs=Object.keys(GM).filter(enabled);
  <button class="tile reft" data-v="me"><div class="ti" style="margin:0">👥</div><div style="flex:1"><b>${t('refT')} · ${refTxt()}</b><small>${t('refS')}</small></div><span style="font-size:20px">›</span></button>`;
  drawBanners();drawTicker();drawLiveCards();drawRoomsOnly()}
 let CARI=0,CART=null;
+let BNH='';const splFill=()=>{const l=spinLeft();$$('[data-spl]').forEach(e=>{const v=fmtT(l);if(e.textContent!==v)e.textContent=v})};
 function drawBanners(soft){const c=$('#car');if(!c)return;const ar=Object.entries(POTSUM).filter(([k])=>k.startsWith('arena:')).reduce((a,[,v])=>a+v.pot,0),jp=(POTSUM.jackpot||{}).pot||0,gw=GWS.find(g=>g.status==='active');
- const sl=[];if(CFG.rc_on)sl.push(`<button class="bn bn-rc" data-rc="1"><div class="bnt"><small>👥 ${t('rcT')}</small><b>${t('rcB')}</b><p>${t('rcF')}: <span class="rcv">${fmt(CFG.rc_prize||0)} ⭐</span>${CFG.rc_end?` · ⏱ <span data-rcl>${fmtLeft(CFG.rc_end-Date.now()/1000)}</span>`:''}</p><span class="bnb">${t('rcGo')} ›</span></div><div class="bna rc-mini"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="rcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".5" stop-color="#ffc83d"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs><path d="M18 8h28v6h8c0 10-5 17-13 18-2 5-5 8-7 9v7h8v6H22v-6h8v-7c-2-1-5-4-7-9-8-1-13-8-13-18h8zm-3 12c1 5 3 8 5 9l-1-9zm34 0h-4l-1 9c2-1 4-4 5-9z" fill="url(#rcg)" stroke="#b45309" stroke-width="1.2"/><path d="M32 16l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="#fff" opacity=".9"/></svg><em>${fmtK(CFG.rc_prize||0)}</em></div></button>`);if(enabled('arena'))sl.push(`<button class="bn bn-ar" data-pot="${arenaKey()}"><div class="bnt"><small>🟢 ARENA · LIVE</small><b>${t('bnArena')}</b><p>${t('pot')}: ${fmtK(ar)} ⭐</p><span class="bnb">${t('playNow')} ›</span></div><div class="bna ar-mini"><i></i><i></i><i></i><i></i><u></u></div></button>`);
+ const sl=[];if(CFG.rc_on)sl.push(`<button class="bn bn-rc" data-rc="1"><div class="bnt"><small>👥 ${t('rcT')}</small><b>${t('rcB')}</b><p>${t('rcF')}: <span class="rcv">${fmt(CFG.rc_prize||0)} ⭐</span>${CFG.rc_end?` · ⏱ <span data-rcl>${fmtLeft(CFG.rc_end-Date.now()/1000)}</span>`:''}</p><span class="bnb">${t('rcGo')} ›</span></div><div class="bna rc-mini"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="rcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".5" stop-color="#ffc83d"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs><path d="M18 8h28v6h8c0 10-5 17-13 18-2 5-5 8-7 9v7h8v6H22v-6h8v-7c-2-1-5-4-7-9-8-1-13-8-13-18h8zm-3 12c1 5 3 8 5 9l-1-9zm34 0h-4l-1 9c2-1 4-4 5-9z" fill="url(#rcg)" stroke="#b45309" stroke-width="1.2"/><path d="M32 16l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="#fff" opacity=".9"/></svg><em>${fmtK(CFG.rc_prize||0)}</em></div></button>`);if(CFG.spin_on)sl.push(`<button class="bn bn-sp" data-spin="1"><div class="bnt"><small>🎁 ${t('spinT').toUpperCase()}</small><b>${t('spinB')}</b><p>${spinLeft()>0?`⏱ <span data-spl></span>`:`✅ ${t('spinRdy')} · ${Math.min(+CFG.spin_min,+CFG.spin_max)}–${Math.max(+CFG.spin_min,+CFG.spin_max)} ⭐`}</p><span class="bnb">${t('spinGo')} ›</span></div><div class="bna sp-mini"><i></i><u></u></div></button>`);if(enabled('arena'))sl.push(`<button class="bn bn-ar" data-pot="${arenaKey()}"><div class="bnt"><small>🟢 ARENA · LIVE</small><b>${t('bnArena')}</b><p>${t('pot')}: ${fmtK(ar)} ⭐</p><span class="bnb">${t('playNow')} ›</span></div><div class="bna ar-mini"><i></i><i></i><i></i><i></i><u></u></div></button>`);
  if(enabled('jackpot'))sl.push(`<button class="bn bn-jp" data-pot="jackpot"><div class="bnt"><small>🎡 JACKPOT</small><b>${t('bnJp')}</b><p>${t('pot')}: ${fmtK(jp)} ⭐</p><span class="bnb">${t('playNow')} ›</span></div><div class="bna"><div class="jpw-mini"></div></div></button>`);
  if(gw)sl.push(`<button class="bn bn-gw" data-v="me"><div class="bnt"><small>🎉 ${t('gw').toUpperCase()}</small><b>${esc(gw.title)}</b><p>${fmtK(gw.prize)} ⭐ × ${gw.winners} · ${gw.n} ${t('partic')}</p><span class="bnb">${gw.joined?'✓ '+t('gwIn'):t('gwJoin')} ›</span></div><div class="bna gift3">🎁</div></button>`);
  if((CFG.lb_prizes||[]).length)sl.push(`<button class="bn bn-lb" data-v="top"><div class="bnt"><small>🏆 ${t('lbPr')}</small><b>${t('lbPrS')}</b><p>🥇 ${fmtK(CFG.lb_prizes[0])} ⭐ ${CFG.lb_prizes[1]?'· 🥈 '+fmtK(CFG.lb_prizes[1])+' ⭐':''}</p><span class="bnb">${t('top')} ›</span></div><div class="bna cup3">🏆</div></button>`);
  sl.push(`<button class="bn bn-rf" data-v="me"><div class="bnt"><small>👥 ${t('refT').toUpperCase()}</small><b>${refSum()} ${t('bnRef')}</b><p>${t('ref3')}: ${refTxt()}</p><span class="bnb">${t('invite')} ›</span></div><div class="bna pc3">${refSum()}</div></button>`);
- const sx=c.scrollLeft;c.innerHTML=sl.join('');$('#cdots').innerHTML=sl.map((_,i)=>`<i class="${i===CARI%sl.length?'on':''}"></i>`).join('');if(soft)c.scrollLeft=sx;
+ const sx=c.scrollLeft;const bh=sl.join('');if(soft&&bh===BNH&&c.children.length)return;BNH=bh;c.innerHTML=bh;splFill();$('#cdots').innerHTML=sl.map((_,i)=>`<i class="${i===CARI%sl.length?'on':''}"></i>`).join('');if(soft)c.scrollLeft=sx;
  c.onscroll=()=>{const i=Math.round(c.scrollLeft/c.clientWidth);if(i!==CARI){CARI=i;$$('#cdots i').forEach((d,k)=>d.classList.toggle('on',k===i))}};
  clearInterval(CART);CART=setInterval(()=>{const c=$('#car');if(!c||CUR!=='home'||document.hidden)return;const n=c.children.length;if(!n)return;CARI=(CARI+1)%n;c.scrollTo({left:CARI*c.clientWidth,behavior:'smooth'})},5000)}
 function drawTicker(){const e=$('#tick');if(!e)return;if(!FEED.length){e.style.display='none';return}e.style.display='';
  const it=FEED.slice(0,14).map(f=>`<span class="ti2">${avH(f.name,f.ph,'xs')}<b>${esc(f.name)}</b><em>+${fmtK(f.prize)} ⭐</em><small>${(GM[f.g]||{ic:f.g==='arena'?'🟢':'🎡'}).ic} ${gn(f.g)}</small></span>`).join('');
  e.innerHTML=`<div class="tkr" style="animation-duration:${Math.max(18,FEED.slice(0,14).length*5)}s">${it}${it}</div>`}
-let LVH='';function drawLiveCards(){const e=$('#duo');if(!e)return;const _o=e.innerHTML;const ars=Object.entries(POTSUM).filter(([k])=>k.startsWith('arena:')),ap=ars.reduce((a,[,v])=>a+v.pot,0),an=ars.reduce((a,[,v])=>a+v.n,0),ac=ars.find(([,v])=>v.st!=='wait'),j=POTSUM.jackpot||{pot:0,n:0,st:'wait'};
+let LVH='';function drawLiveCards(){const e=$('#duo');if(!e)return;const ars=Object.entries(POTSUM).filter(([k])=>k.startsWith('arena:')),ap=ars.reduce((a,[,v])=>a+v.pot,0),an=ars.reduce((a,[,v])=>a+v.n,0),ac=ars.find(([,v])=>v.st!=='wait'),j=POTSUM.jackpot||{pot:0,n:0,st:'wait'};
  const st=v=>v.st==='count'?`⏱ ${Math.ceil(v.left)}s`:v.st==='spin'?'🎯 '+t('spinning'):t('waiting');
- const html=(enabled('arena')?`<button class="lv lv-ar" data-pot="${ac?ac[0]:arenaKey()}"><div class="lvh"><b>ARENA</b><span class="live"><i class="ldot"></i>LIVE</span></div><div class="ar-mini sm"><i></i><i></i><i></i><i></i><u></u></div><div class="lvp">${fmtK(ap)} ⭐</div><small>${an} ${t('players').toLowerCase()} · ${ac?st(ac[1]):t('waiting')}</small></button>`:'')+
- (enabled('jackpot')?`<button class="lv lv-jp" data-pot="jackpot"><div class="lvh"><b>JACKPOT</b><span class="live"><i class="ldot"></i>LIVE</span></div><div class="jpw-mini sm"></div><div class="lvp">${fmtK(j.pot)} ⭐</div><small>${j.n} ${t('players').toLowerCase()} · ${st(j)}</small></button>`:'');if(html!==LVH||!e.children.length){LVH=html;e.innerHTML=html}else{const sm=e.querySelectorAll('small');}}
+ /* tuzilma faqat o'zgarganda qayta chiziladi; summa va taymer — matnni yangilash bilan (animatsiyalar qayta boshlanmaydi) */
+ const sig=[enabled('arena'),enabled('jackpot'),ac?ac[0]:arenaKey(),lang].join('|');
+ if(sig!==LVH||!e.children.length){LVH=sig;e.innerHTML=(enabled('arena')?`<button class="lv lv-ar" data-pot="${ac?ac[0]:arenaKey()}"><div class="lvh"><b>ARENA</b><span class="live"><i class="ldot"></i>LIVE</span></div><div class="ar-mini sm"><i></i><i></i><i></i><i></i><u></u></div><div class="lvp"><span id="lvap"></span> ⭐</div><small id="lvas"></small></button>`:'')+
+ (enabled('jackpot')?`<button class="lv lv-jp" data-pot="jackpot"><div class="lvh"><b>JACKPOT</b><span class="live"><i class="ldot"></i>LIVE</span></div><div class="jpw-mini sm"></div><div class="lvp"><span id="lvjp"></span> ⭐</div><small id="lvjs"></small></button>`:'')}
+ const set=(id,v)=>{const x=$('#'+id);if(x&&x.textContent!==v)x.textContent=v};
+ set('lvap',fmtK(ap));set('lvas',`${an} ${t('players').toLowerCase()} · ${ac?st(ac[1]):t('waiting')}`);set('lvjp',fmtK(j.pot));set('lvjs',`${j.n} ${t('players').toLowerCase()} · ${st(j)}`)}
 function drawRoomsOnly(){const f=$('#rfil'),l=$('#rlist');if(!f||!l)return;const gs=[...new Set(ROOMS.map(r=>r.g))];const nr=$('#nrooms');if(nr)nr.innerHTML=`<i class="ldot" style="display:inline-block;margin-right:5px"></i>${fmt(ROOMS.length)}`;
  f.innerHTML=`<button class="chip ${!RF?'on':''}" data-rf="">${t('all')}</button>`+gs.map(g=>`<button class="chip ${RF===g?'on':''}" data-rf="${g}">${GM[g]?.ic||''} ${gn(g)}</button>`).join('');
  const lst=ROOMS.filter(r=>!RF||r.g===RF);let ni=0;
@@ -267,30 +274,31 @@ function drawGames(){const cats=['all','card','board','fast'];const ks=Object.ke
  <div class="grid">${ks.map((g,i)=>gameCard(g,i+2,1)).join('')}</div>`}
 
 /* ======================= sozlash oynasi */
-let WANTTOK=0;function sheet(g,create){if(!enabled(g))return toast(t('e_off'));SH={g,mode:WANTTOK&&CFG.tok_on?'tok':'paid',st:CFG.stakes[0]||10,deck:36,tr:0,w:WINS[g]||0,tst:(CFG.tok_stakes||[10])[0],priv:0,q:0,wait:null,create:!!create};$('#sh').classList.add('on');WANTTOK=0;drawSheet();syncBack()}
+let WANTTOK=0;function sheet(g,create){if(!enabled(g))return toast(t('e_off'));SH={g,mode:WANTTOK&&CFG.tok_on?'tok':'paid',st:CFG.stakes[0]||10,deck:36,tr:0,n:2,w:WINS[g]||0,tst:(CFG.tok_stakes||[10])[0],priv:0,q:0,wait:null,create:!!create};$('#sh').classList.add('on');WANTTOK=0;drawSheet();syncBack()}
 function closeSheet(){if(SH&&(SH.q||SH.wait))S({t:'cancel'});MYROOM=null;closeSheetSilent()}
 function closeSheetSilent(){SH=null;WANTTOK=0;$('#sh').classList.remove('on');syncBack()}
 function drawSheet(){if(!SH)return;const o=GM[SH.g],m=SH.mode;
  if(SH.wait){const r=SH.wait,link=BOT?`https://t.me/${BOT}?start=room_${r.id}${myUid?'__ref_'+myUid:''}`:'';
   $('#shc').innerHTML=`<h3 style="justify-content:center">${o.ic} ${gn(SH.g)}</h3><div class="radar"><div class="sw"></div><div class="ct">${o.ic}</div></div>
-  <div style="text-align:center"><b class="B" style="font-size:16px">${t('waitOpp')}<span class="dots"></span></b><div class="row" style="justify-content:center"><span class="tag ${r.stake?'f':''}">${r.stake?fmt(r.stake)+cu(r.cur):t('free')}</span>${r.opts.deck?`<span class="tag v">${r.opts.deck} ${t('cards')}</span><span class="tag c">${r.opts.tr?t('perev'):t('podk')}</span>`:''}${wTag(r)}${r.stake?`<span class="tag g">${t('prize')}: ${fmt(r.stake*2*(1-CFG.fee))}${cu(r.cur)}</span>`:''}</div></div>
+  <div style="text-align:center"><b class="B" style="font-size:16px">${nOf(r)>2?`${t('waitN')} ${r.n||1}/${nOf(r)}`:t('waitOpp')}<span class="dots"></span></b><div class="row" style="justify-content:center"><span class="tag ${r.stake?'f':''}">${r.stake?fmt(r.stake)+cu(r.cur):t('free')}</span>${r.opts.deck?`<span class="tag v">${r.opts.deck} ${t('cards')}</span><span class="tag c">${r.opts.tr?t('perev'):t('podk')}</span>`:''}${wTag(r)}${r.stake?`<span class="tag g">${t('prize')}: ${fmt(prizeN(r.stake,nOf(r),CFG.fee))}${cu(r.cur)}</span>`:''}</div></div>
   ${link?`<button class="btn" id="invl" data-l="${esc(link)}">📨 ${t('invite')}</button>`:''}<button class="ghost" id="cx">${t('cancel')}</button>`;return}
  const modes=[['paid','⭐ '+t('paid')]];if(CFG.bot_mode)modes.push(['bot','🤖 '+t('bot')]);if(CFG.free_pvp)modes.push(['free','🆓 '+t('free')]);if(CFG.tok_on)modes.push(['tok',t('tokM')]);
  $('#shc').innerHTML=`<div style="display:flex;align-items:center;gap:12px"><div style="transform:scale(.62);margin:-16px -14px -16px -18px">${ART[SH.g]}</div><div style="flex:1"><h3>${gn(SH.g)}</h3><small>${o.s?o.s[LI[lang]]:'1 vs 1'}</small></div><button class="chip" id="rulesb">📖 ${t('rules')}</button></div>
  <div id="rulesx" class="note" style="display:${SH.rules?'block':'none'};word-break:normal;color:var(--mu)">${o.r[LI[lang]]}</div>
  ${modes.length>1?`<div class="seg" style="margin-top:14px">${modes.map(([k,l])=>`<button class="${m===k?'on':''}" data-mode="${k}">${l}</button>`).join('')}</div>`:''}
+ ${SH.g==='durak'&&m!=='bot'?`<div class="lbl">👥 ${t('plN')}</div><div class="seg wseg">${[2,3,4].map(n=>`<button class="${SH.n===n?'on':''}" data-pn="${n}">${n}</button>`).join('')}</div>`:''}
  ${SH.g==='durak'?`<div class="lbl">${t('deck')}</div><div class="seg">${[24,36].map(d=>`<button class="${SH.deck===d?'on':''}" data-deck="${d}">${d} ${t('cards')}</button>`).join('')}</div><div class="lbl">${t('mode')}</div><div class="seg">${[[0,t('podk')],[1,t('perev')]].map(([k,l])=>`<button class="${SH.tr===k?'on':''}" data-tr="${k}">${l}</button>`).join('')}</div>`:''}
  ${WINS[SH.g]?`<div class="lbl">${SH.g==='pen'?t('kicksL'):t('winsTo')} · <span style="color:#d8b4fe">${wTxt(SH.g,SH.w)}</span></div><div class="seg wseg">${[1,2,3,4,5].map(n=>`<button class="${SH.w===n?'on':''}" data-w="${n}">${n}</button>`).join('')}</div>`:''}
- ${m==='paid'?`<div class="lbl">${t('stake')} · <span style="color:var(--ok)">${t('prize')} ${fmt(SH.st*2*(1-CFG.fee))} ⭐</span></div><div class="row" style="margin-top:0">${CFG.stakes.map(v=>`<button class="opt ${SH.st===v?'on':''}" data-st="${v}" style="min-width:64px;flex:0 0 calc(25% - 6px)">${fmt(v)}<small>⭐</small></button>`).join('')}</div>`:''}
+ ${m==='paid'?`<div class="lbl">${t('stake')} · <span style="color:var(--ok)">${t('prize')} ${fmt(prizeN(SH.st,SH.g==='durak'?SH.n||2:2,CFG.fee))} ⭐</span></div><div class="row" style="margin-top:0">${CFG.stakes.map(v=>`<button class="opt ${SH.st===v?'on':''}" data-st="${v}" style="min-width:64px;flex:0 0 calc(25% - 6px)">${fmt(v)}<small>⭐</small></button>`).join('')}</div>`:''}
  ${m==='tok'?`<div class="lbl">${t('stake')} · <span style="color:#7dd3fc">${t('prize')} ${fmt(SH.tst*2*(1-CFG.fee))} 💠</span> <span style="float:right;text-transform:none;letter-spacing:0">💠 ${fmt(U.tok)}</span></div><div class="row" style="margin-top:0">${(CFG.tok_stakes||[10,50,100,500]).map(v=>`<button class="opt ${SH.tst===v?'on':''}" data-tst="${v}" style="min-width:64px;flex:0 0 calc(25% - 6px)">${fmt(v)}<small>💠 SPC</small></button>`).join('')}</div>`:''}
  ${m==='bot'?`<button class="btn go" id="gobot" style="margin-top:16px">🤖 ${t('playBot')}</button>`:`<button class="btn go" id="goq" ${SH.q?'disabled':''} style="margin-top:14px">${SH.q?'<span class="sp"></span> '+t('search'):'⚡ '+t('quick')}</button>
  <button class="btn" id="goc">➕ ${t('create')}</button><label class="row" style="justify-content:center;color:var(--mu);font-size:13px;align-items:center;gap:8px"><input type="checkbox" id="priv" ${SH.priv?'checked':''} style="width:18px;height:18px;accent-color:#ff6a1a"> ${t('priv')}</label>`}
  ${SH.q?`<button class="ghost" id="cx">${t('cancel')}</button>`:''}`}
 function stakeOK(){if(SH.mode==='tok'&&(+U.tok||0)<SH.tst){toast('⚠️ '+t('e_tbalance'));setTimeout(()=>{closeSheetSilent();show('me')},700);return false}if(SH.mode==='paid'&&(+U.star||0)<SH.st){toast('⚠️ '+t('e_balance'));setTimeout(()=>{closeSheetSilent();show('wallet')},600);return false}return true}
-function opts(){return SH.g==='durak'?{deck:SH.deck,tr:SH.tr}:WINS[SH.g]?{w:SH.w}:{}}
-function goQuick(){if(!SH||SH.q)return;if(!stakeOK())return;const st=SH.mode==='free'?0:SH.mode==='tok'?SH.tst:SH.st;LASTQ={g:SH.g,mode:SH.mode,st:SH.st,tst:SH.tst,deck:SH.deck,tr:SH.tr,w:SH.w};SH.q=1;drawSheet();S({t:'quick',game:SH.g,stake:st,cur:SH.mode==='tok'?'tok':'star',opts:opts()})}
-function goCreate(){if(!SH)return;if(!stakeOK())return;LASTQ={g:SH.g,mode:SH.mode,st:SH.st,tst:SH.tst,deck:SH.deck,tr:SH.tr,w:SH.w};S({t:'create',game:SH.g,cur:SH.mode==='tok'?'tok':'star',stake:SH.mode==='free'?0:SH.mode==='tok'?SH.tst:SH.st,opts:opts(),priv:!!SH.priv})}
-function goBot(){if(!SH)return;const g=SH.g;LASTQ={g,mode:'bot',deck:SH.deck,tr:SH.tr,w:SH.w};if(SERVER_BOT[g]){S({t:'bot',game:g,opts:opts()})}else{closeSheetSilent();startLocal(g)}}
+function opts(){return SH.g==='durak'?{deck:SH.deck,tr:SH.tr,n:SH.mode==='bot'?2:SH.n||2}:WINS[SH.g]?{w:SH.w}:{}}
+function goQuick(){if(!SH||SH.q)return;if(!stakeOK())return;const st=SH.mode==='free'?0:SH.mode==='tok'?SH.tst:SH.st;LASTQ={g:SH.g,mode:SH.mode,st:SH.st,tst:SH.tst,deck:SH.deck,tr:SH.tr,n:SH.n,w:SH.w};SH.q=1;drawSheet();S({t:'quick',game:SH.g,stake:st,cur:SH.mode==='tok'?'tok':'star',opts:opts()})}
+function goCreate(){if(!SH)return;if(!stakeOK())return;LASTQ={g:SH.g,mode:SH.mode,st:SH.st,tst:SH.tst,deck:SH.deck,tr:SH.tr,n:SH.n,w:SH.w};S({t:'create',game:SH.g,cur:SH.mode==='tok'?'tok':'star',stake:SH.mode==='free'?0:SH.mode==='tok'?SH.tst:SH.st,opts:opts(),priv:!!SH.priv})}
+function goBot(){if(!SH)return;const g=SH.g;LASTQ={g,mode:'bot',deck:SH.deck,tr:SH.tr,n:SH.n,w:SH.w};if(SERVER_BOT[g]){S({t:'bot',game:g,opts:opts()})}else{closeSheetSilent();startLocal(g)}}
 function showInvite(r){SH=null;$('#res').classList.add('on');const o=GM[r.g]||{ic:'🎮'};$('#resc').innerHTML=`<div style="font-size:54px;animation:bob 2s infinite">${o.ic}</div><div class="rt" style="font-size:18px">${t('invited')}</div><b>${esc(r.host)}</b><div class="row" style="justify-content:center"><span class="tag">${gn(r.g)}</span><span class="tag ${r.stake?'f':''}">${r.stake?fmt(r.stake)+cu(r.cur):t('free')}</span>${wTag(r)}</div><button class="btn go" data-join="${r.id}" id="ijoin">${t('enter')}</button><button class="btn" id="rclose">${t('cancel')}</button>`}
 /* ======================= ARENA va JACKPOT ekrani */
 const PC=['#22c55e','#8b5cf6','#f59e0b','#ef4444','#3b82f6','#ec4899','#14b8a6','#eab308','#6366f1','#f97316','#06b6d4','#a3e635','#d946ef','#0ea5e9','#fb7185','#84cc16','#c084fc','#f43f5e','#10b981','#fbbf24','#60a5fa','#e879f9','#2dd4bf','#facc15'];
@@ -339,6 +347,29 @@ function drawTg(){const p=PS;if(!p)return;const x=TG==='top'?p.top:(p.hist||[])[
 const winBox=w=>`<div class="winb">${avH(w.name,w.ph,'lg')}<div><small>👑 ${t('jpWin')}</small><b>${esc(w.name)}</b><div class="num">+${fmt(w.prize)} ⭐</div><small>${t('chance')} ${w.ch}%</small></div></div>`;
 function potHist(){const h=(PS&&PS.hist)||[];SH=null;$('#sh').classList.add('on');$('#shc').innerHTML=`<h3>🕘 ${t('history')}</h3><div style="margin-top:12px">${h.length?h.map((x,i)=>`<div class="li" style="--n:${i}">${avH(x.name,x.ph)}<div class="g"><b>${esc(x.name)}</b><small>${t('chance')} ${x.ch}% · ${x.n} ${t('players').toLowerCase()} · ${new Date(x.ts*1000).toLocaleTimeString(lang,{hour:'2-digit',minute:'2-digit'})}</small></div><b class="num" style="color:var(--ok)">+${fmtK(x.prize)} ⭐</b></div>`).join(''):`<div class="empty"><i>🕘</i>${t('noGames')}</div>`}</div><button class="ghost" data-close>OK</button>`;syncBack()}
 function potInfo(){const ar=PKEY!=='jackpot';SH=null;$('#sh').classList.add('on');$('#shc').innerHTML=`<h3>ⓘ ${potTitle(PKEY)}</h3><div class="steps" style="margin:14px 0">${(ar?['ar1','ar2','ar3','ar4']:['jp1','jp2','jp3','ar4']).map((k,i)=>`<div><i>${i+1}</i>${t(k).replace('{f}',Math.round((CFG.fee||.1)*100))}</div>`).join('')}</div><button class="btn go" data-close>OK</button>`;syncBack()}
+
+/* ---- kunlik bonus-g'ildirak */
+let SPINAT=null,SPINNING=0,SPROT=0,SPV=null,SPIV=null;
+const spinLeft=()=>SPINAT==null?0:Math.max(0,(SPINAT-Date.now())/1000);
+function spinVals(){const a=+CFG.spin_min||0,b=+CFG.spin_max||0,lo=Math.min(a,b),hi=Math.max(a,b);let v=[];
+ if(hi-lo<=9)for(let i=lo;i<=hi;i++)v.push(i);else for(let i=0;i<10;i++)v.push(Math.round(lo+(hi-lo)*i/9));
+ if(v.length<6)v=v.concat(v);if(v.length<6)v=v.concat(v);return v.slice(0,12)}
+const SPC=['#ff2e63','#7c3aed','#ff8a1a','#0ea5e9','#22c55e','#d946ef','#f59e0b','#3b82f6','#ef4444','#14b8a6','#a855f7','#eab308'];
+function openSpin(){SH=null;SPV=spinVals();$('#sh').classList.add('on');drawSpin();syncBack();SFX.whoosh();clearInterval(SPIV);SPIV=setInterval(()=>{const e=$('#spleft');if(!$('#spw'))return clearInterval(SPIV);if(e){const l=spinLeft();if(l<=0)drawSpin();else e.textContent=fmtT(l)}},1000)}
+function drawSpin(){const v=SPV||(SPV=spinVals()),n=v.length,seg=360/n,left=spinLeft(),ch=CFG.spin_ch||'';
+ $('#shc').innerHTML=`<h3>🎁 ${t('spinT')}</h3><p class="mu" style="margin:6px 0 14px;text-align:center">${t('spinS').replace('{a}',Math.min(...v)).replace('{b}',Math.max(...v))}</p>
+ <div class="spw" id="spw"><div class="spg"></div><div class="spr" id="spr" style="transform:rotate(${SPROT}deg);background:conic-gradient(${v.map((x,i)=>`${SPC[i%SPC.length]} ${i*seg}deg ${(i+1)*seg}deg`).join(',')})">${v.map((x,i)=>`<i id="spl${i}" style="--a:${(i+.5)*seg}deg">${x}<u>⭐</u></i>`).join('')}</div><div class="spp"></div><div class="sph">${SI}</div></div>
+ ${left>0?`<div class="spn"><small>${t('spinNext')}</small><b class="num" id="spleft">${fmtT(left)}</b></div>`:`<button class="btn go" id="spgo" ${SPINNING?'disabled':''}>🎁 ${t('spinGo')}</button>`}
+ ${ch?`<div class="spsub"><span>📢 ${t('spinSub')}</span><button class="chip" data-chan="${esc(ch)}">${t('subBtn')} ${esc(ch)}</button></div>`:''}
+ <button class="ghost" data-close>OK</button>`}
+function spinRes(m){const fin=()=>{const old=U.star;if(m.user)U=m.user;chips(old);SPINAT=Date.now()+(m.next||86400)*1000;SPINNING=0;if($('#spw'))drawSpin();if(CUR==='home')drawHome();if(CUR==='me')drawMe();giftFx(m.prize,'🎁 '+t('spinT'))};
+ const r=$('#spr');if(!r||!SPV)return fin();
+ const v=SPV,n=v.length,seg=360/n;let ids=v.map((x,i)=>x===m.prize?i:-1).filter(i=>i>=0);
+ if(!ids.length){v[0]=m.prize;const e=$('#spl0');if(e)e.firstChild.nodeValue=m.prize;ids=[0]}
+ const idx=ids[Math.floor(Math.random()*ids.length)],off=(Math.random()-.5)*seg*.6;
+ SPROT=SPROT-(SPROT%360)+360*6+(360-(idx+.5)*seg)+off;r.style.transition='transform 4.6s cubic-bezier(.12,.62,.08,1)';r.style.transform=`rotate(${SPROT}deg)`;
+ let i=0;const tick=()=>{if(++i>26||!$('#spw'))return;beep(880+i*8,.02,'square',.03);hap();setTimeout(tick,60+i*i*.55)};tick();
+ setTimeout(fin,4800)}
 /* ---- arena maydoni: quvvat diagrammasi (maydon ulushi = stavka ulushi) */
 function mulb(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function arenaLayout(bets){const n=bets.length,AR=1.75,pot=bets.reduce((a,b)=>a+b.amt,0);
@@ -351,7 +382,7 @@ function arenaLayout(bets){const n=bets.length,AR=1.75,pot=bets.reduce((a,b)=>a+
  for(let it=0;it<60;it++){pass();for(let i=0;i<n;i++){P[i].w+=(P[i].t-cnt[i]/tot)*.9;if(it%6===5&&cnt[i]){P[i].x=P[i].x*.6+cx[i]/cnt[i]*.4;P[i].y=P[i].y*.6+cy[i]/cnt[i]*.4}}}
  pass();P.forEach((p,i)=>{p.cx=cnt[i]?cx[i]/cnt[i]:p.x;p.cy=cnt[i]?cy[i]/cnt[i]:p.y;p.area=cnt[i]/tot});return{P,AR,pick}}
 function hexA(h,a){const n=parseInt(h.slice(1),16);return[n>>16&255,n>>8&255,n&255]}
-function drawArena(){const p=PS,af=$('#af');if(!af)return;const cv=$('#afc'),bv=$('#afb'),dpr=Math.min(2,devicePixelRatio||1),Wc=af.clientWidth,Hc=af.clientHeight;
+function drawArena(){const p=PS,af=$('#af');if(!af)return;const cv=$('#afc'),bv=$('#afb'),dpr=1,Wc=af.clientWidth,Hc=af.clientHeight;
  cv.width=bv.width=Math.round(Wc*dpr);cv.height=bv.height=Math.round(Hc*dpr);const cx=cv.getContext('2d');bv.getContext('2d').clearRect(0,0,bv.width,bv.height);
  $('#afe').style.display=p.bets.length?'none':'';$('#afav').innerHTML='';AL=null;if(!p.bets.length){cx.clearRect(0,0,cv.width,cv.height);return}
  const L=arenaLayout(p.bets);AL=L;const W=cv.width,H=cv.height,img=cx.createImageData(W,H),D=img.data,own=new Uint8Array(W*H),cols=p.bets.map(b=>hexA(PC[b.c%PC.length]));
@@ -466,6 +497,7 @@ function drawMe(){const L=lvlOf(U),wr=U.games?Math.round(U.wins/U.games*100):0,b
  ${TASKS&&TASKS.on?`<h2>💠 ${t('tokT')}</h2><div class="tokc"><div class="tokh"><div><small>${t('balance')}</small><b class="num">${fmt(U.tok)} 💠</b></div><button class="btn go sm" id="tplay">🎮 ${t('tokPlay')}</button></div><small class="toks">${t('tokS')}</small>
  ${TASKS.daily?`<div class="tkr2"><span class="tki">🎁</span><div class="g"><b>${t('tokDaily')}</b><small>+${fmt(TASKS.daily)} 💠 · ${t('tkDaily')}</small></div>${TASKS.next>0?`<span class="tag" id="tnext">${fmtT(TASKS.next)}</span>`:`<button class="btn go sm" id="tclaim">${t('claim')}</button>`}</div>`:''}
  <div class="lbl">✅ ${t('tasks')}</div>${TASKS.list.map(x=>`<div class="tkr2 ${x.done?'dn':''}"><span class="tki">${{play:'🎮',win:'🏆',ref:'👥',sub:'📢'}[x.id]||'✅'}</span><div class="g"><b>${t('tk_'+x.id)}${x.ch?' '+esc(x.ch):''}</b><small>+${fmt(x.r)} 💠 · ${x.daily?t('tkDaily'):t('tkOnce')}${x.id!=='sub'?` · ${x.p}/${x.n}`:''}</small>${x.id!=='sub'?`<div class="tkp"><i style="width:${x.done?100:x.p/x.n*100}%"></i></div>`:''}</div>${x.done?'<span class="tdone">✓</span>':x.id==='sub'?`<button class="chip" data-chan="${esc(x.ch)}">↗</button><button class="btn go sm" data-task="sub">${t('claim')}</button>`:`<button class="btn ${x.p>=x.n?'go':''} sm" data-task="${x.id}" ${x.p>=x.n?'':'disabled'}>${t('claim')}</button>`}</div>`).join('')}</div>`:''}
+ ${CFG.spin_on?`<button class="daily spd" data-spin="1" style="margin-top:12px"><div class="gb">🎡</div><div style="flex:1;text-align:left"><b class="B">${t('spinT')}</b><div style="color:var(--gold);font:800 16px var(--H)">${Math.min(+CFG.spin_min,+CFG.spin_max)}–${Math.max(+CFG.spin_min,+CFG.spin_max)} ⭐</div><small>${spinLeft()>0?t('spinNext')+' <span data-spl>'+fmtT(spinLeft())+'</span>':'✅ '+t('spinRdy')}</small></div><span class="btn go sm">${t('spinGo')}</span></button>`:''}
  ${b.daily?`<div class="daily" style="margin-top:12px"><div class="gb">🎁</div><div style="flex:1"><b class="B">${t('daily')}</b><div style="color:var(--gold);font:800 18px var(--H)">+${fmt(b.daily)} ⭐</div>${b.next>0?`<small>${t('nextIn')} <span id="dnext">${fmtT(b.next)}</span></small>`:''}</div><button class="btn go sm" id="dclaim" ${b.next>0?'disabled':''}>${t('claim')}</button></div>`:''}
  ${GWS.length?`<h2>🎉 ${t('gws')}</h2>${GWS.map(gwCard).join('')}`:''}
  <h2>👥 ${t('refT')}</h2><div class="refc"><div style="display:flex;align-items:center;gap:14px"><div class="refpc">${refSum()}</div><div style="flex:1;color:#cdeee2"><b style="display:block;color:#fff">${t('ref3')}</b>${t('refS')}</div></div>
@@ -484,7 +516,7 @@ function giftFx(a,why,cur){SFX.win();confetti(70);$('#res').classList.add('on');
 /* ======================= O'YIN STOLI */
 function openTable(){$('#res').classList.remove('on');$('#table').classList.add('on');$('#table').style.setProperty('--tc',(GM[G.g]||{a:'#a855f7'}).a+'66');
  $('#board').style.display=G.e?'':'none';$('#dk').classList.toggle('on',G.g==='durak');$('#nd').classList.toggle('on',G.g==='nardy');$('#qk').classList.toggle('on',!!QK[G.g]);
- $('#dkt').style.display=G.e?'none':'';$('#rs').style.display=QK[G.g]?'none':'';$('#table').dataset.gm=G.g;$('#tti').innerHTML=`<span>${(GM[G.g]||{ic:''}).ic}</span>${gn(G.g)}`;$('#tpot').innerHTML=G.cur==='free'?(G.bot||G.botg?'🤖 '+t('bot'):t('free')):`🏆 ${fmt(G.stake*2*(1-(G.fee??CFG.fee)))}${cu(G.cur)}`;G.bjm=G.bjo=0;syncBack()}
+ $('#dkt').style.display=G.e?'none':'';$('#rs').style.display=QK[G.g]?'none':'';$('#table').dataset.gm=G.g;$('#tti').innerHTML=`<span>${(GM[G.g]||{ic:''}).ic}</span>${gn(G.g)}`;$('#tpot').innerHTML=G.cur==='free'?(G.bot||G.botg?'🤖 '+t('bot'):t('free')):`🏆 ${fmt(prizeN(G.stake,G.pl.length,G.fee??CFG.fee))}${cu(G.cur)}`;G.bjm=G.bjo=0;syncBack()}
 function startGame(m){closeSheetSilent();closePot();const e=E[m.game];
  G={g:m.game,e,s:e&&e.init(),seat:m.seat,pl:m.players.map(p=>p.name),lv:m.players.map(p=>p.lvl),cur:m.cur,stake:m.stake,sel:null,anim:0,over:0,w:null,botg:m.bot,fl:!!(e&&e.flip)&&m.seat===1,opts:m.opts||{},fee:m.fee??CFG.fee};
  openTable();if(e)draw();else{if(G.g==='nardy')$('#nd').innerHTML='';if(QK[G.g])$('#qk').innerHTML='';bars()}beep(660,.1);hap('medium')}
@@ -501,9 +533,9 @@ function draw(){const e=G.e,s=G.s,R=e.R,C=e.C,fl=G.fl,mine=s.turn===G.seat&&!G.o
    pie=`<i class="pc ${p[0]} ${a}" style="${st}">${p[1]}</i>`}
   h+=`<div class="${cls}" data-r="${r}" data-c="${c}">${pie}</div>`}
  const B=$('#board');B.className='b-'+G.g;B.style.cssText=`--n:${C};--rw:${R};--g:${GM[G.g].a}`;B.innerHTML=h;G.anim=0;bars()}
-function bars(){const me=G.pl[G.seat]||'?',op=G.pl[1-G.seat]||'?',lv=G.lv||[1,1];$('#pbn').innerHTML=esc(me)+`<small>${t('lvl')} ${lv[G.seat]||1}</small>`;$('#ptn').innerHTML=esc(op)+`<small>${t('lvl')} ${lv[1-G.seat]||1}</small>`;$('#pba').textContent=me[0];$('#pta').textContent=[...op][0];
+function bars(){const dvN=G.g==='durak'&&G.dv&&G.dv.n>2?G.dv:null,oi=dvN?(dvN.w!=null&&dvN.w!==G.seat?dvN.w:dvN.df!==G.seat?dvN.df:dvN.ma):1-G.seat;const me=G.pl[G.seat]||'?',op=G.pl[oi]||'?',lv=G.lv||[1,1];$('#pbn').innerHTML=esc(me)+`<small>${t('lvl')} ${lv[G.seat]||1}</small>`;$('#ptn').innerHTML=esc(op)+`<small>${t('lvl')} ${lv[oi]||1}</small>`;$('#pba').textContent=me[0];$('#pta').textContent=[...op][0];
  $('#pta').style.background=avc(op);let my,sc=['',''],st;
- if(G.g==='durak'){const v=G.dv;my=v&&v.w===G.seat;if(v){sc=[v.h.length,v.o];st=v.win!=null?'…':my?(v.at===G.seat?t('yourAtk'):t('yourDef')):t('opp')}else st='…'}
+ if(G.g==='durak'){const v=G.dv;my=v&&v.w===G.seat;if(v){sc=[v.h.length,dvN?dvN.ps[oi].c:v.o];st=v.win!=null?'…':my?(v.at===G.seat?t('yourAtk'):t('yourDef')):t('opp')}else st='…'}
  else if(G.g==='nardy'){const v=G.nv;my=v&&v.turn===G.seat&&v.win==null;if(v)sc=[v.off[G.seat]+'/15',v.off[1-G.seat]+'/15'];st=v?(my?t('yourturn'):t('opp')):'…'}
  else if(QK[G.g]){const v=G.qv;my=v&&!v.me&&v.win==null;if(v)sc=G.g==='bj'?[v.tot,(v.win!=null||v.draw)&&v.last?v.last.tot[1-G.seat]:'?']:[v.sc[G.seat],v.sc[1-G.seat]];st=v?`${t('round')} ${G.g==='hilo'?Math.min(v.rd,v.need)+'/'+v.need:v.rd}`:'…'}
  else{const s=G.s;my=s.turn===G.seat&&!G.over;if(G.g==='reversi'){const a=[0,1].map(k=>s.b.flat().filter(v=>v===k).length);sc=[a[G.seat],a[1-G.seat]]}st=G.over?'…':my?t('yourturn'):t('opp')}
@@ -535,7 +567,7 @@ const cardH=(id,cls='')=>{const s=SU[cs_(id)],r=RK(cr(id));return`<div class="cd
 const beats=(a,d,tr)=>(cs_(a)===cs_(d)&&cr(d)>cr(a))||(cs_(d)===tr&&cs_(a)!==tr);
 const und=v=>v.tb.map((p,i)=>p[1]==null?i:-1).filter(i=>i>=0),rks=v=>new Set(v.tb.flat().filter(x=>x!=null).map(cr));
 const canAdd=(v,c)=>v.tb.length<v.cap&&(!v.tb.length||rks(v).has(cr(c)));
-const canTr=(v,c)=>v.tr&&!v.tk&&v.tb.length&&v.tb.every(p=>p[1]==null)&&cr(c)===cr(v.tb[0][0])&&v.tb.length+1<=v.o;
+const canTr=(v,c)=>v.tr&&!v.tk&&v.tb.length&&v.tb.every(p=>p[1]==null)&&cr(c)===cr(v.tb[0][0])&&v.tb.length+1<=(v.nx??v.o);
 const tgts=(v,c)=>und(v).filter(i=>beats(v.tb[i][0],c,v.ts));
 function fan(sel,n){const el=$(sel),c0=el.querySelector('.cd');if(!c0)return;const w=el.clientWidth||300,cw=c0.offsetWidth,step=Math.min(cw+8,(w-cw-4)/Math.max(1,n-1));[...el.children].forEach((c,i)=>c.style.marginLeft=i?(step-cw)+'px':'0')}
 function flip(fn){const old={},els={};$$('#dk .cd[data-id]').forEach(e=>{old[e.dataset.id]=e.getBoundingClientRect();els[e.dataset.id]=e.cloneNode(true)});
@@ -550,13 +582,14 @@ function flip(fn){const old={},els={};$$('#dk .cd[data-id]').forEach(e=>{old[e.d
 function renderDk(m){const v=m.v;G.dsPrev=G.dv?G.dv.ds:0;G.dv=v;if(m.bad)beep(160,.15);else beep(520,.05);
  if(G.dsel!=null&&!v.h.includes(G.dsel))G.dsel=null;if(v.w!==G.seat)G.dsel=null;
  const me=G.seat,att=v.at===me,tg_=G.dsel!=null&&v.w===me&&!att?tgts(v,G.dsel):[];
- flip(()=>{$('#dkopp').innerHTML=Array.from({length:v.o},(_,i)=>`<div class="cd back" data-id="o${i}"></div>`).join('');
+ const N=v.n||2;$('#dkopp').classList.toggle('multi',N>2);
+ flip(()=>{$('#dkopp').innerHTML=N>2?Array.from({length:N-1},(_,k)=>{const i=(me+1+k)%N,q=v.ps[i];return`<div class="dks ${v.w===i&&v.win==null?'w':''} ${q.out?'out':''}"><span class="dka" style="background:${avc(G.pl[i]||'?')}">${esc([...(G.pl[i]||'?')][0])}</span><b>${esc(G.pl[i]||'?')}</b><small>${q.out?'✓ '+t('dkOut'):`<i class="cd back"></i>× ${q.c}`}</small>${i===v.df&&!q.out?'<em class="df">🛡</em>':i===v.ma&&!q.out?'<em>⚔</em>':''}</div>`}).join(''):Array.from({length:v.o},(_,i)=>`<div class="cd back" data-id="o${i}"></div>`).join('');
   $('#dkdeck').innerHTML=v.dk?`<div class="tcw">${cardH(v.tc,'tr')}</div><div class="pile">${'<div class="cd back"></div>'.repeat(Math.min(3,v.dk))}<em>${v.dk}</em></div>`:`<div class="tsu ${cs_(v.ts)%3?'r':''}">${SU[v.ts]}</div>`;
   $('#dkdisc').innerHTML=v.ds?`<div class="pile">${'<div class="cd back"></div>'.repeat(Math.min(3,Math.ceil(v.ds/4)))}<em>${v.ds}</em></div>`:'';
   $('#dktable').innerHTML=v.tb.map((p,i)=>`<div class="pair" data-i="${i}">${cardH(p[0],tg_.includes(i)?'tgt':'')}${p[1]!=null?cardH(p[1],'dfn'):''}</div>`).join('');
   $('#dkme').innerHTML=v.h.map(c=>{let ok=false;if(v.win==null){if(att)ok=canAdd(v,c);else if(v.w===me)ok=tgts(v,c).length>0||!!canTr(v,c)}
    return cardH(c,(ok?'ok ':'dim ')+(G.dsel===c?'sel':''))}).join('');
-  fan('#dkme',v.h.length);fan('#dkopp',v.o)});
+  fan('#dkme',v.h.length);if(N<=2)fan('#dkopp',v.o);else[...$('#dkopp').children].forEach(c=>c.style.marginLeft='')});
  $('#dkact').innerHTML=v.win!=null?'':v.w===me?(!att?`<button class="btn" data-dk="take">✋ ${t('take')}</button>`+(G.dsel!=null&&canTr(v,G.dsel)?`<button class="btn go" data-dk="tr">↪ ${t('transfer')}</button>`:''):(v.tb.length&&(v.tk||!und(v).length)?`<button class="btn go" data-dk="done">${v.tk?t('done'):t('bita')}</button>`:'')):'';
  if(v.win!=null)G.w=v.win;else startTimer(m.left||40,v.w===me);bars()}
 function dkSend(a,c,i){S({t:'dmove',a,c,i})}
@@ -645,7 +678,7 @@ on('[data-g]',x=>sheet(x.dataset.g));
 on('[data-pot]',x=>{const k=x.dataset.pot;if(k==='jackpot'?!enabled('jackpot'):!enabled('arena'))return toast(t('e_off'));if($('#pot').classList.contains('on')&&PKEY!==k){S({t:'unwatch'});PKEY=k;PS=null;S({t:'pot',key:k});drawPot(true);SFX.tap();return}openPot(k)});
 on('[data-pick]',x=>pickSheet(x.dataset.pick));
 on('[data-pg]',x=>{const m=x.dataset.pm;sheet(x.dataset.pg,m==='create')});
-on('[data-mode]',x=>{SH.mode=x.dataset.mode;SFX.tap();drawSheet()});on('[data-deck]',x=>{SH.deck=+x.dataset.deck;SFX.tap();drawSheet()});on('[data-tr]',x=>{SH.tr=+x.dataset.tr;SFX.tap();drawSheet()});
+on('[data-mode]',x=>{SH.mode=x.dataset.mode;SFX.tap();drawSheet()});on('[data-pn]',x=>{SH.n=+x.dataset.pn;hap();SFX.tap();drawSheet()});on('[data-deck]',x=>{SH.deck=+x.dataset.deck;SFX.tap();drawSheet()});on('[data-tr]',x=>{SH.tr=+x.dataset.tr;SFX.tap();drawSheet()});
 on('#tplay',()=>{WANTTOK=1;pickSheet('quick')});on('#tclaim',()=>{hap('heavy');S({t:'tokdaily'})});on('[data-task]',x=>{hap('medium');S({t:'task',id:x.dataset.task})});on('[data-rc]',()=>{LBQ={...lbq(),by:'ref'};show('top');SFX.tap()});on('[data-tst]',x=>{SH.tst=+x.dataset.tst;hap();SFX.tap();drawSheet()});on('[data-w]',x=>{SH.w=+x.dataset.w;hap();SFX.tap();drawSheet()});on('[data-st]',x=>{SH.st=+x.dataset.st;hap();SFX.tap();drawSheet()});on('#rulesb',()=>{SH.rules=!SH.rules;drawSheet()});on('#priv',x=>{SH.priv=x.checked?1:0});
 on('#goq',goQuick);on('#goc',goCreate);on('#gobot',goBot);on('#cx',()=>{S({t:'cancel'});MYROOM=null;if(SH){SH.q=0;SH.wait=null;drawSheet()}});
 on('#sh',(x,e)=>{if(e.target===x)closeSheet()});on('[data-close]',closeSheetSilent);
@@ -657,7 +690,9 @@ on('#potsnd',x=>{SND=!SND;LS.set('snd',SND?1:0);x.innerHTML=SND?SVGI.snd:SVGI.mu
 on('#potfr',()=>{if(PKEY&&PKEY.startsWith('ap'))return;WANTPRIV=1;S({t:'unwatch'});S({t:'potnew',tier:PKEY&&PKEY.startsWith('arena:')?+PKEY.split(':')[1]:(CFG.arena_tiers||[50])[0]});SFX.whoosh()});
 on('[data-tg]',x=>{TG=x.dataset.tg;$$('[data-tg]').forEach(b=>b.classList.toggle('on',b===x));drawTg();SFX.tap()});
 on('[data-pq]',x=>{const v=x.dataset.pq==='max'?Math.floor(U.star):x.dataset.pq;$('#pamt').value=v;hap();SFX.tap()});
-on('#pbet',()=>{const a=+$('#pamt').value;if(!a)return toast(t('amount')+'?');if(a>(+U.star||0)){toast('⚠️ '+t('e_balance'));SFX.error();return}LS.set('pa_'+(PKEY==='jackpot'?'jackpot':'arena'),a);hap('medium');S({t:'potbet',key:PKEY,amount:a})});
+let BETLOCK=0;const betUnlock=()=>{BETLOCK=0;const b=$('#pbet');if(b)b.classList.remove('busy')};
+on('[data-spin]',()=>{hap();openSpin()});on('#spgo',()=>{if(SPINNING)return;SPINNING=1;hap('heavy');const b=$('#spgo');if(b)b.disabled=true;S({t:'spin'})});
+on('#pbet',()=>{if(Date.now()<BETLOCK)return;const a=+$('#pamt').value;if(!a)return toast(t('amount')+'?');if(a>(+U.star||0)){toast('⚠️ '+t('e_balance'));SFX.error();return}LS.set('pa_'+(PKEY==='jackpot'?'jackpot':'arena'),a);hap('medium');BETLOCK=Date.now()+1500;$('#pbet').classList.add('busy');setTimeout(betUnlock,1500);S({t:'potbet',key:PKEY,amount:a})});
 on('#pcan',()=>S({t:'potcancel',key:PKEY}));
 on('[data-v]',x=>{if($('#pot').classList.contains('on'))closePot();show(x.dataset.v)});on('[data-gc]',x=>{GC=x.dataset.gc;SFX.tap();drawGames()});
 on('[data-wt2]',x=>{WT=x.dataset.wt2;show('wallet')});
@@ -683,7 +718,7 @@ on('[data-rx]',x=>{if(G&&!G.bot)S({t:'chat',text:x.dataset.rx});else fly(x.datas
 const resign=()=>{if(G&&!G.over)ask(t('resign')+'?',ok=>{if(!ok||!G)return;if(G.bot){G.over=1;showRes('lose','')}else{G.w=1-G.seat;S({t:'leave'})}});else if(G)endTable()};
 on('#rs',resign);on('#tback',resign);
 on('#rok',()=>{endTable();show('home')});on('#rclose',()=>$('#res').classList.remove('on'));
-on('#again',()=>{const q=LASTQ||{},lb=G&&G.bot;endTable();if(!q.g)return show('home');if(lb)return startLocal(q.g);sheet(q.g);SH.mode=q.mode||'paid';SH.st=q.st||SH.st;SH.deck=q.deck||36;SH.tr=q.tr||0;SH.w=q.w||SH.w;SH.tst=q.tst||SH.tst;drawSheet();if(SH.mode==='bot')goBot();else goQuick()});
+on('#again',()=>{const q=LASTQ||{},lb=G&&G.bot;endTable();if(!q.g)return show('home');if(lb)return startLocal(q.g);sheet(q.g);SH.mode=q.mode||'paid';SH.st=q.st||SH.st;SH.deck=q.deck||36;SH.tr=q.tr||0;SH.w=q.w||SH.w;SH.n=q.n||SH.n;SH.tst=q.tst||SH.tst;drawSheet();if(SH.mode==='bot')goBot();else goQuick()});
 on('[data-dk]',x=>{const a=x.dataset.dk;if(a==='tr')dkSend('tr',G.dsel);else dkSend(a)});
 on('[data-q]',x=>{if(!G||!G.qv)return;G.qpick=x.dataset.q;hap('medium');SFX.tap();S({t:'qmove',v:x.dataset.q})});
 on('[data-p]',x=>{if(G&&G.g==='nardy')ndTap(+x.dataset.p)});
@@ -695,22 +730,20 @@ function syncBack(){if(!tg||!tg.BackButton)return;const any=$('#sh').classList.c
 if(tg&&tg.BackButton)tg.BackButton.onClick(()=>{if($('#res').classList.contains('on')&&!G)return $('#res').classList.remove('on');if($('#sh').classList.contains('on'))return closeSheet();if($('#table').classList.contains('on'))return resign();if($('#pot').classList.contains('on'))return closePot()});
 
 /* ======================= fon effektlari */
-function applyBg(){document.body.className='bg-'+BGM}
-(function(){const cv=$('#fx'),cx=cv.getContext('2d');let W,H,P=[],dpr=Math.min(devicePixelRatio||1,2),mode=null,shoot=null;
- const rs=()=>{W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr};rs();addEventListener('resize',rs);
- const mk=(y)=>{const m=BGM;if(m==='fire')return{x:Math.random()*W,y:y??H+Math.random()*H*.3,r:(.8+Math.random()*2.2)*dpr,v:(.35+Math.random()*1.1)*dpr,d:Math.random()*6.28,l:1,h:15+Math.random()*35};
-  if(m==='cosmos')return{x:Math.random()*W,y:Math.random()*H,r:(.3+Math.random()*1.4)*dpr,tw:Math.random()*6.28,s:.01+Math.random()*.04};
-  if(m==='grid')return{x:Math.random()*W,y:y??H+10,r:(.6+Math.random()*1.4)*dpr,v:(.3+Math.random()*.7)*dpr,d:0,l:1,h:180+Math.random()*140};
-  return{x:Math.random()*W,y:y??Math.random()*H,r:(.6+Math.random()*1.9)*dpr,v:(.25+Math.random()*.8)*dpr,d:Math.random()*6.28,o:.25+Math.random()*.55}};
- (function f(){requestAnimationFrame(f);if(mode!==BGM){mode=BGM;P=[];const n={fire:55,cosmos:120,snow:50,grid:30,off:0}[mode]||0;for(let i=0;i<n;i++)P.push(mk(mode==='fire'||mode==='grid'?Math.random()*H:undefined))}
-  cx.clearRect(0,0,W,H);if(mode==='off'||document.hidden||$('#table').classList.contains('on'))return;
-  for(const s of P){if(mode==='fire'||mode==='grid'){s.y-=s.v;s.d+=.02;s.x+=Math.sin(s.d)*.5*dpr;s.l=Math.min(1,s.y/H*1.3);if(s.y<-10)Object.assign(s,mk(H+10));
-    cx.beginPath();cx.fillStyle=`hsla(${s.h},100%,${55+s.l*15}%,${.25+s.l*.6})`;cx.shadowColor=`hsl(${s.h},100%,55%)`;cx.shadowBlur=s.r*5;cx.arc(s.x,s.y,s.r*(.5+s.l*.6),0,6.28);cx.fill()}
-   else if(mode==='cosmos'){s.tw+=s.s;cx.beginPath();cx.fillStyle=`rgba(255,255,255,${.25+Math.abs(Math.sin(s.tw))*.7})`;cx.shadowBlur=0;cx.arc(s.x,s.y,s.r,0,6.28);cx.fill()}
-   else{s.y+=s.v;s.d+=.012;s.x+=Math.sin(s.d)*.35*dpr;if(s.y>H+4)Object.assign(s,mk(-4));cx.beginPath();cx.fillStyle='rgba(255,255,255,'+s.o+')';cx.shadowColor='#fff';cx.shadowBlur=s.r*3;cx.arc(s.x,s.y,s.r,0,6.28);cx.fill()}}
-  if(mode==='cosmos'){if(!shoot&&Math.random()<.006)shoot={x:Math.random()*W*.7,y:Math.random()*H*.4,vx:(7+Math.random()*5)*dpr,vy:(3+Math.random()*2)*dpr,l:1};
-   if(shoot){const g=cx.createLinearGradient(shoot.x,shoot.y,shoot.x-shoot.vx*12,shoot.y-shoot.vy*12);g.addColorStop(0,`rgba(255,255,255,${shoot.l})`);g.addColorStop(1,'rgba(255,255,255,0)');cx.strokeStyle=g;cx.lineWidth=2*dpr;cx.beginPath();cx.moveTo(shoot.x,shoot.y);cx.lineTo(shoot.x-shoot.vx*12,shoot.y-shoot.vy*12);cx.stroke();shoot.x+=shoot.vx;shoot.y+=shoot.vy;shoot.l-=.012;if(shoot.l<=0||shoot.x>W)shoot=null}}})();
-})();
+function applyBg(){document.body.className='bg-'+BGM+(LITE?' lite':'');buildFx()}
+/* kuchsiz telefon: birinchi soniyalarda kadr tezligi past bo'lsa, fon effektlari o'chadi (o'yin animatsiyalari qoladi) */
+function fpsWatch(){let n=0,t0=0;const f=t=>{if(!t0)t0=t;n++;if(t-t0<2500)return requestAnimationFrame(f);const fps=n/((t-t0)/1000);if(fps<34&&!document.hidden&&!LITE){LITE=1;applyBg()}};requestAnimationFrame(f)}
+setTimeout(fpsWatch,3500);
+let LITE=0;
+/* fon zarrachalari — CSS animatsiya (transform/opacity), har kadrda JS ishlamaydi */
+function buildFx(){const el=$('#pfx');if(!el)return;const m=BGM,R=Math.random;el.className=m;let h='';
+ if(m==='fire'||m==='grid'||m==='snow'){const n=LITE?0:m==='snow'?16:m==='fire'?14:10;for(let i=0;i<n;i++){const sz=(m==='snow'?3:4)+R()*(m==='fire'?7:5),d=7+R()*9;
+   h+=`<i style="left:${(R()*100).toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${d.toFixed(1)}s;--dl:${(-R()*d).toFixed(1)}s;--dx:${((R()-.5)*90).toFixed(0)}px;--o:${(.3+R()*.5).toFixed(2)}"></i>`}}
+ else if(m==='cosmos'){for(let k=0;k<(LITE?1:3);k++){const dots=[];for(let i=0;i<34;i++)dots.push(`radial-gradient(${(.6+R()*1.2).toFixed(1)}px ${(.6+R()*1.2).toFixed(1)}px at ${(R()*100).toFixed(1)}% ${(R()*100).toFixed(1)}%,#fff,transparent)`);
+   h+=`<i style="background-image:${dots.join(',')};--d:${(2.2+k*1.3).toFixed(1)}s;--dl:${(-k*1.1).toFixed(1)}s"></i>`}h+='<u></u>'}
+ el.innerHTML=h}
+
 iconize(document.body);applyBg();drawNav('home');drawHome();chips();connect();
+setInterval(splFill,1000);
 setInterval(()=>{if(CFG.rc_end)$$('[data-rcl]').forEach(e=>e.textContent=fmtLeft(CFG.rc_end-Date.now()/1000))},1000);
 setInterval(()=>{for(const v of Object.values(POTSUM))if(v.st==='count')v.left=Math.max(0,v.left-1);if(CUR==='home')drawLiveCards()},1000);

@@ -15,6 +15,9 @@ GAMES = BOARD | QUICK | {"durak", "nardy"}
 ADMIN_IDS = [x.strip() for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
 
 db = sqlite3.connect(os.getenv("DB_PATH") or os.path.join(BASE, "arena.db"), check_same_thread=False); db.row_factory = sqlite3.Row
+# WAL + synchronous=NORMAL: har bir commit diskni kutmaydi — stavkalar paytida server "qotib" qolmaydi
+try: db.execute("PRAGMA journal_mode=WAL"); db.execute("PRAGMA synchronous=NORMAL"); db.execute("PRAGMA temp_store=MEMORY")
+except sqlite3.Error as _e: print("pragma:", _e)
 db.executescript("""CREATE TABLE IF NOT EXISTS users(uid TEXT PRIMARY KEY,name TEXT,star REAL DEFAULT 0,
 ton REAL DEFAULT 0,games INT DEFAULT 0,wins INT DEFAULT 0,refs INT DEFAULT 0,ref_by TEXT,guest INT DEFAULT 0);
 CREATE TABLE IF NOT EXISTS tx(id TEXT PRIMARY KEY);
@@ -34,7 +37,7 @@ CREATE INDEX IF NOT EXISTS users_ref ON users(ref_by);
 CREATE TABLE IF NOT EXISTS tasks(uid TEXT,tid TEXT,day TEXT,ts INT,PRIMARY KEY(uid,tid,day));""")
 for col in ("banned INT DEFAULT 0", "created INT DEFAULT 0", "last INT DEFAULT 0", "daily_ts INT DEFAULT 0",
             "ref_earn REAL DEFAULT 0", "wallet TEXT DEFAULT ''", "vip INT DEFAULT 0", "photo TEXT DEFAULT ''",
-            "tok REAL DEFAULT 0", "tokd_ts INT DEFAULT 0"):
+            "tok REAL DEFAULT 0", "tokd_ts INT DEFAULT 0", "spin_ts INT DEFAULT 0"):
     try: db.execute("ALTER TABLE users ADD COLUMN " + col)
     except sqlite3.OperationalError: pass
 try: db.execute("ALTER TABLE wd ADD COLUMN method TEXT DEFAULT 'ton'")
@@ -48,9 +51,11 @@ CFG = {"fee": 0.10, "ref": 0.05, "ref1": 0.03, "ref2": 0.02, "ref3": 0.01, "test
        "daily": 0, "welcome": 0, "star_usd": 0.015, "rate_manual": 0, "rate_fallback": 200,
        "jp_min": 10, "jp_time": 30, "jp_max": 32, "games_off": [], "hot": ["durak", "nardy", "jackpot"],
        "min_dep_star": 1, "min_dep_ton": 0.1,
-       "arena_tiers": [50, 200], "arena_time": 25, "arena_max": 20, "lb_prizes": [1000, 500, 250], "lb_period": "week",
+       "arena_tiers": [10, 50, 200], "arena_time": 25, "arena_max": 20, "lb_prizes": [1000, 500, 250], "lb_period": "week",
        # referal konkursi (bosh sahifadagi birinchi banner): rc_on, umumiy fond, tugash vaqti (unix ts, 0 — muddatsiz)
        "rc_on": 1, "rc_prize": 1000, "rc_end": 0,
+       # kunlik bonus-g'ildirak: 24 soatda 1 marta, spin_min..spin_max ⭐ tasodifiy; spin_ch kanaliga obuna shart (bot u kanalda admin bo'lishi kerak)
+       "spin_on": 1, "spin_min": 1, "spin_max": 5, "spin_ch": "@starumgame",
        "lb_metric": "profit", "lb_auto": 0, "feed_min": 20, "wd_star": 1, "min_wd_star": 100,
        "dep_on": 1, "wd_on": 1, "wd_fee_star": 0.2, "force_sub": [],
        # SPC — o'yin tokeni (HOZIRCHA O'CHIQ, admin panel → Токен включён): bepul o'ynash uchun, vazifa va kunlik bonus orqali yig'iladi (pulga almashtirilmaydi)
@@ -66,6 +71,11 @@ for r in db.execute("SELECT k,v FROM kv"):
         CFG[r["k"]] = v
 def setcfg(k, v):
     CFG[k] = v; db.execute("INSERT OR REPLACE INTO kv VALUES(?,?)", (k, json.dumps(v))); db.commit()
+# bir martalik migratsiya: Arena minimal stavkasi 10 ⭐ (eski sozlamada 50 dan boshlangan)
+if not db.execute("SELECT 1 FROM kv WHERE k='mig_arena10'").fetchone():
+    _t = sorted({float(x) for x in CFG["arena_tiers"]} | {10.0})
+    setcfg("arena_tiers", [int(x) if x == int(x) else x for x in _t])
+    db.execute("INSERT OR REPLACE INTO kv VALUES('mig_arena10','1')"); db.commit()
 def logx(uid, kind, cur, amt, note=""):
     db.execute("INSERT INTO log(ts,uid,kind,cur,amt,note) VALUES(?,?,?,?,?,?)", (int(time.time()), uid, kind, cur, amt, note)); db.commit()
 
@@ -91,16 +101,27 @@ def pubcfg():
     return {k: CFG[k] for k in ("fee", "ref1", "ref2", "ref3", "stakes", "min_wd", "wd_fee", "daily", "jp_min", "jp_max", "games_off", "hot",
                                 "free_pvp", "bot_mode", "test", "min_dep_star", "min_dep_ton", "jp_time",
                                 "arena_tiers", "arena_time", "lb_prizes", "lb_period", "lb_metric", "wd_star", "min_wd_star",
-                                "dep_on", "wd_on", "wd_fee_star", "tok_on", "tok_daily", "tok_stakes", "rc_on", "rc_prize", "rc_end")} | {"force_sub": bool(CFG["force_sub"])} | {"rate": RATE(), "ref": ref_levels()[0]}
+                                "dep_on", "wd_on", "wd_fee_star", "tok_on", "tok_daily", "tok_stakes", "rc_on", "rc_prize", "rc_end", "spin_on", "spin_min", "spin_max", "spin_ch")} | {"force_sub": bool(CFG["force_sub"])} | {"rate": RATE(), "ref": ref_levels()[0]}
 
 class C:
     def __init__(s, ws): s.ws = ws; s.uid = None; s.name = ""; s.t = None; s.seat = 0; s.room = None
+async def _raw(c, s):
+    """Bitta mijozga yuborish. Sekin/uzilgan ulanish boshqalarni kuttirmasligi uchun vaqt chegarasi bor."""
+    try: await asyncio.wait_for(c.ws.send_str(s), 4)
+    except asyncio.TimeoutError:
+        try: asyncio.create_task(c.ws.close())
+        except Exception: pass
+    except Exception: pass
 async def send(c, o):
     if c is None: return
-    try: await c.ws.send_str(json.dumps(o))
-    except Exception: pass
+    await _raw(c, json.dumps(o))
 async def bcast(o):
-    for c in list(conns.values()): await send(c, o)
+    """Hammaga: JSON bir marta tayyorlanadi, yuborish parallel (bitta sekin mijoz qolganlarni to'xtatmaydi)."""
+    cs = list(conns.values())
+    if not cs: return
+    s = json.dumps(o)
+    if len(cs) == 1: return await _raw(cs[0], s)
+    await asyncio.gather(*(_raw(c, s) for c in cs))
 async def me(uid, **extra):
     c = conns.get(uid); u = user(uid)
     if c and u: await send(c, {"t": "me", "user": pub(u), **extra})
@@ -134,6 +155,7 @@ async def credit(uid, cur, amt, txid):
     stars = amt if cur == "star" else round(amt * RATE(), 2)
     db.execute("INSERT INTO tx VALUES(?)", (txid,)); db.commit(); add(uid, stars)
     logx(uid, "deposit", cur, amt, f"+{stars}⭐ " + txid[:20])
+    await ref_pay(uid, stars, "пополнение")
     c = conns.get(uid)
     if c: await send(c, {"t": "dep", "ok": True, "user": pub(user(uid)), "stars": stars})
     await notify_admins(f"💰 Пополнение: {user(uid)['name']} +{amt} {'⭐' if cur == 'star' else 'TON'}")
@@ -198,7 +220,7 @@ def stop(t):
 def ref_levels(): return [float(CFG["ref1"] or 0), float(CFG["ref2"] or 0), float(CFG["ref3"] or 0)]
 
 async def ref_pay(uid, stake, g):
-    """3 bosqichli referal: o'yinchining stavkasidan
+    """3 bosqichli referal: do'stning DEPOZITIDAN (Stars; TON kurs bo'yicha Stars'ga aylangan summa), stavkadan emas.
     1-daraja (uni taklif qilgan) — ref1, 2-daraja (taklif qilganning taklifchisi) — ref2, 3-daraja — ref3."""
     u = user(uid)
     if not u or not u["ref_by"]: return
@@ -223,35 +245,45 @@ def ref_stats(uid):
     earn = [max(0, tot - e2 - e3), e2, e3]   # eski yozuvlar (L belgisisiz) 1-darajaga kiradi
     return [{"p": p, "n": n[i], "earn": round(earn[i], 2)} for i, p in enumerate(ref_levels())]
 
-async def settle(t, w):
+async def settle(t, w, loser=None):
+    """2 o'yinchi: g'olib w bankni oladi (w=-1 — durang, stavkalar qaytadi).
+    3–4 o'yinchi (durak): loser — durak, bank qolganlar o'rtasida teng bo'linadi (loser=-1 — durang)."""
     if t["done"]: return
     t["done"] = True; stop(t); st = t["stake"]; tok = t["cur"] == "tok"; bet = t["cur"] != "free"; paid = t["cur"] == "star"
+    n = len(t["u"]); multi = n > 2
+    if multi:
+        if loser is None: loser = -1
+        draw = loser == -1; wins = [i for i in range(n) if i != loser] if not draw else []
+        w = -1 if draw else wins[0]
+        share = round(st * n * (1 - CFG["fee"]) / (n - 1), 2)
+    else:
+        draw = w == -1; wins = [] if draw else [w]; share = round(st * 2 * (1 - CFG["fee"]), 2)
     if t in ACTIVE: ACTIVE.remove(t)
     ids = [("bot" if u is None else u) for u in t["u"]]
-    db.execute("INSERT INTO games(ts,g,cur,stake,p0,p1,w) VALUES(?,?,?,?,?,?,?)", (int(time.time()), t["g"], t["cur"], st, ids[0], ids[1], w)); db.commit()
-    if paid and w != -1: logx(t["u"][w], "fee", "star", round(st * 2 * CFG["fee"], 2), t["g"])
+    db.execute("INSERT INTO games(ts,g,cur,stake,p0,p1,w) VALUES(?,?,?,?,?,?,?)", (int(time.time()), t["g"], t["cur"], st, ids[0], ",".join(ids[1:]), w))
+    if paid and not draw and t["u"][w]: logx(t["u"][w], "fee", "star", round(st * n * CFG["fee"], 2), t["g"])
     for i, uid in enumerate(t["u"]):
         if uid is None: continue
-        amt = 0
+        amt = 0; won = i in wins
         if bet:
-            amt = st if w == -1 else round(st * 2 * (1 - CFG["fee"]), 2) if w == i else 0
-            if amt: (addt if tok else add)(uid, amt); logx(uid, "win" if w == i else "refund", "tok" if tok else "star", amt, t["g"])
+            amt = st if draw else share if won else 0
+            if amt: (addt if tok else add)(uid, amt); logx(uid, "win" if won else "refund", "tok" if tok else "star", amt, t["g"])
         if paid:
-            if w == i: await feed_push(uid, t["g"], amt, st)
-            if w != -1: await ref_pay(uid, st, t["g"])
+            if won: await feed_push(uid, t["g"], amt, st)
         if not t.get("bot"):
-            db.execute("UPDATE users SET games=games+1,wins=wins+? WHERE uid=?", (1 if w == i else 0, uid))
-            db.execute("INSERT INTO res(ts,uid,g,stake,prize,win) VALUES(?,?,?,?,?,?)", (int(time.time()), uid, t["g"], st if paid else 0, amt if paid else 0, 1 if w == i else 0))
-            db.commit()
+            db.execute("UPDATE users SET games=games+1,wins=wins+? WHERE uid=?", (1 if won else 0, uid))
+            db.execute("INSERT INTO res(ts,uid,g,stake,prize,win) VALUES(?,?,?,?,?,?)", (int(time.time()), uid, t["g"], st if paid else 0, amt if paid else 0, 1 if won else 0))
         c = conns.get(uid)
-        if c: await send(c, {"t": "paid", "user": pub(user(uid)), "amount": amt, "w": w})
+        if c and not (multi and t["p"][i] is None): await send(c, {"t": "paid", "user": pub(user(uid)), "amount": amt, "w": -1 if draw else i if won else wins[0]})
+        elif c: await me(uid)
+    db.commit()
     await rooms_bc()
 
 def mk_table(ps, g, cur, st, opts=None, bot_game=False):
     opts = opts or {}
     t = {"id": secrets.token_hex(4), "u": [p.uid if p else None for p in ps], "p": ps, "cur": cur, "stake": st, "done": False,
          "res": {}, "g": g, "bot": bot_game, "opts": opts, "ts": int(time.time())}
-    if g == "durak": t["eng"] = durak.Durak(bool(opts.get("tr")), 24 if opts.get("deck") == 24 else 36)
+    if g == "durak": t["eng"] = durak.Durak(bool(opts.get("tr")), 24 if opts.get("deck") == 24 else 36, len(ps))
     elif g == "nardy": t["eng"] = nardy.Nardy()
     elif g in QUICK: t["eng"] = quick.Quick(g, opts.get("w"))
     return t
@@ -303,7 +335,7 @@ async def push(t, bad=None, extra=None):
         msg = {"t": {"durak": "dv", "nardy": "nv"}.get(g, "qv"), "v": v, "left": QTURN if g in QUICK else TURN, "bad": bad == i}
         if extra: msg.update(extra)
         await send(p, msg)
-    if winner(t) is not None: return await settle(t, winner(t))
+    if winner(t) is not None: return await settle(t, winner(t), getattr(e, "loser", None))
     stop(t); t["tm"] = asyncio.create_task(tick(t))
 
 async def tick(t):
@@ -331,7 +363,7 @@ async def tick(t):
 # ================= xonalar (lobbi) =================
 def room_pub(r):
     return {"id": r["id"], "g": r["g"], "stake": r["stake"], "cur": r.get("cur", "star"), "opts": r["opts"], "host": r["hn"], "hl": r["hl"],
-            "n": len(r["ps"]), "max": 2, "ts": r["ts"]}
+            "n": len(r["ps"]), "max": r.get("max", 2), "ts": r["ts"]}
 async def rooms_bc(c=None):
     lst = [room_pub(r) for r in ROOMS.values() if not r["priv"]]
     lst.sort(key=lambda r: -r["ts"])
@@ -342,7 +374,10 @@ async def rooms_bc(c=None):
 
 def norm_opts(g, o):
     o = o if isinstance(o, dict) else {}
-    if g == "durak": return {"deck": 24 if o.get("deck") == 24 else 36, "tr": 1 if o.get("tr") else 0}
+    if g == "durak":
+        try: n = max(2, min(4, int(o.get("n") or 2)))
+        except (TypeError, ValueError): n = 2
+        return {"deck": 24 if o.get("deck") == 24 else 36, "tr": 1 if o.get("tr") else 0, "n": n}
     if g in WINS:
         try: w = int(o.get("w") or WINS[g])
         except (TypeError, ValueError): w = WINS[g]
@@ -375,12 +410,16 @@ async def leave_room(c, bc=True):
     if not r: return
     if c in r["ps"]: r["ps"].remove(c)
     if not r["ps"]: ROOMS.pop(r["id"], None)
+    else:
+        if r["host"] == c.uid: h = r["ps"][0]; r["host"], r["hn"], r["hl"] = h.uid, h.name, lvl(h.uid)
+        for p in r["ps"]: await send(p, {"t": "wait", "room": room_pub(r), "priv": r["priv"]})
     if bc: await rooms_bc()
 
 async def create_room(c, g, stake, opts, priv=False, cur="star"):
     await leave_room(c, False)
     r = {"id": secrets.token_hex(3), "g": g, "stake": stake, "cur": cur, "opts": norm_opts(g, opts), "host": c.uid, "hn": c.name,
          "hl": lvl(c.uid), "ps": [c], "ts": int(time.time()), "priv": bool(priv)}
+    r["max"] = r["opts"].get("n", 2) if g == "durak" else 2
     ROOMS[r["id"]] = r; c.room = r["id"]
     await send(c, {"t": "wait", "room": room_pub(r), "priv": r["priv"]})
     await rooms_bc()
@@ -394,11 +433,14 @@ async def join_room(c, rid):
     if st is None: return
     await leave_room(c, False)
     r["ps"].append(c); c.room = rid
-    if len(r["ps"]) < 2: return await rooms_bc()
+    need = r.get("max", 2)
+    if len(r["ps"]) < need:
+        for p in r["ps"]: await send(p, {"t": "wait", "room": room_pub(r), "priv": r["priv"]})
+        return await rooms_bc()
     ROOMS.pop(rid, None)
     ok = [p for p in r["ps"] if r["stake"] == 0 or (tbal(p.uid) if cur == "tok" else bal(p.uid)) >= r["stake"]]
     for p in r["ps"]: p.room = None
-    if len(ok) < 2:
+    if len(ok) < need:
         for p in r["ps"]:
             if p not in ok: await send(p, {"t": "err", "code": "tbalance" if cur == "tok" else "balance"})
         for p in ok: await send(p, {"t": "err", "code": "gone"})
@@ -447,15 +489,19 @@ pots_sync()
 def pots_sum(): return {k: p.summary() for k, p in POTS.items() if not p.priv}
 
 async def pot_push(p, extra=()):
-    full = p.pub(); ids = {b["uid"] for b in p.bets} | set(extra)
-    for c in list(conns.values()):
-        if getattr(c, "watch", None) == p.key or c.uid in ids: await send(c, full)
+    full = json.dumps(p.pub()); ids = {b["uid"] for b in p.bets} | set(extra)
+    tg = [c for c in list(conns.values()) if getattr(c, "watch", None) == p.key or c.uid in ids]
+    if tg: await asyncio.gather(*(_raw(c, full) for c in tg))
     if not p.priv: await bcast({"t": "pots", "sum": pots_sum()})
 
 async def pot_bet(c, key, amt):
     p = POTS.get(key)
     if not p: return await send(c, {"t": "err", "code": "gone"})
-    amt = round(float(amt or 0), 2)
+    now = time.time()
+    if now - getattr(c, "bet_ts", 0) < 0.7: return            # ikki marta bosilib ketishdan himoya
+    c.bet_ts = now
+    try: amt = round(float(amt or 0), 2)
+    except (TypeError, ValueError): return
     if getattr(c, "needsub", False): return await send(c, {"t": "err", "code": "sub"})
     if p.kind in CFG["games_off"]: return await send(c, {"t": "err", "code": "off"})
     if CFG["maint"]: return await send(c, {"t": "err", "code": "maint"})
@@ -511,7 +557,6 @@ async def pot_run(p, rid):
         win = b["uid"] == w["uid"]
         db.execute("UPDATE users SET games=games+1,wins=wins+? WHERE uid=?", (1 if win else 0, b["uid"]))
         db.execute("INSERT INTO res(ts,uid,g,stake,prize,win) VALUES(?,?,?,?,?,?)", (now, b["uid"], p.kind, b["amt"], prize if win else 0, 1 if win else 0))
-        await ref_pay(b["uid"], b["amt"], p.kind)
     db.execute("INSERT INTO games(ts,g,cur,stake,p0,p1,w) VALUES(?,?,?,?,?,?,?)", (now, p.kind, "star", pot, w["uid"], f"{len(bets)} игроков", 0)); db.commit()
     for b in bets: await me(b["uid"])
     await feed_push(w["uid"], p.kind, prize, next(b["amt"] for b in bets if b["uid"] == w["uid"]))
@@ -682,6 +727,13 @@ def clean(s, n=20): return re.sub(r"[<>\x00-\x1f]", "", str(s or ""))[:n]
 async def leave(c):
     t = c.t; c.t = None
     if t and not t["done"]:
+        if len(t["p"]) > 2:
+            e = t.get("eng"); seat = c.seat
+            if e is not None and seat in getattr(e, "out", []):      # kartasini tugatgan o'yinchi chiqdi — o'yin davom etadi
+                t["p"][seat] = None; return
+            for i, o in enumerate(t["p"]):
+                if o and i != seat: await send(o, {"t": "opp_left"})
+            return await settle(t, None, loser=seat)                 # chiqib ketgan — durak
         o = t["p"][1 - c.seat]
         await send(o, {"t": "opp_left"}); await settle(t, 1 - c.seat)
 
@@ -735,7 +787,7 @@ async def on_msg(c, m):
         if cur == "tok" and st == 0: cur = "star"
         opts = norm_opts(g, m.get("opts"))
         if k == "quick":
-            r = next((r for r in ROOMS.values() if not r["priv"] and r["g"] == g and r["stake"] == st and r.get("cur", "star") == cur and r["opts"] == opts and r["host"] != c.uid and len(r["ps"]) < 2), None)
+            r = next((r for r in ROOMS.values() if not r["priv"] and r["g"] == g and r["stake"] == st and r.get("cur", "star") == cur and r["opts"] == opts and c not in r["ps"] and len(r["ps"]) < r.get("max", 2)), None)
             if r: return await join_room(c, r["id"])
         await create_room(c, g, st, opts, k == "create" and m.get("priv"), cur)
     elif k == "join": await join_room(c, str(m.get("id")))
@@ -842,6 +894,7 @@ async def on_msg(c, m):
             db.execute("UPDATE users SET refs=? WHERE uid=?", (nref, c.uid)); db.commit()
         if lv and lv[0]["n"] != nref: lv[0]["n"] = nref
         await send(c, {"t": "bonus", "daily": CFG["daily"], "next": max(0, (u["daily_ts"] or 0) + 86400 - time.time()),
+                       "spin_next": max(0, (u.get("spin_ts") or 0) + 86400 - time.time()),
                        "ref": ref_levels()[0], "lv": lv, "refs": nref, "earn": round(u["ref_earn"] or 0, 2),
                        "friends": [dict(r) for r in db.execute("SELECT name,games FROM users WHERE ref_by=? ORDER BY created DESC LIMIT 20", (c.uid,))]})
     elif k == "daily":
@@ -851,6 +904,25 @@ async def on_msg(c, m):
         db.execute("UPDATE users SET daily_ts=? WHERE uid=?", (int(time.time()), c.uid)); db.commit()
         add(c.uid, CFG["daily"]); logx(c.uid, "bonus", "star", CFG["daily"], "daily")
         await me(c.uid); await send(c, {"t": "gift", "amt": CFG["daily"]}); await on_msg(c, {"t": "bonus"})
+    elif k == "spin":
+        u = user(c.uid)
+        if not CFG["spin_on"] or (u["guest"] and not CFG["test"]): return await send(c, {"t": "err", "code": "guest" if u["guest"] else "off"})
+        if getattr(c, "spin_busy", False): return
+        left = (u.get("spin_ts") or 0) + 86400 - time.time()
+        if left > 0: return await send(c, {"t": "err", "code": "early"})
+        c.spin_busy = True
+        try:
+            ch = str(CFG["spin_ch"] or "").strip()
+            if ch and not await gw_check_channel(c.uid, ch): return await send(c, {"t": "err", "code": "gwsub", "ch": ch})
+            lo, hi = int(CFG["spin_min"]), int(CFG["spin_max"])
+            if hi < lo: lo, hi = hi, lo
+            prize = RNG.randint(max(0, lo), max(0, hi))
+            cur = db.execute("UPDATE users SET spin_ts=? WHERE uid=? AND COALESCE(spin_ts,0)+86400<=?", (int(time.time()), c.uid, int(time.time())))
+            db.commit()
+            if not cur.rowcount: return await send(c, {"t": "err", "code": "early"})
+            if prize: add(c.uid, prize); logx(c.uid, "bonus", "star", prize, "spin")
+            await send(c, {"t": "spin", "prize": prize, "user": pub(user(c.uid)), "next": 86400})
+        finally: c.spin_busy = False
     elif k == "tasks": await send_tasks(c)
     elif k == "task": await task_claim(c, str(m.get("id") or ""))
     elif k == "tokdaily":
@@ -910,6 +982,8 @@ async def on_start(app):
 
 async def on_stop(app):
     for t in app.get("tasks", []): t.cancel()
+    try: db.commit(); db.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+    except sqlite3.Error: pass
 
 async def health(r): return web.Response(text="ok")
 

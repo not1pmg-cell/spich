@@ -23,17 +23,38 @@ function chMake(b,m){const n=b.map(r=>r.slice());let p=n[m[0]][m[1]];n[m[0]][m[1
 function chMoves(s){const k=s.turn,o=[];for(let i=0;i<8;i++)for(let j=0;j<8;j++){const p=s.b[i][j];if(!p||colr(p)!==k)continue;
  for(const m of chPseudo(s.b,i,j)){const n=chMake(s.b,m),[kr,kc]=chKing(n,k);if(!chAtt(n,k,kr,kc))o.push(m)}}return o}
 const GLY={k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
-/* shashka (majburiy urish, damka bir qadam) */
+/* rus shashkasi: urish majburiy (oldinga ham, orqaga ham), damka istalgan masofaga yuradi va uradi,
+   urilgan toshlar yurish oxirida olinadi, urish paytida oxirgi qatorga yetgan tosh damka bo'lib davom etadi */
 const ckc=p=>p==='w'||p==='W'?0:1;
-function ckJumps(b,r,c,k,king,path,caps,out){const dirs=king?D8.slice(0,4):k?[[1,1],[1,-1]]:[[-1,1],[-1,-1]];let any=0;
- for(const[a,e]of dirs){const mr=r+a,mc=c+e,lr=r+2*a,lc=c+2*e;
-  if(inb(lr,lc)&&b[mr][mc]&&ckc(b[mr][mc])!==k&&!caps.includes(mr*8+mc)&&(!b[lr][lc]||(lr===path[0]&&lc===path[1]))){any=1;
-   const np=[...path,lr,lc];if(!king&&lr===(k?7:0))out.push(np);else ckJumps(b,lr,lc,k,king,np,[...caps,mr*8+mc],out)}}
+const CKD=[[1,1],[1,-1],[-1,1],[-1,-1]];
+function ckJumps(b,r,c,k,king,path,caps,out){
+ const emp=(rr,cc)=>inb(rr,cc)&&(!b[rr][cc]||(rr===path[0]&&cc===path[1]));
+ const foe=(rr,cc)=>inb(rr,cc)&&b[rr][cc]&&!(rr===path[0]&&cc===path[1])&&ckc(b[rr][cc])!==k&&!caps.includes(rr*8+cc);
+ let any=0;
+ for(const[a,e]of CKD){
+  let mr=r+a,mc=c+e;
+  if(king)while(emp(mr,mc)){mr+=a;mc+=e}
+  if(!foe(mr,mc))continue;
+  const lands=[];let lr=mr+a,lc=mc+e;
+  while(emp(lr,lc)){lands.push([lr,lc]);if(!king)break;lr+=a;lc+=e}
+  if(!lands.length)continue;any=1;
+  const nc=[...caps,mr*8+mc],cont=[],stop=[];
+  for(const[x,y]of lands){const np=[...path,x,y],kg=king||x===(k?7:0),sub=[];
+   ckJumps(b,x,y,k,kg,np,nc,sub);
+   if(sub.some(q=>q.length>np.length))cont.push(...sub);else stop.push(np)}
+  out.push(...(cont.length?cont:stop))}
  if(!any&&path.length>2)out.push(path)}
 function ckMoves(s){const k=s.turn,J=[],M=[],b=s.b;for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=b[r][c];if(!p||ckc(p)!==k)continue;
  const king=p===p.toUpperCase();ckJumps(b,r,c,k,king,[r,c],[],J);
- for(const[a,e]of king?D8.slice(0,4):k?[[1,1],[1,-1]]:[[-1,1],[-1,-1]])if(inb(r+a,c+e)&&!b[r+a][c+e])M.push([r,c,r+a,c+e])}
- return J.length?J:M}
+ if(king){for(const[a,e]of CKD){let rr=r+a,cc=c+e;while(inb(rr,cc)&&!b[rr][cc]){M.push([r,c,rr,cc]);rr+=a;cc+=e}}}
+ else for(const[a,e]of k?[[1,1],[1,-1]]:[[-1,1],[-1,-1]])if(inb(r+a,c+e)&&!b[r+a][c+e])M.push([r,c,r+a,c+e])}
+ const o=J.length?J:M;o.cap=!!J.length;return o}
+function ckApply(s,m){const b=s.b.map(r=>r.slice());let p=b[m[0]][m[1]],cap=0;const k=ckc(p),man=p===p.toLowerCase();b[m[0]][m[1]]='';
+ for(let i=0;i+3<m.length;i+=2){const a=Math.sign(m[i+2]-m[i]),e=Math.sign(m[i+3]-m[i+1]);let rr=m[i]+a,cc=m[i+1]+e;
+  while(rr!==m[i+2]||cc!==m[i+3]){if(b[rr][cc]){b[rr][cc]='';cap++}rr+=a;cc+=e}
+  if(m[i+2]===(k?7:0))p=p.toUpperCase()}
+ const lr=m[m.length-2],lc=m[m.length-1];b[lr][lc]=p;
+ return{b,turn:1-s.turn,lm:[lr,lc],fr:[m[0],m[1]],nc:cap||man?0:(s.nc||0)+1}}
 /* reversi */
 function rvFlips(b,r,c,k){if(b[r][c]!==-1)return[];const f=[];for(const[a,e]of D8){const l=[];let rr=r+a,cc=c+e;while(inb(rr,cc)&&b[rr][cc]===1-k){l.push([rr,cc]);rr+=a;cc+=e}if(l.length&&inb(rr,cc)&&b[rr][cc]===k)f.push(...l)}return f}
 const rvHas=(b,k)=>{for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(rvFlips(b,r,c,k).length)return 1;return 0};
@@ -51,12 +72,9 @@ chess:{R:8,C:8,from:1,flip:1,anim:'mv',
 checkers:{R:8,C:8,from:1,flip:1,anim:'mv',
  init:()=>{const b=grid(8,8,'');for(let r=0;r<8;r++)for(let c=0;c<8;c++)if((r+c)%2){if(r<3)b[r][c]='b';if(r>4)b[r][c]='w'}return{b,turn:0}},
  moves:ckMoves,
- apply:(s,m)=>{const b=s.b.map(r=>r.slice());let p=b[m[0]][m[1]];b[m[0]][m[1]]='';
-  for(let i=0;i+3<m.length;i+=2)if(Math.abs(m[i]-m[i+2])===2)b[(m[i]+m[i+2])/2][(m[i+1]+m[i+3])/2]='';
-  const lr=m[m.length-2],lc=m[m.length-1],k=ckc(p);if(p===p.toLowerCase()&&lr===(k?7:0))p=p.toUpperCase();b[lr][lc]=p;
-  return{b,turn:1-s.turn,lm:[lr,lc],fr:[m[0],m[1]]}},
- over:s=>ckMoves(s).length?null:1-s.turn,
- pc:(r,c,s)=>{const p=s.b[r][c];if(!p)return null;return['ck'+ckc(p),p===p.toUpperCase()?'♛\uFE0E':'']},bg:(r,c)=>(r+c)%2?'d':'l'},
+ apply:ckApply,
+ over:s=>(s.nc||0)>=30?-1:ckMoves(s).length?null:1-s.turn,   /* 15 tadan yurish urishsiz, faqat damkalar — durang */
+ pc:(r,c,s)=>{const p=s.b[r][c];if(!p)return null;const kg=p===p.toUpperCase();return['ck'+ckc(p)+(kg?' kg':''),kg?'♛\uFE0E':'']},bg:(r,c)=>(r+c)%2?'d':'l'},
 connect4:{R:6,C:7,anim:'drop',init:()=>({b:grid(6,7,-1),turn:0}),
  moves:s=>{const o=[];for(let c=0;c<7;c++)if(s.b[0][c]===-1)o.push([c]);return o},
  apply:(s,m)=>{const c=m[0],b=s.b.map(r=>r.slice());let r=5;while(b[r][c]!==-1)r--;b[r][c]=s.turn;const ln=five(b,r,c,s.turn,6,7,4);
@@ -78,7 +96,8 @@ const HE={
 chess:(s,m,n,me)=>{const t=s.b[m[2]][m[3]];let cap=t?PV[t.toLowerCase()]:0,opp=0;
  for(let i=0;i<8;i++)for(let j=0;j<8;j++){const p=n.b[i][j];if(p&&colr(p)!==me)for(const q of chPseudo(n.b,i,j)){const x=n.b[q[2]][q[3]];if(x)opp=Math.max(opp,PV[x.toLowerCase()])}}
  return cap*10-opp*9+(s.b[m[0]][m[1]].toLowerCase()==='p'&&(m[2]===0||m[2]===7)?60:0)+(3.5-Math.abs(3.5-m[3]))*.3},
-checkers:(s,m)=>m.length*4+(Math.abs(m[0]-m[m.length-2])===1&&(m[m.length-2]===0||m[m.length-2]===7)?3:0),
+checkers:(s,m,n,me)=>{const cnt=b=>b.flat().filter(p=>p&&ckc(p)!==me).length,pc=s.b[m[0]][m[1]],lr=m[m.length-2];
+ return (cnt(s.b)-cnt(n.b))*10+(pc===pc.toLowerCase()&&lr===(me?7:0)?8:0)-(ckMoves(n).cap?7:0)+(pc===pc.toLowerCase()?(me?lr:7-lr)*.3:0)},
 connect4:(s,m,n,me)=>{let sc=3-Math.abs(3-m[0]);if(!n.w&&E.connect4.moves(n).some(x=>E.connect4.apply(n,x).w===1-me))sc-=60;return sc},
 gomoku:(s,m,n,me)=>{const o=s.b.flat().filter(v=>v!==-1).length;if(!o)return -Math.abs(7-m[0])-Math.abs(7-m[1]);return gsc(s.b,m[0],m[1],me)+gsc(s.b,m[0],m[1],1-me)*.9-(Math.abs(7-m[0])+Math.abs(7-m[1]))*.1},
 reversi:(s,m,n)=>{const cor=m[0]%7===0&&m[1]%7===0;return n.fl.length+(cor?30:0)-(!cor&&(m[0]<=1||m[0]>=6)&&(m[1]<=1||m[1]>=6)?8:0)},

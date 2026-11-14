@@ -462,7 +462,7 @@ section{display:none}section.on{display:block;animation:vin .35s cubic-bezier(.2
 @keyframes pkick{0%,30%{transform:none}60%,100%{transform:translate(18px,-46px) scale(.6) rotate(360deg)}}@keyframes pkeep{0%,35%{transform:none}60%,100%{transform:translateX(-22px) rotate(-50deg)}}
 .a-ar{border-radius:14px;overflow:hidden}.a-ar .ar-mini{width:100%;height:100%;border-radius:14px}
 
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
 
 /* ===== v3: tugmalar dizayni qayta ishlandi (mijoz so'rovi) */
 /* bannerlar — matn sig'adi, "Играть" tugmasi kesilmaydi */
@@ -529,9 +529,86 @@ section.still :is(.card,.li,.jpb,.rm,.tile,.game,.pd .pa,.pd .st,.lbr,.wcard,.re
 .rcbox{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:12px;border-radius:20px;background:linear-gradient(125deg,#3a2306,#7a3d07 55%,#b45309);border:1px solid #ffc83d88;animation:up .4s both}
 .rcbox>div:first-child{flex:1;display:grid;gap:2px}.rcbox small{color:#ffe7a3;font-weight:800;letter-spacing:.06em;font-size:10.5px}.rcbox b{font:900 18px var(--H);color:#fff}.rcbox span{font-size:12px;color:#ffe9c2}
 .rct{text-align:center;padding:8px 12px;border-radius:14px;background:#00000040}.rct b{display:block;font:800 14px var(--H);color:#ffc83d}
+/* shashka damkasi: ikkala rangda ham aniq ko'rinadi */
+.pc.kg{font-size:calc(var(--cell,40px)*.46);line-height:1;text-shadow:0 1px 0 #0006}
+.ck0.kg{color:#b45309;box-shadow:0 0 0 3px #ffc83d,0 3px 0 #5d5d70,0 0 14px #ffc83daa}
+.ck1.kg{color:#fff;box-shadow:0 0 0 3px #ffc83d,0 3px 0 #3d0511,0 0 14px #ffc83daa}
+.pbtn.busy{opacity:.55;pointer-events:none}
+/* kunlik bonus-g'ildirak */
+.spw{position:relative;width:min(78vw,300px);aspect-ratio:1;margin:0 auto 16px}
+.spg{position:absolute;inset:-10px;border-radius:50%;background:conic-gradient(#ffc83d,#ff2e63,#a855f7,#38d9ff,#ffc83d);filter:blur(14px);opacity:.55}
+.spr{position:absolute;inset:0;border-radius:50%;border:6px solid #1a1424;box-shadow:0 0 0 3px #ffc83d,0 10px 30px #000a;will-change:transform}
+.spr i{position:absolute;left:50%;top:50%;width:0;height:0;font:900 22px var(--H);font-style:normal;color:#fff;text-shadow:0 2px 4px #0009;transform:rotate(var(--a)) translateY(calc(min(78vw,300px)*-.36));display:grid;place-items:center;white-space:nowrap}
+.spr i u{position:absolute;top:13px;font-size:12px;text-decoration:none}
+.spp{position:absolute;left:50%;top:-12px;transform:translateX(-50%);border:13px solid transparent;border-top:24px solid #fff;filter:drop-shadow(0 3px 4px #000a);z-index:2}
+.sph{position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#3a2a55,#120d1c);border:4px solid #ffc83d;display:grid;place-items:center;box-shadow:0 4px 14px #000a;z-index:2}
+.sph svg{width:60%;height:60%}
+.spn{text-align:center;padding:12px;border-radius:18px;background:#ffffff0d;border:1px solid var(--ln2,#ffffff1a);margin-bottom:10px}.spn b{display:block;font:800 26px var(--H);color:var(--gold)}
+.spsub{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:16px;background:#38d9ff12;border:1px solid #38d9ff33;margin:10px 0;font-size:12.5px}.spsub span{flex:1}
+.bn-sp{background:radial-gradient(140px 120px at 85% 40%,#c084fc55,transparent 70%),linear-gradient(125deg,#1b0b3a,#4c1d95 50%,#be185d);border:1px solid #c084fc88}
+.sp-mini{position:relative;display:grid;place-items:center}
+.sp-mini i{width:78px;height:78px;border-radius:50%;background:conic-gradient(#ff2e63 0 20%,#7c3aed 0 40%,#ff8a1a 0 60%,#0ea5e9 0 80%,#22c55e 0);border:4px solid #fff;box-shadow:0 6px 18px #0008;animation:rot 5s linear infinite}
+.sp-mini u{position:absolute;top:2px;border:8px solid transparent;border-top:14px solid #ffc83d;filter:drop-shadow(0 2px 2px #000)}
+.spd{width:100%;cursor:pointer;color:inherit;font:inherit}
+/* durak: 3–4 o'yinchi — raqiblar qatori */
+#dkopp.multi{display:flex;justify-content:center;gap:8px;height:auto;min-height:0;padding:4px 6px}
+.dks{position:relative;flex:1;max-width:120px;display:grid;justify-items:center;gap:2px;padding:8px 6px;border-radius:16px;background:#ffffff0d;border:1.5px solid #ffffff1f;transition:border-color .2s,box-shadow .2s}
+.dks.w{border-color:var(--ok);box-shadow:0 0 16px #2ee59d66}.dks.out{opacity:.5}
+.dks .dka{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:800 15px var(--H);color:#fff}
+.dks b{font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dks small{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--mu)}
+.dks small .cd{width:13px!important;height:18px!important;border-radius:3px;margin:0!important;display:inline-block;--cw:13px}
+.dks em{position:absolute;top:-8px;right:-4px;font-style:normal;font-size:16px;filter:drop-shadow(0 2px 2px #000)}
+/* ===== v4: optimizatsiya — animatsiyalar faqat transform/opacity (GPU), og'ir effektlar olib tashlandi */
+.nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:#0f0c16f7}
+.ov{backdrop-filter:none;-webkit-backdrop-filter:none;background:#050409e6}
+.card{backdrop-filter:none;-webkit-backdrop-filter:none}
+.btn.go{animation:none;background-size:100% 100%}
+.hero{animation:up .5s both;background-size:100% 100%}
+.hero::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(100deg,transparent,#ffffff38,transparent);transform:translateX(-140%);animation:hsw 3.6s ease-in-out infinite;pointer-events:none}
+@keyframes hsw{0%,55%{transform:translateX(-140%)}100%{transform:translateX(330%)}}
+.bn-rc::after{background:linear-gradient(105deg,transparent 30%,#ffffff33 50%,transparent 70%);background-size:auto;width:60%;inset:0 auto 0 0;transform:translateX(-120%);animation:rcs 3.2s ease-in-out infinite}
+@keyframes rcs{0%{transform:translateX(-120%)}60%,100%{transform:translateX(220%)}}
+.ar-mini u{left:0;top:0;width:100%;height:100%;border-radius:0;background:none;box-shadow:none;animation:bball2 3.2s linear infinite;will-change:transform}
+.ar-mini u::after{content:"";position:absolute;left:-6px;top:-6px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#cfd3e6);box-shadow:0 0 10px #fff}
+@keyframes bball2{0%{transform:translate(45%,40%)}15%{transform:translate(86%,8%)}32%{transform:translate(4%,30%)}50%{transform:translate(70%,78%)}68%{transform:translate(20%,82%)}84%{transform:translate(86%,46%)}100%{transform:translate(45%,40%)}}
+.lights i{animation:bulb2 1s infinite}@keyframes bulb2{50%{opacity:.3}}
+.a-rv i{position:relative;background:var(--a);animation:rf2 1.4s ease-in-out infinite alternate;animation-delay:calc(var(--i)*.25s)}
+.a-rv i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--b);animation:rf3 1.4s steps(1) infinite alternate;animation-delay:calc(var(--i)*.25s)}
+@keyframes rf2{0%,30%{transform:rotateY(0)}50%{transform:rotateY(90deg)}70%,100%{transform:rotateY(0)}}@keyframes rf3{0%{opacity:0}50%,100%{opacity:1}}
+#bgfx .gridf{animation:gridm2 2.4s linear infinite;background-position:0 0}
+@keyframes gridm2{from{transform:perspective(320px) rotateX(62deg) translateY(0)}to{transform:perspective(320px) rotateX(62deg) translateY(44px)}}
+/* ekrandan tashqaridagi o'yin kartalari chizilmaydi; ochiq o'yin/arena ostidagi sahifa to'xtatiladi */
+.game{content-visibility:auto;contain-intrinsic-size:auto 150px}
+body:has(#table.on) section.on,body:has(#pot.on) section.on{visibility:hidden}
+body:has(#table.on) #bgfx,body:has(#table.on) .nav{visibility:hidden}
+/* fon zarrachalari: canvas o'rniga CSS (kompozitor qatlamida, asosiy oqimni band qilmaydi) */
+#fx{display:none}
+#pfx{position:absolute;inset:0;overflow:hidden}
+#pfx i{position:absolute;border-radius:50%;will-change:transform,opacity;opacity:0}
+#pfx.fire i,#pfx.grid i{bottom:-12px;animation:pfup var(--d) linear var(--dl) infinite}
+#pfx.fire i{background:radial-gradient(circle,#ffd27a,#ff7a1a 55%,transparent 72%)}
+#pfx.grid i{background:radial-gradient(circle,#b9f6ff,#22d3ee 55%,transparent 72%)}
+#pfx.snow i{top:-12px;background:radial-gradient(circle,#fff,#ffffffaa 55%,transparent 72%);animation:pfdn var(--d) linear var(--dl) infinite}
+@keyframes pfup{0%{transform:translate3d(0,0,0) scale(1);opacity:0}8%{opacity:.9}70%{opacity:.6}100%{transform:translate3d(var(--dx),-108vh,0) scale(.35);opacity:0}}
+@keyframes pfdn{0%{transform:translate3d(0,0,0);opacity:0}8%{opacity:var(--o)}92%{opacity:var(--o)}100%{transform:translate3d(var(--dx),108vh,0);opacity:0}}
+#pfx.cosmos i{inset:0;border-radius:0;width:auto;height:auto;background-repeat:repeat;animation:pftw var(--d) ease-in-out var(--dl) infinite alternate}
+@keyframes pftw{from{opacity:.25}to{opacity:1}}
+#pfx.cosmos u{position:absolute;left:8%;top:12%;width:120px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#fff);transform-origin:right center;opacity:0;animation:pfsh 9s linear infinite;will-change:transform,opacity}
+@keyframes pfsh{0%,86%{opacity:0;transform:translate3d(0,0,0) rotate(24deg)}88%{opacity:1}100%{opacity:0;transform:translate3d(72vw,32vw,0) rotate(24deg)}}
+/* o'yin ikonkalari: jonliroq animatsiya (faqat transform/opacity) */
+.a-bj i:first-child{animation:bjl 2.4s ease-in-out infinite}
+@keyframes bjl{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(-18deg) translate(-3px,-2px)}}
+.a-bj b{animation:bjp 2.4s ease-in-out infinite}@keyframes bjp{0%,60%,100%{transform:scale(1)}75%{transform:scale(1.25) rotate(-6deg)}}
+.a-hl i:first-child{animation:hl1 2s ease-in-out infinite}@keyframes hl1{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(-12deg) translateY(-3px)}}
+.a-jp u{animation:jpt .5s ease-in-out infinite alternate}@keyframes jpt{from{transform:translateX(-50%) rotate(-8deg)}to{transform:translateX(-50%) rotate(8deg)}}
+.gt .gti{display:inline-block;animation:gtb 2.6s ease-in-out infinite;animation-delay:calc(var(--n,0)*-.37s)}
+@keyframes gtb{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-4px) rotate(-6deg)}60%{transform:translateY(0) rotate(5deg)}}
+.tile .ti{animation:tib 3s ease-in-out infinite;animation-delay:calc(var(--n,0)*-.8s)}@keyframes tib{0%,100%{transform:scale(1)}50%{transform:scale(1.08) rotate(-4deg)}}
+body.lite #bgfx .bl{animation:none}body.lite #pfx u{display:none}body.lite .hero::after,body.lite .bn-rc::after{animation:none;opacity:0}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="fireg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb11a"/><stop offset=".5" stop-color="#ff2e63"/><stop offset="1" stop-color="#a855f7"/></linearGradient><linearGradient id="sgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE98A"/><stop offset=".5" stop-color="#FFC727"/><stop offset="1" stop-color="#F59E0B"/></linearGradient><radialGradient id="wshade"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient></defs></svg>
-<div id="bgfx"><div class="bl b1"></div><div class="bl b2"></div><div class="bl b3"></div><div class="gridf"></div></div><canvas id="fx"></canvas>
+<div id="bgfx"><div class="bl b1"></div><div class="bl b2"></div><div class="bl b3"></div><div class="gridf"></div><div id="pfx"></div></div><canvas id="fx"></canvas>
 <div id="notice"></div>
 <header class="hd"><button class="me" data-v="me"><div class="ava" id="ava"><b id="avl">P</b><i id="lv">1</i></div><div class="hn"><b><span id="hnm">Player</span><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></b><small id="onl">…</small></div></button>
 <button class="balp" data-v="wallet"><span class="bi">⭐</span><div class="v"><b id="cs">0</b><small>💎 <span id="ct">0</span></small></div><span class="plus">+</span></button></header>

@@ -24,7 +24,7 @@ SETTABLE = {"fee": (float, 0, .5), "ref": (float, 0, .5), "ref1": (float, 0, .3)
             "jp_min": (float, 1, 1e6), "jp_time": (int, 5, 600), "jp_max": (int, 2, 100), "min_dep_star": (float, 1, 1e6), "min_dep_ton": (float, .01, 1e4),
             "arena_time": (int, 5, 600), "arena_max": (int, 2, 60), "lb_auto": (int, 0, 1), "feed_min": (float, 0, 1e7),
             "wd_star": (int, 0, 1), "min_wd_star": (float, 1, 1e7), "dep_on": (int, 0, 1), "wd_on": (int, 0, 1), "wd_fee_star": (float, 0, .9),
-            "tok_on": (int, 0, 1), "rc_on": (int, 0, 1), "rc_prize": (float, 0, 1e9), "tok_daily": (float, 0, 1e7), "tok_welcome": (float, 0, 1e7),
+            "tok_on": (int, 0, 1), "spin_on": (int, 0, 1), "spin_min": (int, 0, 100000), "spin_max": (int, 0, 100000), "rc_on": (int, 0, 1), "rc_prize": (float, 0, 1e9), "tok_daily": (float, 0, 1e7), "tok_welcome": (float, 0, 1e7),
             "tk_play": (float, 0, 1e7), "tk_win": (float, 0, 1e7), "tk_ref": (float, 0, 1e7), "tk_sub": (float, 0, 1e7)}
 
 def setup(app, S):
@@ -279,7 +279,7 @@ def setup(app, S):
                     v = str(v or "").strip()
                     try: S.setcfg(k, int(time.mktime(time.strptime(v[:16], "%Y-%m-%dT%H:%M"))) if v else 0)
                     except ValueError: return J({"error": "Неверная дата окончания конкурса"}, status=400)
-                elif k == "tok_ch":
+                elif k in ("tok_ch", "spin_ch"):
                     S.setcfg(k, re.sub(r"[^A-Za-z0-9_@\-]", "", str(v))[:40])
                 elif k == "tok_stakes":
                     lst = sorted({round(float(x), 2) for x in (v if isinstance(v, list) else str(v).replace(" ", "").split(",")) if str(x).strip() and float(x) > 0})
